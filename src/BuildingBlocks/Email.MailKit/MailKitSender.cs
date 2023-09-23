@@ -4,7 +4,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
-using Promag.Shared.Email;
+using Shared.Email;
 
 namespace Email.MailKit;
 

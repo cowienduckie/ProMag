@@ -6,4 +6,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Shared\Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="HotChocolate" Version="13.5.1"/>
+        <PackageReference Include="HotChocolate.AspNetCore" Version="13.5.1"/>
+        <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.5.1"/>
+        <PackageReference Include="HotChocolate.Stitching" Version="13.5.1"/>
+    </ItemGroup>
+
+
 </Project>

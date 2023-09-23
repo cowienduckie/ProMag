@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.Hosting;
-using Promag.Shared;
+using Shared;
 
 namespace Configuration.Vault;
 

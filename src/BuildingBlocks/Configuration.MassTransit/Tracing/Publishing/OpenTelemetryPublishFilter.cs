@@ -1,10 +1,9 @@
-using System.Diagnostics;
 using MassTransit;
-using MassTransit.Metadata;
+using OpenTelemetry;
 using OpenTelemetry.Context.Propagation;
 using OpenTelemetry.Trace;
 
-namespace Configuration.MassTransit.Tracing.Publising;
+namespace Configuration.MassTransit.Tracing.Publishing;
 
 public class OpenTelemetryPublishFilter<T> : IFilter<PublishContext<T>> where T : class
 {
@@ -14,6 +13,7 @@ public class OpenTelemetryPublishFilter<T> : IFilter<PublishContext<T>> where T 
     private const string DestinationAddress = nameof(DestinationAddress);
     private const string RequestId = nameof(RequestId);
     private const string MessageType = nameof(MessageType);
+
     private const string StepName = "MassTransit:Publish";
 
     private readonly TracerProvider _tracerProvider;
@@ -30,54 +30,39 @@ public class OpenTelemetryPublishFilter<T> : IFilter<PublishContext<T>> where T 
 
     public async Task Send(PublishContext<T> context, IPipe<PublishContext<T>> next)
     {
-        var tracer = _tracerProvider.GetTracer($"{StepName} {TypeMetadataCache<T>.ShortName}");
+        // TODO: Investigate why there is no need to Start a new span
+        // var operationName = $"{StepName} {TypeMetadataCache<T>.ShortName}";
+        // var tracer = _tracerProvider.GetTracer(operationName);
 
-        Propagators.DefaultTextMapPropagator.Inject(tracer.CurrentSpan.Context, context.Headers, (h, k, v) => h.Set(k, v));
+        var propagationContext = new PropagationContext(Tracer.CurrentSpan.Context, Baggage.Current);
+
+        Propagators.DefaultTextMapPropagator.Inject(propagationContext, context.Headers, (h, k, v) => h.Set(k, v));
 
         if (context.MessageId.HasValue)
         {
-            tracer.CurrentSpan.SetAttribute(MessageId, context.MessageId.Value.ToString());
+            Tracer.CurrentSpan.SetAttribute(MessageId, context.MessageId.Value.ToString());
         }
 
         if (context.ConversationId.HasValue)
         {
-            tracer.CurrentSpan.SetAttribute(ConversationId, context.ConversationId.Value.ToString());
+            Tracer.CurrentSpan.SetAttribute(ConversationId, context.ConversationId.Value.ToString());
         }
 
         if (context.CorrelationId.HasValue)
         {
-            tracer.CurrentSpan.SetAttribute(CorrelationId, context.CorrelationId.Value.ToString());
+            Tracer.CurrentSpan.SetAttribute(CorrelationId, context.CorrelationId.Value.ToString());
         }
 
         if (context.DestinationAddress != null)
         {
-            tracer.CurrentSpan.SetAttribute(DestinationAddress, context.DestinationAddress.ToString());
+            Tracer.CurrentSpan.SetAttribute(DestinationAddress, context.DestinationAddress.ToString());
         }
 
         if (context.RequestId.HasValue)
         {
-            tracer.CurrentSpan.SetAttribute(RequestId, context.RequestId.Value.ToString());
+            Tracer.CurrentSpan.SetAttribute(RequestId, context.RequestId.Value.ToString());
         }
 
         await next.Send(context);
-    }
-
-    private static PropagationContext GetCurrentPropagationContext()
-    {
-        var currentActivity = Activity.Current;
-
-        if (currentActivity == null)
-        {
-            return default;
-        }
-
-        var activityContext = currentActivity.Context;
-
-        if (activityContext == default)
-        {
-            return default;
-        }
-
-        return new PropagationContext(activityContext, default);
     }
 }

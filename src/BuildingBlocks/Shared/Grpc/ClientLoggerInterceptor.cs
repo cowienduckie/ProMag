@@ -39,7 +39,7 @@ public class ClientLoggerInterceptor : Interceptor
         }
 
         headers.Add(
-            _correlationContextAccessor.CorrelationContext.Header,
-            _correlationContextAccessor.CorrelationContext.CorrelationId.ToString());
+            _correlationContextAccessor.CorrelationContext!.Header,
+            _correlationContextAccessor.CorrelationContext!.CorrelationId.ToString());
     }
 }

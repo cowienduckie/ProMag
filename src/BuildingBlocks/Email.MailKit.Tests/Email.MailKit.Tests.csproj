@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Email.MailKit\Email.MailKit.csproj" />
+        <ProjectReference Include="..\Email.MailKit\Email.MailKit.csproj"/>
     </ItemGroup>
 
 </Project>

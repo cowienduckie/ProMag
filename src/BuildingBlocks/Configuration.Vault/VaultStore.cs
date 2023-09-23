@@ -1,4 +1,4 @@
-using Promag.Shared.Vault;
+using Shared.Vault;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.AuthMethods.Token;

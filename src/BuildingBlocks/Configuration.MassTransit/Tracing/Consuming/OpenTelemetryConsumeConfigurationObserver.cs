@@ -2,7 +2,7 @@ using MassTransit;
 using MassTransit.Configuration;
 using OpenTelemetry.Trace;
 
-namespace Configuration.MassTransit.Tracing;
+namespace Configuration.MassTransit.Tracing.Consuming;
 
 public class OpenTelemetryConsumeConfigurationObserver : ConfigurationObserver, IMessageConfigurationObserver
 {
@@ -17,8 +17,8 @@ public class OpenTelemetryConsumeConfigurationObserver : ConfigurationObserver, 
 
     public void MessageConfigured<T>(IConsumePipeConfigurator configurator) where T : class
     {
-        var specification = new OpenTelemetryConsumeSpecification<T>(_tracerProvider);
+        var specification = new OpenTelemetryConsumeSpecification<T>(_tracerProvider) as IPipeSpecification<ConsumeContext<T>>;
 
-        configurator.AddPipeSpecification((IPipeSpecification<ConsumeContext>)specification);
+        configurator.AddPipeSpecification(specification);
     }
 }

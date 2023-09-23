@@ -1,8 +1,8 @@
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Promag.Shared.Email;
-using Promag.Shared.Email.Implementations;
+using Shared.Email;
+using Shared.Email.Implementations;
 
 namespace Email.MailKit;
 

@@ -3,7 +3,7 @@ using MassTransit.Metadata;
 using OpenTelemetry.Context.Propagation;
 using OpenTelemetry.Trace;
 
-namespace Configuration.MassTransit.Tracing;
+namespace Configuration.MassTransit.Tracing.Consuming;
 
 public class OpenTelemetryConsumeFilter<T> : IFilter<ConsumeContext<T>> where T : class
 {
@@ -31,13 +31,13 @@ public class OpenTelemetryConsumeFilter<T> : IFilter<ConsumeContext<T>> where T 
 
     public async Task Send(ConsumeContext<T> context, IPipe<ConsumeContext<T>> next)
     {
+        var operationName = $"{StepName} {TypeMetadataCache<T>.ShortName}";
+        var tracer = _tracerProvider.GetTracer(operationName);
+
         var propagationContext = Propagators.DefaultTextMapPropagator.Extract(
             default,
             context.Headers.ToList(),
             (r, name) => r.Where(x => x.Key == name).Select(x => x.Value.ToString()));
-
-        var operationName = $"{StepName} {TypeMetadataCache<T>.ShortName}";
-        var tracer = _tracerProvider.GetTracer(operationName);
 
         var incomingSpan = tracer.StartSpan(TypeMetadataCache<T>.ShortName, SpanKind.Consumer, new SpanContext(propagationContext.ActivityContext));
 

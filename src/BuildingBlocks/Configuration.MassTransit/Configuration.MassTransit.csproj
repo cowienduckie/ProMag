@@ -4,7 +4,19 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>MassTransit</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit" Version="8.1.0"/>
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1"/>
+        <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.1.0"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0"/>
+        <PackageReference Include="MassTransit.SerilogIntegration" Version="5.5.6"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Configuration.OpenTelemetry\Configuration.OpenTelemetry.csproj"/>
+    </ItemGroup>
+
 
 </Project>

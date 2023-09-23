@@ -2,7 +2,7 @@ using MassTransit;
 using MassTransit.Configuration;
 using OpenTelemetry.Trace;
 
-namespace Configuration.MassTransit.Tracing;
+namespace Configuration.MassTransit.Tracing.Consuming;
 
 public class OpenTelemetryConsumeSpecification<T> : IPipeSpecification<ConsumeContext<T>> where T : class
 {

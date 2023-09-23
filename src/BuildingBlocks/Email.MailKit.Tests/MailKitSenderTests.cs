@@ -3,10 +3,8 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Moq;
-using Email.MailKit;
-using Promag.Shared.Email;
-using Promag.Shared.Email.Implementations;
-using AuthenticationException = System.Security.Authentication.AuthenticationException;
+using Shared.Email;
+using Shared.Email.Implementations;
 
 namespace Email.MailKit.Tests;
 
