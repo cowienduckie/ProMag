@@ -12,15 +12,15 @@ public class OpenTelemetrySendFilter<T> : IFilter<SendContext<T>> where T : clas
     private const string CorrelationId = nameof(CorrelationId);
     private const string DestinationAddress = nameof(DestinationAddress);
     private const string RequestId = nameof(RequestId);
-    private const string MessageType = nameof(MessageType);
-    private const string StepName = "MassTransit:Send";
 
-    private readonly TracerProvider _tracerProvider;
-
-    public OpenTelemetrySendFilter(TracerProvider tracerProvider)
-    {
-        _tracerProvider = tracerProvider;
-    }
+    // private const string StepName = "MassTransit:Send";
+    //
+    // private readonly TracerProvider _tracerProvider;
+    //
+    // public OpenTelemetrySendFilter(TracerProvider tracerProvider)
+    // {
+    //     _tracerProvider = tracerProvider;
+    // }
 
     public void Probe(ProbeContext context)
     {

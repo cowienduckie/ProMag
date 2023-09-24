@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>11</LangVersion>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="7.0.0"/>
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0"/>
+        <PackageReference Include="Duende.IdentityServer" Version="6.3.5"/>
+        <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.5"/>
+        <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.5"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.MassTransit\Configuration.MassTransit.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.Metrics\Configuration.Metrics.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.OpenTelemetry\Configuration.OpenTelemetry.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\EfCore\EfCore.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\..\_schema\proto\promag\identity\v1\identity_api.proto" Link="protobuf\identity.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\common\v1\common.proto" Link="protobuf\common.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+    </ItemGroup>
+</Project>

@@ -11,9 +11,7 @@ public class OpenTelemetryConsumeFilter<T> : IFilter<ConsumeContext<T>> where T 
     private const string ConversationId = nameof(ConversationId);
     private const string CorrelationId = nameof(CorrelationId);
     private const string DestinationAddress = nameof(DestinationAddress);
-    private const string InputAddress = nameof(InputAddress);
     private const string RequestId = nameof(RequestId);
-    private const string MessageType = nameof(MessageType);
 
     private const string StepName = "MassTransit:Consumer";
 

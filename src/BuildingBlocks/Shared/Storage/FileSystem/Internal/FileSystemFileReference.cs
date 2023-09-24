@@ -2,7 +2,7 @@ namespace Shared.Storage.FileSystem.Internal;
 
 public class FileSystemFileReference : IFileReference
 {
-    public FileSystemFileReference(string filePath, string path, FileSystemStore store)
+    public FileSystemFileReference(string filePath, string path)
     {
         FileSystemPath = filePath;
         Path = path.Replace('\\', '/');

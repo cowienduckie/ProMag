@@ -88,7 +88,7 @@ public class FileSystemStore : IStore
             throw new FileNotFoundException();
         }
 
-        return Task.FromResult(new FileSystemFileReference(fullPath, path, this));
+        return Task.FromResult(new FileSystemFileReference(fullPath, path));
     }
 
     private static void EnsurePathExists(string path)

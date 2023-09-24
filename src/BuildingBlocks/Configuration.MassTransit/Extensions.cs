@@ -13,12 +13,12 @@ public static class Extensions
     public static void UseOpenTelemetryOnPublish(this IPublishPipelineConfigurator configurator, TracerProvider tracerFactory)
     {
         configurator.ConfigurePublish(
-            x => x.ConnectPublishPipeSpecificationObserver(new OpenTelemetryPublishPipeSpecificationObserver(tracerFactory)));
+            x => x.ConnectPublishPipeSpecificationObserver(new OpenTelemetryPublishPipeSpecificationObserver()));
     }
 
     public static void UseOpenTelemetryOnSend(this ISendPipelineConfigurator configurator, TracerProvider tracerFactory)
     {
-        configurator.ConfigureSend(x => x.ConnectSendPipeSpecificationObserver(new OpenTelemetrySendPipeSpecificationObserver(tracerFactory)));
+        configurator.ConfigureSend(x => x.ConnectSendPipeSpecificationObserver(new OpenTelemetrySendPipeSpecificationObserver()));
     }
 
     public static OpenTelemetryConsumeConfigurationObserver UseOpenTelemetryOnConsume(this IConsumePipeConfigurator configurator,

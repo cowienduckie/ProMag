@@ -1,0 +1,28 @@
+using IdentityServer.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace IdentityServer.Data;
+
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            var tableName = entityType.GetTableName();
+
+            if (!string.IsNullOrEmpty(tableName) && tableName.StartsWith("AspNet"))
+            {
+                entityType.SetTableName(tableName[6..]);
+            }
+        }
+    }
+}

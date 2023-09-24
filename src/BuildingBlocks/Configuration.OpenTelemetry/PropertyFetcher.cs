@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Configuration.OpenTelemetry.Collectors.Implementations;
+namespace Configuration.OpenTelemetry;
 
 internal class PropertyFetcher
 {

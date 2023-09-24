@@ -1,4 +1,3 @@
-using HotChocolate;
 using Shared.ValidationModels;
 
 namespace GraphQl.Errors;

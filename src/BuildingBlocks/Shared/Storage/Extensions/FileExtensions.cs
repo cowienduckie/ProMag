@@ -58,9 +58,13 @@ public static class FileExtensions
 
         var imageFileExtension = ImageFileExtension.None;
 
-        if (fileContentType.Contains("jpg") | fileContentType.Contains("jpeg"))
+        if (fileContentType.Contains("jpg"))
         {
             imageFileExtension = ImageFileExtension.Jpg;
+        }
+        else if (fileContentType.Contains("jpeg"))
+        {
+            imageFileExtension = ImageFileExtension.Jpeg;
         }
         else if (fileContentType.Contains("png"))
         {
@@ -77,6 +81,7 @@ public static class FileExtensions
 
         switch (imageFileExtension)
         {
+            case ImageFileExtension.Jpeg:
             case ImageFileExtension.Jpg:
             {
                 if (byteFile.Count >= 4)
@@ -191,9 +196,13 @@ public static class FileExtensions
         {
             videoFileExt = VideoFileExtension.Wmv;
         }
-        else if (fileContentType.Contains("mpg") || fileContentType.Contains("mpeg"))
+        else if (fileContentType.Contains("mpg"))
         {
             videoFileExt = VideoFileExtension.Mpg;
+        }
+        else if (fileContentType.Contains("mpeg"))
+        {
+            videoFileExt = VideoFileExtension.Mpeg;
         }
         else if (fileContentType.Contains("mp4"))
         {
@@ -231,6 +240,7 @@ public static class FileExtensions
 
                 break;
             }
+            case VideoFileExtension.Mpeg:
             case VideoFileExtension.Mpg:
             {
                 if (byteFile.Count < 4)

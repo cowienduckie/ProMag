@@ -12,16 +12,14 @@ public class OpenTelemetryPublishFilter<T> : IFilter<PublishContext<T>> where T 
     private const string CorrelationId = nameof(CorrelationId);
     private const string DestinationAddress = nameof(DestinationAddress);
     private const string RequestId = nameof(RequestId);
-    private const string MessageType = nameof(MessageType);
 
-    private const string StepName = "MassTransit:Publish";
+    //private const string StepName = "MassTransit:Publish";
+    //private readonly TracerProvider _tracerProvider;
 
-    private readonly TracerProvider _tracerProvider;
-
-    public OpenTelemetryPublishFilter(TracerProvider tracerProvider)
-    {
-        _tracerProvider = tracerProvider;
-    }
+    // public OpenTelemetryPublishFilter(TracerProvider tracerProvider)
+    // {
+    //     _tracerProvider = tracerProvider;
+    // }
 
     public void Probe(ProbeContext context)
     {

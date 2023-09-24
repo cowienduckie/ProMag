@@ -17,7 +17,7 @@ public class SecurityContextAccessor : ISecurityContextAccessor
     {
         get
         {
-            var claim = _httpContextAccessor.HttpContext?.User?.FindFirst("sub");
+            var claim = _httpContextAccessor.HttpContext?.User.FindFirst("sub");
 
             return claim?.Value;
         }
@@ -27,7 +27,7 @@ public class SecurityContextAccessor : ISecurityContextAccessor
     {
         get
         {
-            var claim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email);
+            var claim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email);
 
             return claim?.Value;
         }
@@ -60,7 +60,7 @@ public class SecurityContextAccessor : ISecurityContextAccessor
         get
         {
             var httpContext = _httpContextAccessor.HttpContext;
-            var ipAddress = httpContext?.Connection?.RemoteIpAddress?.ToString();
+            var ipAddress = httpContext?.Connection.RemoteIpAddress?.ToString();
 
             return ipAddress;
         }

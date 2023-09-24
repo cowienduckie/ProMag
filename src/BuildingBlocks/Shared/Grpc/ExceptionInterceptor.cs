@@ -27,7 +27,7 @@ public class ExceptionInterceptor : Interceptor
         {
             _logger.LogError(ex, "{ExMessage}", ex.ValidationResultModel.ToString());
 
-            throw new RpcException(new Status(StatusCode.Internal, ex.ValidationResultModel.ToString() ?? string.Empty));
+            throw new RpcException(new Status(StatusCode.Internal, ex.ValidationResultModel.ToString()));
         }
         catch (Exception ex)
         {

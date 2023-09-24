@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package promag.identity.v1;
+
+option csharp_namespace = "Promag.Protobuf.Identity.V1";
+
+import "promag/common/v1/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service IdentityApi {
+  rpc Ping (google.protobuf.Empty) returns (promag.common.v1.PongReply);
+  rpc CreateLoginAccount(CreateLogInUserRequest) returns (CreateLogInUserResponse);
+  rpc GetUserRolesByUserIds(GetUserRolesByUserIdsRequest) returns(GetUserRolesByUserIdsResponse);
+  rpc GetRoles(GetRoleByIdsRequest) returns(GetRolesResponse);
+  rpc UpdateUserRoles(UpdateRolesRequest) returns(UpdateRolesResponse);
+  rpc UnlockUserAccount(AccountRequest) returns(AccountResponse);
+  rpc LockUserAccount(LockUserRequest) returns(LockUserResponse);
+  rpc UpdateRoleClaims(UpdateRoleClaimsRequest) returns(UpdateRoleClaimsResponse);
+  rpc GetRolesClaims(RoleClaimsRequest) returns(RoleClaimsResponse);
+}
+
+message RoleDto {
+  string roleId = 1;
+  string name = 2;
+  string displayName = 3;
+  google.protobuf.StringValue description = 4;
+  map<string, string> users = 5;
+}
+
+message UserRoleDto {
+  string roleId = 1;
+  string roleName = 2;
+  string userId = 3;
+}
+
+message CreateLogInUserRequest {
+  string userId = 1;
+  google.protobuf.StringValue email = 2;
+  string userName = 3;
+  repeated string roleIds = 4;
+}
+
+message CreateLogInUserResponse {
+  bool Succeeded = 1;
+  repeated promag.common.v1.ErrorDto Errors = 2;
+  string ActivateUrl = 3;
+  string UserName = 4;
+}
+
+message GetUserRolesByUserIdsRequest {
+  repeated string userIds = 1;
+}
+
+message GetUserRolesByUserIdsResponse {
+  repeated promag.identity.v1.UserRoleDto UserRoles = 1;
+}
+
+message GetRolesResponse {
+  repeated promag.identity.v1.RoleDto Roles = 1;
+}
+
+message GetRoleByIdsRequest {
+  repeated string roleIds = 1;
+}
+
+message UpdateRolesRequest{
+  string userId = 1;
+  repeated string roleIds = 2;
+}
+
+message UpdateRolesResponse{
+  bool result = 1;
+}
+
+message AccountRequest{
+  string userId = 1;
+}
+
+message AccountResponse{
+  bool success = 1;
+  string userName = 2;
+  string resetPasswordUrl = 3;
+  repeated promag.common.v1.ErrorDto errors = 4;
+}
+
+message RoleClaimsRequest {
+  string roleId = 1;
+  string claimType = 2;
+}
+
+message RoleClaimsResponse {
+  repeated string permissions = 1;
+}
+
+message UpdateRoleClaimsRequest {
+  string roleId = 1;
+  string claimType = 2;
+  repeated string claimValues = 3;
+}
+
+message UpdateRoleClaimsResponse {
+  bool success = 1;
+  repeated promag.common.v1.ErrorDto errors = 2;
+}
+
+message LockUserRequest{
+  string userId = 1;
+}
+
+message LockUserResponse{
+  bool success = 1;
+  repeated promag.common.v1.ErrorDto errors = 2;
+}

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package promag.common.v1;
+
+option csharp_namespace = "Promag.Protobuf.Commons.V1";
+
+import "google/protobuf/wrappers.proto";
+
+message PongReply {
+  string message = 1;
+}
+
+message ErrorDto {
+  google.protobuf.StringValue Code = 1;
+  string Description = 2;
+}
+
+enum Title {
+  Mr = 0;
+  Mrs = 1;
+  Ms = 2;
+}
+
+enum Gender {
+  male = 0;
+  female = 1;
+}
+
+enum UserStatus {
+  active = 0;
+  inactive = 1;
+  lock = 2;
+}
+
+enum UserType {
+  user = 0;
+  contact = 1;
+}

@@ -20,6 +20,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.OpenTelemetry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Configuration.Metrics", "src\BuildingBlocks\Configuration.Metrics\Configuration.Metrics.csproj", "{DE1C57FD-FD67-414E-BB3E-1567C2ED3CE7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{5B30D683-F8ED-4CF3-9CDB-E1253F6454F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "src\Identity\IdentityServer\IdentityServer.csproj", "{FA6F76E6-841E-427A-9418-4FAC3D170AB2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_schema", "_schema", "{BDCCEE88-1E76-424E-BC48-07C19AAA9405}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{1EDD5DDB-B264-4546-BE9E-9F618E5138AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "promag", "promag", "{6F40B565-6EFB-4597-9A66-3B88760243A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{BFB58E84-D4A5-468F-8D2D-E7035CA5592C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{E46830B0-AA98-4861-A397-44F1B35A8128}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\identity\v1\identity_api.proto = src\_schema\proto\promag\identity\v1\identity_api.proto
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{E7682D94-1887-4821-BA06-EA976E845C31}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\common\v1\common.proto = src\_schema\proto\promag\common\v1\common.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +59,13 @@ Global
 		{EB910112-72CE-4EF6-9877-76BCBF4A8AD8} = {CFE5C235-CAB4-4A9F-8D16-0FA865B65B2F}
 		{0C9A80E3-A2CD-48AB-B112-455903CAF419} = {CFE5C235-CAB4-4A9F-8D16-0FA865B65B2F}
 		{DE1C57FD-FD67-414E-BB3E-1567C2ED3CE7} = {CFE5C235-CAB4-4A9F-8D16-0FA865B65B2F}
+		{FA6F76E6-841E-427A-9418-4FAC3D170AB2} = {5B30D683-F8ED-4CF3-9CDB-E1253F6454F5}
+		{1EDD5DDB-B264-4546-BE9E-9F618E5138AA} = {BDCCEE88-1E76-424E-BC48-07C19AAA9405}
+		{6F40B565-6EFB-4597-9A66-3B88760243A8} = {1EDD5DDB-B264-4546-BE9E-9F618E5138AA}
+		{BFB58E84-D4A5-468F-8D2D-E7035CA5592C} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{E46830B0-AA98-4861-A397-44F1B35A8128} = {BFB58E84-D4A5-468F-8D2D-E7035CA5592C}
+		{E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{E7682D94-1887-4821-BA06-EA976E845C31} = {E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{844D8686-3CF9-4B6D-9912-15ADEC8E6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -73,5 +104,9 @@ Global
 		{DE1C57FD-FD67-414E-BB3E-1567C2ED3CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE1C57FD-FD67-414E-BB3E-1567C2ED3CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE1C57FD-FD67-414E-BB3E-1567C2ED3CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
