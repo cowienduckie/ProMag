@@ -114,7 +114,8 @@ internal static class Extensions
 
         var connString = configuration.GetConnectionString("identity");
 
-        var hcBuilder = services.AddHealthChecks()
+        var hcBuilder = services
+            .AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy())
             .AddNpgSql(
                 connString!,
@@ -205,7 +206,7 @@ internal static class Extensions
             var messageBusOptions = configuration.GetOptions<MessageBusOptions>("MessageBus");
             switch (messageBusOptions.TransportType)
             {
-                case "RabbitMQ":
+                case MessageBusTransportType.RabbitMQ:
                     x.UsingRabbitMq((_, cfg) =>
                     {
                         cfg.Host(new Uri(messageBusOptions.RabbitMq.Url), "/", hc =>
@@ -217,14 +218,14 @@ internal static class Extensions
                         ConfigureEndpoint(cfg);
                     });
                     break;
-                case "AzureSB":
+                case MessageBusTransportType.AzureSB:
                     x.UsingAzureServiceBus((_, cfg) =>
                     {
                         cfg.Host(messageBusOptions.AzureSb.ConnectionString);
                         ConfigureEndpoint(cfg);
                     });
                     break;
-                case "Memory":
+                case MessageBusTransportType.Memory:
                     x.UsingInMemory((_, cfg) =>
                     {
                         cfg.ConcurrentMessageLimit = messageBusOptions.Memory.TransportConcurrencyLimit;
@@ -244,7 +245,6 @@ internal static class Extensions
             EndpointConvention.Map<IAccountStatusChanged>(new Uri($"queue:{QueueName.PersonalData}"));
             EndpointConvention.Map<ISaveActivityLog>(new Uri($"queue:{QueueName.MasterData}"));
 
-            // var tracerProvider = services.BuildServiceProvider().GetRequiredService<TracerProvider>();
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();
 
             cfg.ConfigureSend(x => { x.UseCorrelationId(correlationContextAccessor); });

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package promag.communication.v1;
+
+option csharp_namespace = "Promag.Protobuf.Communication.V1";
+
+import "promag/common/v1/common.proto";
+import "google/protobuf/empty.proto";
+
+service CommunicationApi {
+  rpc Ping (google.protobuf.Empty) returns (promag.common.v1.PongReply);
+}

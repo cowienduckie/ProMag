@@ -1,0 +1,40 @@
+{{#>BasicHtmlLayout}}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1 col-md-1 col-sm-1">
+            </div>
+            <div class="col-10 col-md-10 col-sm-10 DivCenter">
+                <div class="DivHead"></div>
+                <div class="entry-page-title">StepOne</div>
+                <div class="DivCenter"></div>
+                <div class="BorderContent">
+                    <div class="DivCenter"></div>
+                    <div class="DivContent">
+                        <span class="FontSpan"></span>
+                        <h6 style="text-align:left">Hello {{ FullName }},</h6>
+                        <p class="FontP">
+                            Your login account <b>{{ UserName }}</b> has been unlocked
+                        </p>
+                        <p class="FontP">
+                            You can reset you password by clicking the link below:
+                        </p>
+                        <a href="{{ ResetPasswordUrl }}">{{ ResetPasswordUrl }}</a>
+                        <div>
+                            <hr>
+                        </div>
+                        <div style="height:10px"></div>
+                    </div>
+
+                    <div style="height:40px"></div>
+                </div>
+                <div style="height:20px"></div>
+                <div>
+                    <p class="FontPEnd">Powered by <strong>StepOne Team</strong></p>
+                </div>
+
+            </div>
+            <div class="col-1 col-md-1 col-sm-1">
+            </div>
+        </div>
+    </div>
+{{/BasicHtmlLayout}}

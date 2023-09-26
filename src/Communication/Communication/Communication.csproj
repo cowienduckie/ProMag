@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Grpc.Tools" Version="2.58.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Handlebars.Net" Version="2.1.4"/>
+        <PackageReference Include="LazyCache" Version="2.4.0"/>
+        <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.MassTransit\Configuration.MassTransit.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.Metrics\Configuration.Metrics.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.OpenTelemetry\Configuration.OpenTelemetry.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.Vault\Configuration.Vault.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Email.MailKit\Email.MailKit.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="EmailTemplates\Handlebars\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\..\_schema\proto\promag\common\v1\common.proto" Link="protobuf\common.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\communication\v1\communication_api.proto" Link="protobuf\communication_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+    </ItemGroup>
+
+
+</Project>

@@ -30,19 +30,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "proto", "proto", "{1EDD5DDB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "promag", "promag", "{6F40B565-6EFB-4597-9A66-3B88760243A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{BFB58E84-D4A5-468F-8D2D-E7035CA5592C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{E46830B0-AA98-4861-A397-44F1B35A8128}"
-	ProjectSection(SolutionItems) = preProject
-		src\_schema\proto\promag\identity\v1\identity_api.proto = src\_schema\proto\promag\identity\v1\identity_api.proto
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{E7682D94-1887-4821-BA06-EA976E845C31}"
 	ProjectSection(SolutionItems) = preProject
 		src\_schema\proto\promag\common\v1\common.proto = src\_schema\proto\promag\common\v1\common.proto
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{AA17CD2E-7794-4D5F-A3DC-F34CC4571896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "src\Communication\Communication\Communication.csproj", "{E1E7D32C-D9FF-4477-99E6-592240BCA153}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identity", "identity", "{9E94216F-7BBC-4001-98E9-22FD99E29754}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{77498B27-F9D5-4EA6-9B37-219843C9E0A9}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\identity\v1\identity_api.proto = src\_schema\proto\promag\identity\v1\identity_api.proto
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "communication", "communication", "{57209ED3-959C-4E13-8184-A3579EF53567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{75C862B2-E258-433B-94C7-E5B4AB1B104C}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\communication\v1\communication_api.proto = src\_schema\proto\promag\communication\v1\communication_api.proto
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication.Api", "src\Communication\Communication.Api\Communication.Api.csproj", "{DE095302-D0C7-4C69-A8AE-E524350717BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication.FunctionalTests", "src\Communication\Communication.FunctionalTests\Communication.FunctionalTests.csproj", "{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,10 +77,15 @@ Global
 		{FA6F76E6-841E-427A-9418-4FAC3D170AB2} = {5B30D683-F8ED-4CF3-9CDB-E1253F6454F5}
 		{1EDD5DDB-B264-4546-BE9E-9F618E5138AA} = {BDCCEE88-1E76-424E-BC48-07C19AAA9405}
 		{6F40B565-6EFB-4597-9A66-3B88760243A8} = {1EDD5DDB-B264-4546-BE9E-9F618E5138AA}
-		{BFB58E84-D4A5-468F-8D2D-E7035CA5592C} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
-		{E46830B0-AA98-4861-A397-44F1B35A8128} = {BFB58E84-D4A5-468F-8D2D-E7035CA5592C}
 		{E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
 		{E7682D94-1887-4821-BA06-EA976E845C31} = {E32B8D7E-7BB1-4C1D-91BA-E570521F6D5B}
+		{E1E7D32C-D9FF-4477-99E6-592240BCA153} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
+		{9E94216F-7BBC-4001-98E9-22FD99E29754} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{77498B27-F9D5-4EA6-9B37-219843C9E0A9} = {9E94216F-7BBC-4001-98E9-22FD99E29754}
+		{57209ED3-959C-4E13-8184-A3579EF53567} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{75C862B2-E258-433B-94C7-E5B4AB1B104C} = {57209ED3-959C-4E13-8184-A3579EF53567}
+		{DE095302-D0C7-4C69-A8AE-E524350717BD} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
+		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{844D8686-3CF9-4B6D-9912-15ADEC8E6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -108,5 +128,17 @@ Global
 		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6F76E6-841E-427A-9418-4FAC3D170AB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E7D32C-D9FF-4477-99E6-592240BCA153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E7D32C-D9FF-4477-99E6-592240BCA153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E7D32C-D9FF-4477-99E6-592240BCA153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E7D32C-D9FF-4477-99E6-592240BCA153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE095302-D0C7-4C69-A8AE-E524350717BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE095302-D0C7-4C69-A8AE-E524350717BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE095302-D0C7-4C69-A8AE-E524350717BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE095302-D0C7-4C69-A8AE-E524350717BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
