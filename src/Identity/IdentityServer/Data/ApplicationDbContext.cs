@@ -1,6 +1,7 @@
 using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Shared.Common.Enums;
 
 namespace IdentityServer.Data;
 
@@ -14,6 +15,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.HasDefaultSchema(DbSchema.Identity.ToString());
 
         foreach (var entityType in builder.Model.GetEntityTypes())
         {

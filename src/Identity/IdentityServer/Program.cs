@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using IdentityServer;
+using IdentityServer.Data;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.IdentityModel.Logging;
 using Serilog;
@@ -41,6 +42,8 @@ try
     var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
+
+    DbInitializer.MigrateDatabase(app);
 
     app.Run();
 }

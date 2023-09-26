@@ -7,13 +7,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 {
     /// <inheritdoc />
-    public partial class InitialIdentityServerPersistedGrantDbMigration : Migration
+    public partial class InitialPersistedGrantDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Identity");
+
             migrationBuilder.CreateTable(
                 name: "DeviceCodes",
+                schema: "Identity",
                 columns: table => new
                 {
                     UserCode = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
@@ -33,6 +37,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
             migrationBuilder.CreateTable(
                 name: "Keys",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -51,6 +56,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
             migrationBuilder.CreateTable(
                 name: "PersistedGrants",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -73,6 +79,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
             migrationBuilder.CreateTable(
                 name: "ServerSideSessions",
+                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -94,69 +101,82 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
+                schema: "Identity",
                 table: "DeviceCodes",
                 column: "DeviceCode",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_Expiration",
+                schema: "Identity",
                 table: "DeviceCodes",
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Keys_Use",
+                schema: "Identity",
                 table: "Keys",
                 column: "Use");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
+                schema: "Identity",
                 table: "PersistedGrants",
                 column: "ConsumedTime");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
+                schema: "Identity",
                 table: "PersistedGrants",
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Key",
+                schema: "Identity",
                 table: "PersistedGrants",
                 column: "Key",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_SubjectId_ClientId_Type",
+                schema: "Identity",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "ClientId", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_SubjectId_SessionId_Type",
+                schema: "Identity",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerSideSessions_DisplayName",
+                schema: "Identity",
                 table: "ServerSideSessions",
                 column: "DisplayName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerSideSessions_Expires",
+                schema: "Identity",
                 table: "ServerSideSessions",
                 column: "Expires");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerSideSessions_Key",
+                schema: "Identity",
                 table: "ServerSideSessions",
                 column: "Key",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerSideSessions_SessionId",
+                schema: "Identity",
                 table: "ServerSideSessions",
                 column: "SessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ServerSideSessions_SubjectId",
+                schema: "Identity",
                 table: "ServerSideSessions",
                 column: "SubjectId");
         }
@@ -165,16 +185,20 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DeviceCodes");
+                name: "DeviceCodes",
+                schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "Keys");
+                name: "Keys",
+                schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "PersistedGrants");
+                name: "PersistedGrants",
+                schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "ServerSideSessions");
+                name: "ServerSideSessions",
+                schema: "Identity");
         }
     }
 }

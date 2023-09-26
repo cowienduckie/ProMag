@@ -21,6 +21,7 @@ using OpenTelemetry.Trace;
 using RabbitMQ.Client;
 using Serilog;
 using Shared;
+using Shared.Common.Enums;
 using Shared.CorrelationId;
 using Shared.CustomTypes;
 using Shared.Grpc;
@@ -42,7 +43,7 @@ internal static class Extensions
             .AddCustomOpenTelemetry()
             .AddAppMetrics()
             .AddCustomHealthChecks(builder.Configuration)
-            .AddCustomDbContext(builder.Configuration)
+            .AddCustomDbContext(builder.Configuration, builder.Environment)
             .AddOptions()
             .AddIdentityServer(builder.Configuration, builder.Environment)
             .AddHttpContextAccessor()
@@ -168,7 +169,7 @@ internal static class Extensions
         return services;
     }
 
-    private static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         var connString = configuration.GetConnectionString("identity");
 
@@ -176,7 +177,11 @@ internal static class Extensions
         {
             options.UseNpgsql(connString);
             options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging();
+
+            if (environment.IsDevelopment())
+            {
+                options.EnableSensitiveDataLogging();
+            }
         });
 
         return services;
@@ -296,24 +301,22 @@ internal static class Extensions
                 options.Events.RaiseSuccessEvents = true;
                 options.EmitStaticAudienceClaim = true;
             })
-            .AddConfigurationStore(o =>
+            .AddConfigurationStore(options =>
             {
-                o.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
+                options.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
+                options.DefaultSchema = DbSchema.Identity.ToString();
             })
-            .AddOperationalStore(o =>
+            .AddOperationalStore(options =>
             {
-                o.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
-                o.EnableTokenCleanup = true;
+                options.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
+                options.DefaultSchema = DbSchema.Identity.ToString();
+                options.EnableTokenCleanup = true;
             })
             .AddAspNetIdentity<ApplicationUser>();
 
         if (environment.IsDevelopment())
         {
             builder.AddDeveloperSigningCredential();
-        }
-        else
-        {
-            throw new Exception("Need to configure key material");
         }
 
         services

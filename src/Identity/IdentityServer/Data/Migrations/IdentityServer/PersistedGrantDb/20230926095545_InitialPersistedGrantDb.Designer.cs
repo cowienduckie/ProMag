@@ -12,14 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20230924210648_InitialIdentityServerPersistedGrantDbMigration")]
-    partial class InitialIdentityServerPersistedGrantDbMigration
+    [Migration("20230926095545_InitialPersistedGrantDb")]
+    partial class InitialPersistedGrantDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("Identity")
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -72,7 +73,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
                     b.HasIndex("Expiration");
 
-                    b.ToTable("DeviceCodes", (string)null);
+                    b.ToTable("DeviceCodes", "Identity");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
@@ -108,7 +109,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys", (string)null);
+                    b.ToTable("Keys", "Identity");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -172,7 +173,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
-                    b.ToTable("PersistedGrants", (string)null);
+                    b.ToTable("PersistedGrants", "Identity");
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.ServerSideSession", b =>
@@ -232,7 +233,7 @@ namespace IdentityServer.Data.Migrations.IdentityServer.PersistedGrantDb
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("ServerSideSessions", (string)null);
+                    b.ToTable("ServerSideSessions", "Identity");
                 });
 #pragma warning restore 612, 618
         }
