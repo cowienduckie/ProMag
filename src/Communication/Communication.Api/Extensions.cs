@@ -29,8 +29,6 @@ public static class Extensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddRazorPages();
-
         builder.Services
             .AddCustomOpenTelemetry()
             .AddAppMetrics()

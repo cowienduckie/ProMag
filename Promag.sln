@@ -59,6 +59,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication.Api", "src\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication.FunctionalTests", "src\Communication\Communication.FunctionalTests\Communication.FunctionalTests.csproj", "{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MasterData", "MasterData", "{37636323-8448-4A54-B3B8-934B446B3187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterData", "src\MasterData\MasterData\MasterData.csproj", "{83AE2CD4-5955-47D2-A585-C0286D7CF111}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "master_data", "master_data", "{89204F4F-883D-42DF-99DB-BD05510C2167}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{930C8BFC-B190-464B-9537-62F8CE4BAF17}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\master_data\v1\master_data_api.proto = src\_schema\proto\promag\master_data\v1\master_data_api.proto
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterData.Api", "src\MasterData\MasterData.Api\MasterData.Api.csproj", "{72062413-236A-4BCE-BE40-BF7CC61B1701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +99,10 @@ Global
 		{75C862B2-E258-433B-94C7-E5B4AB1B104C} = {57209ED3-959C-4E13-8184-A3579EF53567}
 		{DE095302-D0C7-4C69-A8AE-E524350717BD} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
 		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
+		{83AE2CD4-5955-47D2-A585-C0286D7CF111} = {37636323-8448-4A54-B3B8-934B446B3187}
+		{89204F4F-883D-42DF-99DB-BD05510C2167} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{930C8BFC-B190-464B-9537-62F8CE4BAF17} = {89204F4F-883D-42DF-99DB-BD05510C2167}
+		{72062413-236A-4BCE-BE40-BF7CC61B1701} = {37636323-8448-4A54-B3B8-934B446B3187}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{844D8686-3CF9-4B6D-9912-15ADEC8E6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -140,5 +157,13 @@ Global
 		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28EA9408-ABF7-44AA-BF86-BC447C91FAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83AE2CD4-5955-47D2-A585-C0286D7CF111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AE2CD4-5955-47D2-A585-C0286D7CF111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AE2CD4-5955-47D2-A585-C0286D7CF111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AE2CD4-5955-47D2-A585-C0286D7CF111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72062413-236A-4BCE-BE40-BF7CC61B1701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72062413-236A-4BCE-BE40-BF7CC61B1701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72062413-236A-4BCE-BE40-BF7CC61B1701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72062413-236A-4BCE-BE40-BF7CC61B1701}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

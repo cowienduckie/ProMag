@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package promag.masterdata.v1;
+
+option csharp_namespace = "Promag.Protobuf.MasterData.V1";
+
+import "promag/common/v1/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service MasterDataApi {
+  rpc Ping (google.protobuf.Empty) returns (promag.common.v1.PongReply);
+  rpc CreateActivityLog (CreateActivityLogRequest) returns (CreateActivityLogResponse);
+}
+
+message CreateActivityLogRequest {
+  google.protobuf.StringValue IpAddress = 1;
+  google.protobuf.StringValue Service = 2;
+  string Action = 3;
+  google.protobuf.Int64Value Duration = 4;
+  google.protobuf.StringValue Parameters = 5;
+  string Username = 6;
+}
+
+message CreateActivityLogResponse {
+  bool Succeeded = 1;
+  repeated promag.common.v1.ErrorDto Errors = 2;
+}

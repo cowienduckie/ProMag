@@ -22,6 +22,7 @@ using RabbitMQ.Client;
 using Serilog;
 using Shared;
 using Shared.Common.Enums;
+using Shared.Common.Extensions;
 using Shared.CorrelationId;
 using Shared.CustomTypes;
 using Shared.Grpc;
@@ -304,12 +305,12 @@ internal static class Extensions
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
-                options.DefaultSchema = DbSchema.Identity.ToString();
+                options.DefaultSchema = DbSchema.Identity.GetDescription();
             })
             .AddOperationalStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseNpgsql(connString, db => db.MigrationsAssembly(migrationsAssembly));
-                options.DefaultSchema = DbSchema.Identity.ToString();
+                options.DefaultSchema = DbSchema.Identity.GetDescription();
                 options.EnableTokenCleanup = true;
             })
             .AddAspNetIdentity<ApplicationUser>();

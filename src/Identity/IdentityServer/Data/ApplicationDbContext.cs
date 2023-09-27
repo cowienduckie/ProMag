@@ -2,11 +2,14 @@ using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Common.Enums;
+using Shared.Common.Extensions;
 
 namespace IdentityServer.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 {
+    public static readonly string DefaultSchema = DbSchema.Identity.GetDescription();
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -16,15 +19,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     {
         base.OnModelCreating(builder);
 
-        builder.HasDefaultSchema(DbSchema.Identity.ToString());
+        builder.HasDefaultSchema(DefaultSchema);
 
+        // Remove AspNetIdentity prefix from table names
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
             var tableName = entityType.GetTableName();
 
             if (!string.IsNullOrEmpty(tableName) && tableName.StartsWith("AspNet"))
             {
-                entityType.SetTableName(tableName[6..]);
+                entityType.SetTableName(tableName.RemovePrefix("AspNet"));
             }
         }
     }
