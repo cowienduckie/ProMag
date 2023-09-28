@@ -2,6 +2,7 @@ using System.Reflection;
 using Configuration.MassTransit;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
+using EfCore;
 using EfCore.Behaviors;
 using FluentValidation;
 using GraphQl.Errors;
@@ -29,6 +30,9 @@ using Shared.Common.Constants;
 using Shared.CorrelationId;
 using Shared.CustomTypes;
 using Shared.Grpc;
+using Shared.SecurityContext;
+using Shared.Serialization;
+using Shared.Serialization.Implementations;
 using Shared.ValidationModels;
 
 namespace MasterData.Api;
@@ -47,7 +51,9 @@ public static class Extensions
             .AddCustomMassTransit(builder.Configuration)
             .AddCustomDbContext(builder.Configuration)
             .AddAuthentication(builder.Configuration)
-            .AddDistributedCache(builder.Configuration);
+            .AddDistributedCache(builder.Configuration)
+            .AddSecurityContext()
+            .AddCustomSerializer<NewtonSoftService>();
 
         builder.Services.Scan(scan => scan
             .FromAssemblyOf<Anchor>()
@@ -272,6 +278,8 @@ public static class Extensions
         });
 
         services.AddScoped<DbContext>(provider => provider.GetService<MasterDataDbContext>()!);
+
+        services.AddAuditLogs<MasterDataDbContext>();
 
         return services;
     }
