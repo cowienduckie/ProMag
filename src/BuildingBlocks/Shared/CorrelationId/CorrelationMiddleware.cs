@@ -52,7 +52,7 @@ public class CorrelationIdMiddleware
     {
         var correlationIdFoundInRequestHeader = context.Request.Headers.TryGetValue(_options.Header, out var correlationId);
 
-        if (RequiresGenerationOfCorrelationId(correlationIdFoundInRequestHeader, correlationId))
+        if (!RequiresGenerationOfCorrelationId(correlationIdFoundInRequestHeader, correlationId))
         {
             return Guid.Parse(correlationId!);
         }
@@ -69,6 +69,11 @@ public class CorrelationIdMiddleware
 
     private static bool RequiresGenerationOfCorrelationId(bool idInHeader, string? idFromHeader)
     {
-        return !idInHeader || StringValues.IsNullOrEmpty(idFromHeader) || !Guid.TryParse(idFromHeader, out _);
+        if (!idInHeader || StringValues.IsNullOrEmpty(idFromHeader) || !Guid.TryParse(idFromHeader, out _))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

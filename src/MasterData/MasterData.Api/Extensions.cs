@@ -5,6 +5,7 @@ using Configuration.OpenTelemetry.Behaviors;
 using EfCore;
 using EfCore.Behaviors;
 using FluentValidation;
+using GraphQl;
 using GraphQl.Errors;
 using HealthChecks.UI.Client;
 using HotChocolate.AspNetCore;
@@ -49,7 +50,7 @@ public static class Extensions
             .AddGrpc()
             .AddGraphQl()
             .AddCustomMassTransit(builder.Configuration)
-            .AddCustomDbContext(builder.Configuration)
+            .AddCustomDbContext(builder.Configuration, builder.Environment)
             .AddAuthentication(builder.Configuration)
             .AddDistributedCache(builder.Configuration)
             .AddSecurityContext()
@@ -154,7 +155,7 @@ public static class Extensions
 
     private static IServiceCollection AddMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Anchor).Assembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
@@ -182,10 +183,11 @@ public static class Extensions
     {
         services.AddGraphQLServer()
             .AddAuthorization()
-            .AddErrorFilter<ValidationErrorFilter>()
+            .AddFiltering()
+            .RegisterObjectTypes(typeof(Anchor).Assembly)
             .AddApolloTracing(TracingPreference.Always)
-            .AddTypeExtension(typeof(Anchor))
-            .ModifyRequestOptions(opt => { opt.IncludeExceptionDetails = true; });
+            .ModifyRequestOptions(opt => { opt.IncludeExceptionDetails = true; })
+            .AddErrorFilter<ValidationErrorFilter>();
 
         return services;
     }
@@ -264,7 +266,7 @@ public static class Extensions
         }
     }
 
-    private static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         var connString = configuration.GetConnectionString("masterData");
 
@@ -273,8 +275,11 @@ public static class Extensions
             options.UseNpgsql(connString, opt => { opt.EnableRetryOnFailure(3); });
 
             options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging(false);
-            options.UseSnakeCaseNamingConvention();
+
+            if (environment.IsDevelopment())
+            {
+                options.EnableSensitiveDataLogging();
+            }
         });
 
         services.AddScoped<DbContext>(provider => provider.GetService<MasterDataDbContext>()!);

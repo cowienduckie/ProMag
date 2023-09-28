@@ -1,5 +1,6 @@
 using System.Net;
 using MasterData.Api;
+using MasterData.Data;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.IdentityModel.Logging;
 using Shared.Logging;
@@ -32,5 +33,7 @@ builder.WebHost
 var app = builder
     .ConfigureServices()
     .ConfigurePipeline();
+
+DbInitializer.MigrateDatabase(app);
 
 app.Run();

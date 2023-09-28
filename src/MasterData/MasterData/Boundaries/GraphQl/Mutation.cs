@@ -1,3 +1,4 @@
+using MasterData.UseCases.Commands;
 using MediatR;
 using Promag.Protobuf.MasterData.V1;
 
@@ -14,6 +15,6 @@ public class Mutation
 
     public async Task<CreateActivityLogResponse> CreateActivityLog(CreateActivityLogRequest createActivityLogInput)
     {
-        return await _mediator.Send(createActivityLogInput);
+        return await _mediator.Send(new CreateActivityLogCommand(createActivityLogInput));
     }
 }

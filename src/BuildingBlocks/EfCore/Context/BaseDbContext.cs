@@ -14,8 +14,7 @@ public class BaseDbContext : DbContext
     public BaseDbContext(DbContextOptions options, ISerializerService serializer, ISecurityContextAccessor securityContext) : base(options)
     {
         _serializer = serializer;
-
-        _currentUserId = Guid.Parse(securityContext.UserId!);
+        _currentUserId = Guid.TryParse(securityContext.UserId, out var userId) ? userId : Guid.Empty;
     }
 
     public DbSet<Trail> AuditTrails => Set<Trail>();

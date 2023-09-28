@@ -9,5 +9,5 @@ public class ActivityLogDto
     public long? Duration { get; set; }
     public string Parameters { get; set; } = default!;
     public string Username { get; set; } = default!;
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedOn { get; set; }
 }

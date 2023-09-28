@@ -10,7 +10,6 @@ public class MutationType : ObjectType<Mutation>
     {
         descriptor
             .Field(t => t.CreateActivityLog(default!))
-            .Argument(CreateActivityLogInputType.InputName.Camelize(), a => a.Type<NonNullType<CreateActivityLogInputType>>())
-            .UseFiltering();
+            .Argument(CreateActivityLogInputType.InputName.Camelize(), a => a.Type<NonNullType<CreateActivityLogInputType>>());
     }
 }

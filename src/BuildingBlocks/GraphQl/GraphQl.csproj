@@ -16,6 +16,7 @@
         <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.5.1"/>
         <PackageReference Include="HotChocolate.Data" Version="13.5.1"/>
         <PackageReference Include="HotChocolate.Stitching" Version="13.5.1"/>
+        <PackageReference Include="HotChocolate.Types.Filters" Version="13.5.1"/>
     </ItemGroup>
 
 

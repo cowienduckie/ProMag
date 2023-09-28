@@ -7,6 +7,6 @@ public class ActivityLogType : ObjectType<ActivityLogDto>
 {
     protected override void Configure(IObjectTypeDescriptor<ActivityLogDto> descriptor)
     {
-        descriptor.Field(x => x.CreatedDate).Type<NonNullType<DateTimeType>>();
+        descriptor.Field(x => x.CreatedOn).Type<NonNullType<DateTimeType>>();
     }
 }

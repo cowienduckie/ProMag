@@ -7,12 +7,12 @@ public enum DbSchema
     [Description("public")]
     Public = 0,
 
-    [Description("identity")]
+    [Description("Identity")]
     Identity = 1,
 
-    [Description("master")]
+    [Description("Master")]
     MasterData = 2,
 
-    [Description("auditing")]
+    [Description("Auditing")]
     Auditing = 3
 }

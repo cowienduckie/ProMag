@@ -7,7 +7,7 @@ using Shared;
 
 namespace MasterData.UseCases.Commands.Handlers;
 
-public class CreateActivityLogHandler : IRequestHandler<CreateActivityLogRequest, CreateActivityLogResponse>
+public class CreateActivityLogHandler : IRequestHandler<CreateActivityLogCommand, CreateActivityLogResponse>
 {
     private readonly MasterDataDbContext _context;
     private readonly ILogger<CreateActivityLogHandler> _logger;
@@ -18,22 +18,22 @@ public class CreateActivityLogHandler : IRequestHandler<CreateActivityLogRequest
         _context = context;
     }
 
-    public async Task<CreateActivityLogResponse> Handle(CreateActivityLogRequest request, CancellationToken cancellationToken)
+    public async Task<CreateActivityLogResponse> Handle(CreateActivityLogCommand request, CancellationToken cancellationToken)
     {
-        Guard.NotNull(request);
+        var payload = request.Payload;
+
+        Guard.NotNull(payload);
 
         _logger.LogInformation("{HandlerName} - Start", nameof(CreateActivityLogHandler));
 
         var activityLog = new ActivityLog
         {
-            Id = Guid.NewGuid(),
-            IpAddress = request.IpAddress,
-            Service = request.Service,
-            Action = request.Action,
-            Duration = request.Duration,
-            Parameters = request.Parameters,
-            Username = request.Username,
-            CreatedDate = DateTime.UtcNow
+            IpAddress = payload.IpAddress,
+            Service = payload.Service,
+            Action = payload.Action,
+            Duration = payload.Duration,
+            Parameters = payload.Parameters,
+            Username = payload.Username
         };
 
         await _context.AddAsync(activityLog, cancellationToken);
