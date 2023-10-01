@@ -163,7 +163,7 @@ public static class Extensions
         return services;
     }
 
-    public static IServiceCollection AddGrpc(this IServiceCollection services)
+    private static IServiceCollection AddGrpc(this IServiceCollection services)
     {
         AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
