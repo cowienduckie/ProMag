@@ -1,4 +1,3 @@
-using System.Reflection;
 using Configuration.MassTransit;
 using Configuration.Metrics;
 using Configuration.OpenTelemetry;
@@ -8,11 +7,16 @@ using IdentityServer.Data;
 using IdentityServer.Grpc;
 using IdentityServer.IntegrationEvents;
 using IdentityServer.Models;
+using IdentityServer.Pages;
+using IdentityServer.Pages.Admin.ApiScopes;
+using IdentityServer.Pages.Admin.IdentityScopes;
+using IdentityServer.Pages.Portal;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry;
@@ -142,7 +146,7 @@ internal static class Extensions
                 });
                 hcBuilder.AddRabbitMQ(name: "idsvr-rabbitmqbus-check", tags: new[] { "rabbitmqbus" });
                 break;
-            case "AzureSB":
+            case MessageBusTransportType.AzureSB:
                 // hcBuilder.AddAzureServiceBusQueue(messageBusOptions.AzureSb.ConnectionString, "default");
                 break;
         }
@@ -152,7 +156,7 @@ internal static class Extensions
 
     private static IServiceCollection AddMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IdentityService).Assembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
@@ -274,13 +278,6 @@ internal static class Extensions
 
     private static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
-        services.Configure<CookiePolicyOptions>(options =>
-        {
-            options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            options.OnAppendCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            options.OnDeleteCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-        });
-
         services
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
@@ -313,7 +310,8 @@ internal static class Extensions
                 options.DefaultSchema = DbSchema.Identity.GetDescription();
                 options.EnableTokenCleanup = true;
             })
-            .AddAspNetIdentity<ApplicationUser>();
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddTestUsers(TestUsers.Users);
 
         if (environment.IsDevelopment())
         {
@@ -331,6 +329,26 @@ internal static class Extensions
             options.KnownNetworks.Clear();
             options.KnownProxies.Clear();
         });
+
+        // Configure for testing with Postman
+        services.Configure<CookiePolicyOptions>(options =>
+        {
+            options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            options.OnAppendCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+            options.OnDeleteCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+        });
+
+        // Configure for Razor UI
+        builder.Services.AddAuthorization(options =>
+            options.AddPolicy("admin",
+                policy => policy.RequireClaim("sub", "1"))
+        );
+
+        builder.Services.Configure<RazorPagesOptions>(opt => opt.Conventions.AuthorizeFolder("/Admin", "admin"));
+
+        builder.Services.AddTransient<ClientRepository>();
+        builder.Services.AddTransient<IdentityScopeRepository>();
+        builder.Services.AddTransient<ApiScopeRepository>();
 
         return services;
     }
