@@ -6,10 +6,10 @@ using Shared.Common.Extensions;
 
 namespace EfCore.Configurations;
 
-public class AuditTrailConfig : IEntityTypeConfiguration<Trail>
+public class AuditTrailConfiguration : IEntityTypeConfiguration<Trail>
 {
     public void Configure(EntityTypeBuilder<Trail> builder)
     {
-        builder.ToTable("AuditTrails", DbSchema.Auditing.GetDescription());
+        builder.ToTable("AuditTrails", DbSchema.MasterData.GetDescription());
     }
 }

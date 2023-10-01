@@ -11,8 +11,5 @@ public enum DbSchema
     Identity = 1,
 
     [Description("Master")]
-    MasterData = 2,
-
-    [Description("Auditing")]
-    Auditing = 3
+    MasterData = 2
 }
