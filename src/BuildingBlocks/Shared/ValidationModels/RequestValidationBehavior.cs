@@ -11,7 +11,8 @@ public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
     private readonly ILogger<RequestValidationBehavior<TRequest, TResponse>> _logger;
     private readonly IServiceProvider _serviceProvider;
 
-    public RequestValidationBehavior(IServiceProvider serviceProvider,
+    public RequestValidationBehavior(
+        IServiceProvider serviceProvider,
         ILogger<RequestValidationBehavior<TRequest, TResponse>> logger)
     {
         _serviceProvider = serviceProvider;

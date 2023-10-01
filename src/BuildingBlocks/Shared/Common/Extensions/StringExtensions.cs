@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Shared.Common.Extensions;
 
-public static class StringExtensions
+public static partial class StringExtensions
 {
     public static string RemoveSuffix(this string s, string suffix)
     {
@@ -33,4 +33,21 @@ public static class StringExtensions
     {
         return s.Substring(numberOfCharacters);
     }
+
+    public static int CountUniqueParams(this string s)
+    {
+        var matches = StringParamRegex().Matches(s);
+
+        return matches.Select(m => m.Value).Distinct().Count();
+    }
+
+    public static int CountParams(this string s)
+    {
+        var matches = StringParamRegex().Matches(s);
+
+        return matches.Count;
+    }
+
+    [GeneratedRegex("{(.*?)}")]
+    private static partial Regex StringParamRegex();
 }

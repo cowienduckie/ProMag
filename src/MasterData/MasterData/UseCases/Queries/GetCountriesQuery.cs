@@ -3,6 +3,6 @@ using MediatR;
 
 namespace MasterData.UseCases.Queries;
 
-public class GetCountriesQuery : IRequest<IQueryable<CountryDto>>
+public class GetCountriesQuery : IRequest<IList<CountryDto>>
 {
 }

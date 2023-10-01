@@ -1,91 +1,90 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace IdentityServer.Data.Migrations.ApplicationDb
+namespace IdentityServer.Data.Migrations.ApplicationDb;
+
+/// <inheritdoc />
+public partial class InitialIdentity : Migration
 {
     /// <inheritdoc />
-    public partial class InitialIdentity : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.EnsureSchema(
-                name: "Identity");
+        migrationBuilder.EnsureSchema(
+            "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "UserTokens",
-                newName: "UserTokens",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "UserTokens",
+            newName: "UserTokens",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "Users",
-                newName: "Users",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "Users",
+            newName: "Users",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "UserRoles",
-                newName: "UserRoles",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "UserRoles",
+            newName: "UserRoles",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "UserLogins",
-                newName: "UserLogins",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "UserLogins",
+            newName: "UserLogins",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "UserClaims",
-                newName: "UserClaims",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "UserClaims",
+            newName: "UserClaims",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "Roles",
-                newName: "Roles",
-                newSchema: "Identity");
+        migrationBuilder.RenameTable(
+            "Roles",
+            newName: "Roles",
+            newSchema: "Identity");
 
-            migrationBuilder.RenameTable(
-                name: "RoleClaims",
-                newName: "RoleClaims",
-                newSchema: "Identity");
-        }
+        migrationBuilder.RenameTable(
+            "RoleClaims",
+            newName: "RoleClaims",
+            newSchema: "Identity");
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.RenameTable(
-                name: "UserTokens",
-                schema: "Identity",
-                newName: "UserTokens");
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.RenameTable(
+            "UserTokens",
+            "Identity",
+            "UserTokens");
 
-            migrationBuilder.RenameTable(
-                name: "Users",
-                schema: "Identity",
-                newName: "Users");
+        migrationBuilder.RenameTable(
+            "Users",
+            "Identity",
+            "Users");
 
-            migrationBuilder.RenameTable(
-                name: "UserRoles",
-                schema: "Identity",
-                newName: "UserRoles");
+        migrationBuilder.RenameTable(
+            "UserRoles",
+            "Identity",
+            "UserRoles");
 
-            migrationBuilder.RenameTable(
-                name: "UserLogins",
-                schema: "Identity",
-                newName: "UserLogins");
+        migrationBuilder.RenameTable(
+            "UserLogins",
+            "Identity",
+            "UserLogins");
 
-            migrationBuilder.RenameTable(
-                name: "UserClaims",
-                schema: "Identity",
-                newName: "UserClaims");
+        migrationBuilder.RenameTable(
+            "UserClaims",
+            "Identity",
+            "UserClaims");
 
-            migrationBuilder.RenameTable(
-                name: "Roles",
-                schema: "Identity",
-                newName: "Roles");
+        migrationBuilder.RenameTable(
+            "Roles",
+            "Identity",
+            "Roles");
 
-            migrationBuilder.RenameTable(
-                name: "RoleClaims",
-                schema: "Identity",
-                newName: "RoleClaims");
-        }
+        migrationBuilder.RenameTable(
+            "RoleClaims",
+            "Identity",
+            "RoleClaims");
     }
 }

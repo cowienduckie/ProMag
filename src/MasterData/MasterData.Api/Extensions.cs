@@ -1,4 +1,3 @@
-using System.Reflection;
 using Configuration.MassTransit;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
@@ -184,9 +183,10 @@ public static class Extensions
         services.AddGraphQLServer()
             .AddAuthorization()
             .AddFiltering()
+            .AddSorting()
             .RegisterObjectTypes(typeof(Anchor).Assembly)
-            .AddApolloTracing(TracingPreference.Always)
             .ModifyRequestOptions(opt => { opt.IncludeExceptionDetails = true; })
+            .AddApolloTracing(TracingPreference.Always)
             .AddErrorFilter<ValidationErrorFilter>();
 
         return services;

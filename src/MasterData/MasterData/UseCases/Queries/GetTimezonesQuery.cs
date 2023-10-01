@@ -3,6 +3,6 @@ using MediatR;
 
 namespace MasterData.UseCases.Queries;
 
-public class GetTimezoneQuery : IRequest<IList<TimezoneDto>>
+public class GetTimezonesQuery : IRequest<IList<TimezoneDto>>
 {
 }

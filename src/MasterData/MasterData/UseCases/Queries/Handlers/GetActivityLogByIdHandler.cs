@@ -25,12 +25,21 @@ public class GetActivityLogByIdHandler : IRequestHandler<GetActivityLogByIdQuery
 
         Guard.NotNull(request);
 
-        _logger.LogInformation("{HandlerName} - Finish", nameof(GetActivityLogByIdHandler));
-
-        return await _context.ActivityLogs
+        var searchedLog = await _context.ActivityLogs
             .AsNoTracking()
             .Where(x => x.Id == request.Id)
             .Select(x => x.Adapt<ActivityLogDto>())
-            .FirstOrDefaultAsync(cancellationToken) ?? new ActivityLogDto();
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (searchedLog is null)
+        {
+            _logger.LogWarning("{HandlerName} - Not found activity log with ID = {LogId}", nameof(GetActivityLogByIdHandler), request.Id);
+
+            return new ActivityLogDto();
+        }
+
+        _logger.LogInformation("{HandlerName} - Finish", nameof(GetActivityLogByIdHandler));
+
+        return searchedLog;
     }
 }
