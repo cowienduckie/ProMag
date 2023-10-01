@@ -1,4 +1,3 @@
-using System.Reflection;
 using Communication.Boundaries.Grpc;
 using Communication.EmailTemplates;
 using Communication.EmailTemplates.Implementations;
@@ -118,7 +117,7 @@ public static class Extensions
 
     private static IServiceCollection AddMediatR(this IServiceCollection services)
     {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Anchor).Assembly));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
 
@@ -142,7 +141,7 @@ public static class Extensions
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumersFromNamespaceContaining<ConsumerAnchor>();
+            x.AddConsumersFromNamespaceContaining<Anchor>();
 
             var messageBusOptions = configuration.GetOptions<MessageBusOptions>("MessageBus");
             switch (messageBusOptions.TransportType)
