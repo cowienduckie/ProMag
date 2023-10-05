@@ -41,6 +41,7 @@ public class Index : PageModel
         }
 
         View = await BuildViewModelAsync(userCode);
+
         if (View == null)
         {
             ModelState.AddModelError("", DeviceOptions.InvalidUserCode);
@@ -62,7 +63,7 @@ public class Index : PageModel
         var request = await _interaction.GetAuthorizationContextAsync(Input.UserCode ?? string.Empty);
         if (request == null)
         {
-            return RedirectToPage("/Home/Error/Index");
+            return RedirectToPage("/Error/Index");
         }
 
         ConsentResponse? grantedConsent = null;
@@ -113,7 +114,7 @@ public class Index : PageModel
 
         if (grantedConsent != null)
         {
-            // communicate outcome of consent back to identityserver
+            // communicate outcome of consent back to identity server
             await _interaction.HandleRequestAsync(Input.UserCode ?? string.Empty, grantedConsent);
 
             // indicate that's it ok to redirect back to authorization endpoint
@@ -122,6 +123,7 @@ public class Index : PageModel
 
         // we need to redisplay the consent UI
         View = await BuildViewModelAsync(Input.UserCode ?? string.Empty, Input);
+
         return Page();
     }
 
@@ -129,37 +131,41 @@ public class Index : PageModel
     private async Task<ViewModel?> BuildViewModelAsync(string userCode, InputModel? model = null)
     {
         var request = await _interaction.GetAuthorizationContextAsync(userCode);
+
         if (request != null)
         {
-            return CreateConsentViewModel(model, request);
+            return CreateConsentViewModel(model ?? new InputModel(), request);
         }
 
         return null;
     }
 
-    private ViewModel CreateConsentViewModel(InputModel? model, DeviceFlowAuthorizationRequest request)
+    private ViewModel CreateConsentViewModel(InputModel model, DeviceFlowAuthorizationRequest request)
     {
         var vm = new ViewModel
         {
             ClientName = request.Client.ClientName ?? request.Client.ClientId,
             ClientUrl = request.Client.ClientUri,
             ClientLogoUrl = request.Client.LogoUri,
-            AllowRememberConsent = request.Client.AllowRememberConsent
+            AllowRememberConsent = request.Client.AllowRememberConsent,
+            IdentityScopes = request.ValidatedResources.Resources.IdentityResources
+                .Select(x => CreateScopeViewModel(x, model.ScopesConsented.Contains(x.Name))).ToArray()
         };
 
-        vm.IdentityScopes = request.ValidatedResources.Resources.IdentityResources
-            .Select(x => CreateScopeViewModel(x, model == null || model.ScopesConsented.Contains(x.Name))).ToArray();
-
         var apiScopes = new List<ScopeViewModel>();
+
         foreach (var parsedScope in request.ValidatedResources.ParsedScopes)
         {
             var apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName);
-            if (apiScope != null)
+
+            if (apiScope == null)
             {
-                var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
-                    model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
-                apiScopes.Add(scopeVm);
+                continue;
             }
+
+            var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
+                model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
+            apiScopes.Add(scopeVm);
         }
 
         if (DeviceOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
@@ -191,7 +197,7 @@ public class Index : PageModel
         return new ScopeViewModel
         {
             Value = parsedScopeValue.RawValue,
-            // todo: use the parsed scope value in the display?
+            // TODO: use the parsed scope value in the display?
             DisplayName = apiScope.DisplayName ?? apiScope.Name,
             Description = apiScope.Description,
             Emphasize = apiScope.Emphasize,

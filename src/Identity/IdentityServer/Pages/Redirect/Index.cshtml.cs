@@ -13,7 +13,7 @@ public class IndexModel : PageModel
     {
         if (!Url.IsLocalUrl(redirectUri))
         {
-            return RedirectToPage("/Home/Error/Index");
+            return RedirectToPage("/Error/Index");
         }
 
         RedirectUri = redirectUri;

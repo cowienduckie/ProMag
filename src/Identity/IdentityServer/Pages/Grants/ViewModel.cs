@@ -7,8 +7,8 @@ public class ViewModel
 
 public class GrantViewModel
 {
-    public string? ClientId { get; set; }
-    public string? ClientName { get; set; }
+    public string ClientId { get; set; } = default!;
+    public string ClientName { get; set; } = default!;
     public string? ClientUrl { get; set; }
     public string? ClientLogoUrl { get; set; }
     public string? Description { get; set; }

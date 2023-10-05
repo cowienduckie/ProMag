@@ -17,15 +17,14 @@ public class Index : PageModel
         _environment = environment;
     }
 
-    public ViewModel View { get; set; } = default!;
+    public ViewModel? View { get; set; }
 
     public async Task OnGet(string errorId)
     {
         View = new ViewModel();
 
-        // retrieve error details from IdentityServer
+        // retrieve error details from identityserver
         var message = await _interaction.GetErrorContextAsync(errorId);
-
         if (message != null)
         {
             View.Error = message;

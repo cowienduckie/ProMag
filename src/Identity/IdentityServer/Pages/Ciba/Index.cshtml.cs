@@ -28,12 +28,12 @@ public class IndexModel : PageModel
     {
         LoginRequest = await _backchannelAuthenticationInteraction.GetLoginRequestByInternalIdAsync(id);
 
-        if (LoginRequest != null)
+        if (LoginRequest == null)
         {
-            return Page();
+            _logger.LogWarning("Invalid backchannel login id {Id}", id);
+            return RedirectToPage("/home/error/index");
         }
 
-        _logger.LogWarning("Invalid backchannel login id {Id}", id);
-        return RedirectToPage("/Home/Error/Index");
+        return Page();
     }
 }

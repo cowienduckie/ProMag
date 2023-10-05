@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">
                     <dl>
-                        @foreach (var claim in Model.View.AuthenticateResult.Principal?.Claims ?? Enumerable.Empty<Claim>())
+                        @foreach (var claim in Model.View?.AuthenticateResult.Principal?.Claims ?? ArraySegment<Claim>.Empty)
                         {
                             <dt>@claim.Type</dt>
                             <dd>@claim.Value</dd>
@@ -33,12 +33,12 @@
                 </div>
                 <div class="card-body">
                     <dl>
-                        @foreach (var prop in Model.View.AuthenticateResult.Properties?.Items ?? ImmutableDictionary<string, string?>.Empty)
+                        @foreach (var prop in Model.View?.AuthenticateResult.Properties?.Items ?? ImmutableDictionary<string, string?>.Empty)
                         {
                             <dt>@prop.Key</dt>
                             <dd>@prop.Value</dd>
                         }
-                        @if (Model.View.Clients.Any())
+                        @if (Model.View?.Clients.Any() is true)
                         {
                             <dt>Clients</dt>
                             <dd>

@@ -40,7 +40,7 @@ public class Index : PageModel
 
         if (View == null)
         {
-            return RedirectToPage("/Home/Error/Index");
+            return RedirectToPage("/Error/Index");
         }
 
         Input = new InputModel
@@ -57,7 +57,7 @@ public class Index : PageModel
         var request = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
         if (request == null)
         {
-            return RedirectToPage("/Home/Error/Index");
+            return RedirectToPage("/Error/Index");
         }
 
         ConsentResponse? grantedConsent = null;
@@ -105,7 +105,7 @@ public class Index : PageModel
 
         if (grantedConsent != null)
         {
-            // communicate outcome of consent back to IdentityServer
+            // communicate outcome of consent back to identity server
             await _interaction.GrantConsentAsync(request, grantedConsent);
 
             // redirect back to authorization endpoint
@@ -113,14 +113,14 @@ public class Index : PageModel
             {
                 // The client is native, so this change in how to
                 // return the response is for better UX for the end user.
-                return this.LoadingPage(Input.ReturnUrl ?? string.Empty);
+                return this.LoadingPage(Input.ReturnUrl);
             }
 
-            return Redirect(Input.ReturnUrl ?? string.Empty);
+            return Redirect(Input.ReturnUrl);
         }
 
         // we need to redisplay the consent UI
-        View = await BuildViewModelAsync(Input.ReturnUrl ?? string.Empty, Input);
+        View = await BuildViewModelAsync(Input.ReturnUrl, Input);
         return Page();
     }
 
@@ -128,7 +128,7 @@ public class Index : PageModel
     {
         var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
 
-        if (request != null && model != null)
+        if (request is not null && model is not null)
         {
             return CreateConsentViewModel(model, returnUrl, request);
         }
@@ -139,7 +139,8 @@ public class Index : PageModel
     }
 
     private ViewModel CreateConsentViewModel(
-        InputModel? model, string returnUrl,
+        InputModel? model,
+        string returnUrl,
         AuthorizationRequest request)
     {
         var vm = new ViewModel
@@ -161,18 +162,22 @@ public class Index : PageModel
         {
             var apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName);
 
-            if (apiScope != null)
+            if (apiScope == null)
             {
-                var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
-                    model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
-                scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
-                    .Select(x => new ResourceViewModel
-                    {
-                        Name = x.Name,
-                        DisplayName = x.DisplayName ?? x.Name
-                    }).ToArray();
-                apiScopes.Add(scopeVm);
+                continue;
             }
+
+            var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
+                model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
+
+            scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
+                .Select(x => new ResourceViewModel
+                {
+                    Name = x.Name,
+                    DisplayName = x.DisplayName ?? x.Name
+                }).ToArray();
+
+            apiScopes.Add(scopeVm);
         }
 
         if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
@@ -186,7 +191,7 @@ public class Index : PageModel
         return vm;
     }
 
-    private static ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
+    private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
     {
         return new ScopeViewModel
         {
@@ -220,7 +225,7 @@ public class Index : PageModel
         };
     }
 
-    private static ScopeViewModel GetOfflineAccessScope(bool check)
+    private ScopeViewModel GetOfflineAccessScope(bool check)
     {
         return new ScopeViewModel
         {

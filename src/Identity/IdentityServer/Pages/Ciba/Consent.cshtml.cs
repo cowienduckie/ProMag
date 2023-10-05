@@ -36,6 +36,7 @@ public class Consent : PageModel
     public async Task<IActionResult> OnGet(string id)
     {
         View = await BuildViewModelAsync(id);
+
         if (View == null)
         {
             return RedirectToPage("/Home/Error/Index");
@@ -53,9 +54,11 @@ public class Consent : PageModel
     {
         // validate return url is still valid
         var request = await _interaction.GetLoginRequestByInternalIdAsync(Input.Id);
+
         if (request == null || request.Subject.GetSubjectId() != User.GetSubjectId())
         {
             _logger.LogError("Invalid id {Id}", Input.Id);
+
             return RedirectToPage("/Home/Error/Index");
         }
 
@@ -103,7 +106,7 @@ public class Consent : PageModel
 
         if (result != null)
         {
-            // communicate outcome of consent back to identityserver
+            // communicate outcome of consent back to identity server
             await _interaction.CompleteLoginRequestAsync(result);
 
             return RedirectToPage("/Ciba/All");
@@ -111,23 +114,25 @@ public class Consent : PageModel
 
         // we need to redisplay the consent UI
         View = await BuildViewModelAsync(Input.Id, Input);
+
         return Page();
     }
 
     private async Task<ViewModel?> BuildViewModelAsync(string id, InputModel? model = null)
     {
         var request = await _interaction.GetLoginRequestByInternalIdAsync(id);
-        if (request != null && request.Subject.GetSubjectId() == User.GetSubjectId())
+        if (request != null && request.Subject.GetSubjectId() == User.GetSubjectId() && model != null)
         {
             return CreateConsentViewModel(model, id, request);
         }
 
         _logger.LogError("No backchannel login request matching id: {Id}", id);
+
         return null;
     }
 
     private ViewModel CreateConsentViewModel(
-        InputModel? model, string id,
+        InputModel model, string id,
         BackchannelUserLoginRequest request)
     {
         var vm = new ViewModel
@@ -137,7 +142,7 @@ public class Consent : PageModel
             ClientLogoUrl = request.Client.LogoUri,
             BindingMessage = request.BindingMessage,
             IdentityScopes = request.ValidatedResources.Resources.IdentityResources
-                .Select(x => CreateScopeViewModel(x, model?.ScopesConsented == null || model.ScopesConsented.Contains(x.Name)))
+                .Select(x => CreateScopeViewModel(x, model.ScopesConsented.Contains(x.Name)))
                 .ToArray()
         };
 
@@ -154,17 +159,17 @@ public class Consent : PageModel
                 continue;
             }
 
-            var scopeVm = CreateScopeViewModel(
-                parsedScope,
-                apiScope,
+            var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
                 model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
 
-            scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
+            scopeVm.Resources = apiResources
+                .Where(x => x.Scopes.Contains(parsedScope.ParsedName))
                 .Select(x => new ResourceViewModel
                 {
                     Name = x.Name,
                     DisplayName = x.DisplayName ?? x.Name
                 }).ToArray();
+
             apiScopes.Add(scopeVm);
         }
 
@@ -179,7 +184,7 @@ public class Consent : PageModel
         return vm;
     }
 
-    private static ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
+    private ScopeViewModel CreateScopeViewModel(IdentityResource identity, bool check)
     {
         return new ScopeViewModel
         {
@@ -213,7 +218,7 @@ public class Consent : PageModel
         };
     }
 
-    private static ScopeViewModel GetOfflineAccessScope(bool check)
+    private ScopeViewModel GetOfflineAccessScope(bool check)
     {
         return new ScopeViewModel
         {

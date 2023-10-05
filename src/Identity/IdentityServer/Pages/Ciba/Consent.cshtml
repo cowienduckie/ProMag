@@ -31,7 +31,7 @@
         <input type="hidden" asp-for="Input.Id"/>
         <div class="row">
             <div class="col-sm-8">
-                @if (Model.View != null && Model.View.IdentityScopes.Any())
+                @if (Model.View?.IdentityScopes.Any() is true)
                 {
                     <div class="form-group">
                         <div class="card">
@@ -49,7 +49,7 @@
                     </div>
                 }
 
-                @if (Model.View != null && Model.View.ApiScopes.Any())
+                @if (Model.View?.ApiScopes.Any() is true)
                 {
                     <div class="form-group">
                         <div class="card">

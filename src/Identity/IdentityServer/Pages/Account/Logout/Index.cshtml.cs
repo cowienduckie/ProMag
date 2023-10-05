@@ -32,7 +32,7 @@ public class Index : PageModel
 
         var showLogoutPrompt = LogoutOptions.ShowLogoutPrompt;
 
-        if (User.Identity?.IsAuthenticated != true)
+        if (User.Identity?.IsAuthenticated is not true)
         {
             // if the user is not authenticated, then just show logged out page
             showLogoutPrompt = false;
@@ -40,7 +40,8 @@ public class Index : PageModel
         else
         {
             var context = await _interaction.GetLogoutContextAsync(LogoutId);
-            if (context.ShowSignoutPrompt == false)
+
+            if (context.ShowSignoutPrompt is not true)
             {
                 // it's safe to automatically sign-out
                 showLogoutPrompt = false;
@@ -59,7 +60,7 @@ public class Index : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (User.Identity?.IsAuthenticated != true)
+        if (User.Identity?.IsAuthenticated is not true)
         {
             return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
         }
@@ -79,7 +80,7 @@ public class Index : PageModel
         var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
 
         // if it's a local login we can ignore this workflow
-        if (idp == null || idp == IdentityServerConstants.LocalIdentityProvider)
+        if (idp is null or IdentityServerConstants.LocalIdentityProvider)
         {
             return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
         }
@@ -93,7 +94,7 @@ public class Index : PageModel
         // build a return URL so the upstream provider will redirect back
         // to us after the user has logged out. this allows us to then
         // complete our single sign-out processing.
-        var url = Url.Page("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
+        var url = Url.Page("/Account/Logout/Loggedout", new { logoutId = LogoutId });
 
         // this triggers a redirect to the external provider for sign-out
         return SignOut(new AuthenticationProperties { RedirectUri = url }, idp);

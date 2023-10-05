@@ -21,16 +21,10 @@ public class ViewModel
         }
 
         var encoded = result.Properties.Items["client_list"];
-
-        if (encoded is null)
-        {
-            return;
-        }
-
-        var bytes = Base64Url.Decode(encoded);
+        var bytes = Base64Url.Decode(encoded!);
         var value = Encoding.UTF8.GetString(bytes);
 
-        Clients = JsonSerializer.Deserialize<string[]>(value) ?? Array.Empty<string>();
+        Clients = JsonSerializer.Deserialize<string[]>(value) ?? Enumerable.Empty<string>();
     }
 
     public AuthenticateResult AuthenticateResult { get; }

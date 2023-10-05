@@ -22,7 +22,6 @@
             <div class="col-sm-6">
                 <form asp-page="/Device/Index" method="get">
                     <div class="form-group">
-                        @* ReSharper disable once Html.IdNotResolved *@
                         <label for="userCode">User Code:</label>
                         <input class="form-control" for="userCode" name="userCode" autofocus/>
                     </div>
@@ -41,7 +40,7 @@ else
             @if (Model.View?.ClientLogoUrl != null)
             {
                 <div class="client-logo">
-                    <img src="@Model.View.ClientLogoUrl" alt="">
+                    <img src="@Model.View.ClientLogoUrl">
                 </div>
             }
             <h1>
@@ -62,7 +61,7 @@ else
             <input asp-for="Input.UserCode" type="hidden"/>
             <div class="row">
                 <div class="col-sm-8">
-                    @if (Model.View?.IdentityScopes.Any() == true)
+                    @if (Model.View?.IdentityScopes.Any() is true)
                     {
                         <div class="form-group">
                             <div class="card">
@@ -80,7 +79,7 @@ else
                         </div>
                     }
 
-                    @if (Model.View?.ApiScopes.Any() == true)
+                    @if (Model.View?.ApiScopes.Any() is true)
                     {
                         <div class="form-group">
                             <div class="card">
@@ -110,7 +109,7 @@ else
                         </div>
                     </div>
 
-                    @if (Model.View?.AllowRememberConsent == true)
+                    @if (Model.View?.AllowRememberConsent is true)
                     {
                         <div class="form-group">
                             <div class="form-check">

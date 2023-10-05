@@ -7,10 +7,6 @@ using IdentityServer.Data;
 using IdentityServer.Grpc;
 using IdentityServer.IntegrationEvents;
 using IdentityServer.Models;
-using IdentityServer.Pages;
-using IdentityServer.Pages.Admin.ApiScopes;
-using IdentityServer.Pages.Admin.IdentityScopes;
-using IdentityServer.Pages.Portal;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -76,33 +72,37 @@ internal static class Extensions
         forwardOptions.KnownProxies.Clear();
 
         app.UseForwardedHeaders(forwardOptions)
-            .UsePathBase(app.Configuration["PathBase"])
-            .UseStaticFiles()
             .UseCorrelationId()
             .UseAppMetrics()
+            .UsePathBase(app.Configuration["PathBase"])
+            .UseIdentityServer()
+            .UseStaticFiles()
             .UseRouting()
             .UseCookiePolicy()
-            .UseIdentityServer()
             .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages().RequireAuthorization();
+
                 endpoints.MapGrpcService<IdentityService>();
 
                 var appOptions = app.Configuration.GetOptions<AppOptions>("App");
 
-                if (appOptions.HealthCheckEnabled)
+                if (!appOptions.HealthCheckEnabled)
                 {
-                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                    {
-                        Predicate = _ => true,
-                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                    });
-                    endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
-                    {
-                        Predicate = r => r.Name.Contains("self")
-                    });
+                    return;
                 }
+
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                {
+                    Predicate = r => r.Name.Contains("self")
+                });
             });
 
         return app;
@@ -310,8 +310,7 @@ internal static class Extensions
                 options.DefaultSchema = DbSchema.Identity.GetDescription();
                 options.EnableTokenCleanup = true;
             })
-            .AddAspNetIdentity<ApplicationUser>()
-            .AddTestUsers(TestUsers.Users);
+            .AddAspNetIdentity<ApplicationUser>();
 
         if (environment.IsDevelopment())
         {
@@ -345,10 +344,6 @@ internal static class Extensions
         );
 
         builder.Services.Configure<RazorPagesOptions>(opt => opt.Conventions.AuthorizeFolder("/Admin", "admin"));
-
-        builder.Services.AddTransient<ClientRepository>();
-        builder.Services.AddTransient<IdentityScopeRepository>();
-        builder.Services.AddTransient<ApiScopeRepository>();
 
         return services;
     }

@@ -44,6 +44,7 @@ try
         .ConfigurePipeline();
 
     DbInitializer.MigrateDatabase(app);
+    DbInitializer.EnsureSeedData(app);
 
     app.Run();
 }

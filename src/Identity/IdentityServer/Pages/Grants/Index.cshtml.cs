@@ -18,8 +18,7 @@ public class Index : PageModel
     private readonly IIdentityServerInteractionService _interaction;
     private readonly IResourceStore _resources;
 
-    public Index(
-        IIdentityServerInteractionService interaction,
+    public Index(IIdentityServerInteractionService interaction,
         IClientStore clients,
         IResourceStore resources,
         IEventService events)
@@ -45,27 +44,25 @@ public class Index : PageModel
         {
             var client = await _clients.FindClientByIdAsync(grant.ClientId);
 
-            if (client == null)
+            if (client != null)
             {
-                continue;
+                var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes);
+
+                var item = new GrantViewModel
+                {
+                    ClientId = client.ClientId,
+                    ClientName = client.ClientName ?? client.ClientId,
+                    ClientLogoUrl = client.LogoUri,
+                    ClientUrl = client.ClientUri,
+                    Description = grant.Description,
+                    Created = grant.CreationTime,
+                    Expires = grant.Expiration,
+                    IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
+                    ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name).ToArray()
+                };
+
+                list.Add(item);
             }
-
-            var resources = await _resources.FindResourcesByScopeAsync(grant.Scopes);
-
-            var item = new GrantViewModel
-            {
-                ClientId = client.ClientId,
-                ClientName = client.ClientName ?? client.ClientId,
-                ClientLogoUrl = client.LogoUri,
-                ClientUrl = client.ClientUri,
-                Description = grant.Description,
-                Created = grant.CreationTime,
-                Expires = grant.Expiration,
-                IdentityGrantNames = resources.IdentityResources.Select(x => x.DisplayName ?? x.Name).ToArray(),
-                ApiGrantNames = resources.ApiScopes.Select(x => x.DisplayName ?? x.Name).ToArray()
-            };
-
-            list.Add(item);
         }
 
         View = new ViewModel
