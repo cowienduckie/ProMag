@@ -1,5 +1,4 @@
 using EfCore.Auditing;
-using EfCore.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Shared.Domain;
 using Shared.SecurityContext;
@@ -26,7 +25,6 @@ public class BaseDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfiguration(new AuditTrailConfiguration());
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 

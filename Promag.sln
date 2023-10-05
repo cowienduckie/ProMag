@@ -76,6 +76,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceStatus", "ServiceSta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStatus", "src\ServiceStatus\ServiceStatus.csproj", "{5E90E7CC-200C-4488-BE42-D48040184ADD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PersonalData", "PersonalData", "{B5876F82-BF50-494B-B1D5-EB9F598AB203}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalData", "src\PersonalData\PersonalData\PersonalData.csproj", "{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "personal_data", "personal_data", "{1F92ADC7-02D0-4603-8AAF-FE5CFF5A94A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{15F0A6D7-F250-4675-B41F-0EB6572234A3}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\personal_data\v1\personal_data_api.proto = src\_schema\proto\promag\personal_data\v1\personal_data_api.proto
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pagination", "pagination", "{7D388E96-5A50-4C13-9239-2C1B3EDC9F63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{2FA0A38F-AA69-4FE5-A1E5-153D327EF662}"
+	ProjectSection(SolutionItems) = preProject
+		src\_schema\proto\promag\pagination\v1\pagination.proto = src\_schema\proto\promag\pagination\v1\pagination.proto
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalData.Api", "src\PersonalData\PersonalData.Api\PersonalData.Api.csproj", "{B564A49F-4A54-43E9-8B66-A21413C9F532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +128,12 @@ Global
 		{930C8BFC-B190-464B-9537-62F8CE4BAF17} = {89204F4F-883D-42DF-99DB-BD05510C2167}
 		{72062413-236A-4BCE-BE40-BF7CC61B1701} = {37636323-8448-4A54-B3B8-934B446B3187}
 		{5E90E7CC-200C-4488-BE42-D48040184ADD} = {D8287015-F0F9-49C7-A07E-80652B961933}
+		{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A} = {B5876F82-BF50-494B-B1D5-EB9F598AB203}
+		{1F92ADC7-02D0-4603-8AAF-FE5CFF5A94A2} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{15F0A6D7-F250-4675-B41F-0EB6572234A3} = {1F92ADC7-02D0-4603-8AAF-FE5CFF5A94A2}
+		{7D388E96-5A50-4C13-9239-2C1B3EDC9F63} = {6F40B565-6EFB-4597-9A66-3B88760243A8}
+		{2FA0A38F-AA69-4FE5-A1E5-153D327EF662} = {7D388E96-5A50-4C13-9239-2C1B3EDC9F63}
+		{B564A49F-4A54-43E9-8B66-A21413C9F532} = {B5876F82-BF50-494B-B1D5-EB9F598AB203}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{844D8686-3CF9-4B6D-9912-15ADEC8E6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -174,5 +200,13 @@ Global
 		{5E90E7CC-200C-4488-BE42-D48040184ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E90E7CC-200C-4488-BE42-D48040184ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E90E7CC-200C-4488-BE42-D48040184ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E069FA6-6C57-4BBC-8C4E-2A246E03E23A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B564A49F-4A54-43E9-8B66-A21413C9F532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B564A49F-4A54-43E9-8B66-A21413C9F532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B564A49F-4A54-43E9-8B66-A21413C9F532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B564A49F-4A54-43E9-8B66-A21413C9F532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

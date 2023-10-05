@@ -11,7 +11,7 @@ namespace MasterData.Data;
 
 public sealed class MasterDataDbContext : BaseDbContext
 {
-    public static readonly string DefaultSchema = DbSchema.MasterData.GetDescription();
+    private static readonly string _defaultSchema = DbSchema.MasterData.GetDescription();
 
     public MasterDataDbContext(
         DbContextOptions<MasterDataDbContext> options,
@@ -32,6 +32,6 @@ public sealed class MasterDataDbContext : BaseDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.HasDefaultSchema(DefaultSchema);
+        modelBuilder.HasDefaultSchema(_defaultSchema);
     }
 }

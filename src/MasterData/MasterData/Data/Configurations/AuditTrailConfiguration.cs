@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.Common.Enums;
 using Shared.Common.Extensions;
 
-namespace EfCore.Configurations;
+namespace MasterData.Data.Configurations;
 
 public class AuditTrailConfiguration : IEntityTypeConfiguration<Trail>
 {

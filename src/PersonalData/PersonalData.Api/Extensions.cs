@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Configuration.MassTransit;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
@@ -10,11 +11,6 @@ using HealthChecks.UI.Client;
 using HotChocolate.AspNetCore;
 using HotChocolate.Execution.Options;
 using MassTransit;
-using MasterData.Api.Options;
-using MasterData.Boundaries.Grpc;
-using MasterData.Common.Constants;
-using MasterData.Data;
-using MasterData.IntegrationEvents.Consumers;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -23,6 +19,18 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using PersonalData.Api.Options;
+using PersonalData.Boundaries.Grpc;
+using PersonalData.Common.Constants;
+using PersonalData.Data;
+using PersonalData.Data.Audit;
+using PersonalData.Data.Filters;
+using PersonalData.IntegrationEvents;
+using PersonalData.IntegrationEvents.Consumers;
+using PersonalData.Services;
+using PersonalData.Services.Implementations;
+using Promag.Protobuf.Identity.V1;
+using Promag.Protobuf.MasterData.V1;
 using RabbitMQ.Client;
 using Shared;
 using Shared.Caching;
@@ -33,9 +41,12 @@ using Shared.Grpc;
 using Shared.SecurityContext;
 using Shared.Serialization;
 using Shared.Serialization.Implementations;
+using Shared.Storage;
+using Shared.Storage.Extensions;
+using Shared.Storage.FileSystem;
 using Shared.ValidationModels;
 
-namespace MasterData.Api;
+namespace PersonalData.Api;
 
 public static class Extensions
 {
@@ -46,21 +57,25 @@ public static class Extensions
             .AddMediatR()
             .AddCorrelationId()
             .AddHealthChecks(builder.Configuration)
-            .AddGrpc()
+            .AddGrpc(builder.Configuration)
             .AddGraphQl()
             .AddCustomMassTransit(builder.Configuration)
             .AddCustomDbContext(builder.Configuration, builder.Environment)
             .AddAuthentication(builder.Configuration)
-            .AddDistributedCache(builder.Configuration)
+            .AddCustomStorage(builder.Configuration)
             .AddSecurityContext()
+            .AddDistributedCache(builder.Configuration)
             .AddCustomSerializer<NewtonSoftService>();
+
+        builder.Services.AddControllers(opt => { opt.Filters.Add(typeof(HttpGlobalExceptionFilter)); });
 
         builder.Services.Scan(scan => scan
             .FromAssemblyOf<Anchor>()
             .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
-            .WithTransientLifetime()
-        );
+            .WithTransientLifetime());
+
+        builder.Services.AddScoped<IIdentityService, IdentityService>();
 
         return builder.Build();
     }
@@ -73,7 +88,7 @@ public static class Extensions
             .UseAuthorization()
             .UseEndpoints(endpoints =>
                 {
-                    endpoints.MapGrpcService<MasterDataService>();
+                    endpoints.MapGrpcService<PersonalService>();
                     endpoints.MapGraphQL();
                     endpoints
                         .MapBananaCakePop()
@@ -135,18 +150,18 @@ public static class Extensions
                     return factory.CreateConnection();
                 });
 
-                hcBuilder.AddRabbitMQ(name: "masterData-rabbitmqbus-check", tags: new[] { "rabbitmqbus" });
+                hcBuilder.AddRabbitMQ(name: "personalData-rabbitmqbus-check", tags: new[] { "rabbitmqbus" });
                 break;
             case MessageBusTransportType.AzureSB:
                 // hcBuilder.AddAzureServiceBusQueue(messageBusOptions.AzureSB.ConnectionString, "default");
                 break;
         }
 
-        var connString = configuration.GetConnectionString("masterData");
+        var connString = configuration.GetConnectionString("personalData");
 
         if (connString is not null)
         {
-            hcBuilder.AddNpgSql(connString, name: "masterData-check", tags: new[] { "masterDataDb" });
+            hcBuilder.AddNpgSql(connString, name: "personalData-check", tags: new[] { "personalDataDb" });
         }
 
         return services;
@@ -159,11 +174,12 @@ public static class Extensions
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TracingBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ActivityLogBehavior<,>));
 
         return services;
     }
 
-    private static IServiceCollection AddGrpc(this IServiceCollection services)
+    public static IServiceCollection AddGrpc(this IServiceCollection services, IConfiguration configuration)
     {
         AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
 
@@ -174,6 +190,16 @@ public static class Extensions
             options.Interceptors.Add<ExceptionInterceptor>();
             options.EnableDetailedErrors = true;
         });
+
+        var serviceOptions = configuration.GetOptions<ServiceOptions>("Services");
+
+        services
+            .AddGrpcClient<IdentityApi.IdentityApiClient>(o => { o.Address = new Uri(serviceOptions.IdentityService.GrpcUrl); })
+            .AddInterceptor<ClientLoggerInterceptor>();
+
+        services
+            .AddGrpcClient<MasterDataApi.MasterDataApiClient>(o => { o.Address = new Uri(serviceOptions.MasterDataService.GrpcUrl); })
+            .AddInterceptor<ClientLoggerInterceptor>();
 
         return services;
     }
@@ -238,7 +264,10 @@ public static class Extensions
 
         void ConfigureEndpoint(IRegistrationContext ctx, IBusFactoryConfigurator cfg)
         {
-            cfg.ReceiveEndpoint(QueueName.MasterData, x => { x.Consumer<SaveActivityLogConsumer>(ctx); });
+            cfg.ReceiveEndpoint(QueueName.PersonalData, x => { x.Consumer<AccountStatusChangedConsumer>(ctx); });
+
+            EndpointConvention.Map<ISendActiveAccountEmail>(new Uri($"queue:{QueueName.Communication}"));
+            EndpointConvention.Map<IAccountUnlockedEmail>(new Uri($"queue:{QueueName.Communication}"));
 
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();
 
@@ -268,9 +297,9 @@ public static class Extensions
 
     private static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
-        var connString = configuration.GetConnectionString("masterData");
+        var connString = configuration.GetConnectionString("personalData");
 
-        services.AddDbContext<MasterDataDbContext>(options =>
+        services.AddDbContext<PersonalContext>(options =>
         {
             options.UseNpgsql(connString, opt => { opt.EnableRetryOnFailure(3); });
 
@@ -282,21 +311,62 @@ public static class Extensions
             }
         });
 
-        services.AddScoped<DbContext>(provider => provider.GetService<MasterDataDbContext>()!);
+        services.AddScoped<DbContext>(provider => provider.GetService<PersonalContext>()!);
 
-        services.AddAuditLogs<MasterDataDbContext>();
+        services.AddAuditLogs<PersonalContext>();
 
         return services;
     }
 
     private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
+        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
         var serviceOptions = configuration.GetOptions<ServiceOptions>("Services");
 
         services.AddAuthorization(o =>
         {
-            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_MASTER_DATA,
-                policy => { policy.RequireAssertion(c => c.User.HasClaim(x => x.Type == Claims.Permission)); });
+            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_USER, policy =>
+            {
+                policy.RequireAssertion(c => c.User
+                    .HasClaim(x =>
+                        x.Type == Claims.Permission
+                        && (x.Value == new Permission(Resources.USER, Actions.VIEW).Name
+                            || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
+                    )
+                );
+            });
+
+            o.AddPolicy(AuthorizationPolicy.CAN_EDIT_USER, policy =>
+            {
+                policy.RequireAssertion(c => c.User
+                    .HasClaim(x =>
+                        x.Type == Claims.Permission
+                        && (x.Value == new Permission(Resources.USER, Actions.CREATE).Name
+                            || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
+                    )
+                );
+            });
+            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_ROLE, policy =>
+            {
+                policy.RequireAssertion(c => c.User
+                    .HasClaim(x =>
+                        x.Type == Claims.Permission
+                        && (x.Value == new Permission(Resources.ROLE, Actions.VIEW).Name
+                            || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
+                    )
+                );
+            });
+            o.AddPolicy(AuthorizationPolicy.CAN_EDIT_ROLE, policy =>
+            {
+                policy.RequireAssertion(c => c.User
+                    .HasClaim(x =>
+                        x.Type == Claims.Permission
+                        && (x.Value == new Permission(Resources.ROLE, Actions.CREATE).Name
+                            || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
+                    )
+                );
+            });
         });
 
         services
@@ -305,7 +375,7 @@ public static class Extensions
             {
                 options.Authority = serviceOptions.IdentityService.Url;
                 options.RequireHttpsMetadata = false;
-                options.Audience = "master-data";
+                options.Audience = "personal-data";
 
                 var validIssuers = new List<string>
                 {
@@ -333,6 +403,17 @@ public static class Extensions
             options.Configuration = redisCacheOptions.Configuration;
             options.InstanceName = redisCacheOptions.InstanceName;
         });
+
+        return services;
+    }
+
+    private static IServiceCollection AddCustomStorage(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<StorageOptions>(configuration.GetSection("Storage"));
+
+        services
+            .AddStorage()
+            .AddFileSystemStorage();
 
         return services;
     }

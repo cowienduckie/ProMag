@@ -4,12 +4,12 @@ namespace Shared.Common.Enums;
 
 public enum DbSchema
 {
-    [Description("public")]
-    Public = 0,
-
     [Description("Identity")]
     Identity = 1,
 
     [Description("Master")]
-    MasterData = 2
+    MasterData = 2,
+
+    [Description("Personal")]
+    PersonalData = 3
 }

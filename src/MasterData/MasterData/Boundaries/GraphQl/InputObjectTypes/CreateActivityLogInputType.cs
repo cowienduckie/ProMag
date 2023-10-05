@@ -6,10 +6,10 @@ namespace MasterData.Boundaries.GraphQl.InputObjectTypes;
 
 public class CreateActivityLogInputType : InputObjectType<CreateActivityLogRequest>
 {
-    public static readonly string InputName = nameof(CreateActivityLogInputType).RemoveSuffix("Type");
+    private static readonly string _inputName = nameof(CreateActivityLogInputType).RemoveSuffix("Type");
 
     protected override void Configure(IInputObjectTypeDescriptor<CreateActivityLogRequest> descriptor)
     {
-        descriptor.Name(InputName);
+        descriptor.Name(_inputName);
     }
 }
