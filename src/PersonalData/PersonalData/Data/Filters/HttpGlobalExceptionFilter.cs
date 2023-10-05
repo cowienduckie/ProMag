@@ -36,7 +36,7 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
         }
         else
         {
-            var json = new JsonErrorResponse
+            var json = new
             {
                 Messages = new[] { "An error occurred." },
                 DeveloperMessage = context.Exception
@@ -51,12 +51,5 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
         }
 
         context.ExceptionHandled = true;
-    }
-
-    private class JsonErrorResponse
-    {
-        public string[] Messages { get; set; } = Array.Empty<string>();
-
-        public object? DeveloperMessage { get; set; }
     }
 }

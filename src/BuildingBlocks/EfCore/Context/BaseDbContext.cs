@@ -66,6 +66,11 @@ public class BaseDbContext : DbContext
                     }
 
                     break;
+
+                case EntityState.Detached:
+                case EntityState.Unchanged:
+                default:
+                    break;
             }
         }
 
@@ -129,6 +134,11 @@ public class BaseDbContext : DbContext
                             trailEntry.NewValues[propertyName] = property.CurrentValue;
                         }
 
+                        break;
+
+                    case EntityState.Detached:
+                    case EntityState.Unchanged:
+                    default:
                         break;
                 }
             }

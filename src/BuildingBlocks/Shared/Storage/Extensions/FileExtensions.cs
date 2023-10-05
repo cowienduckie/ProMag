@@ -148,33 +148,35 @@ public static class FileExtensions
 
                 break;
             }
-        }
-
-        if (imageFileExtension != ImageFileExtension.Gif)
-        {
-            return isValid;
-        }
-
-        {
-            if (byteFile.Count < 4)
-            {
+            case ImageFileExtension.Gif when byteFile.Count < 4:
                 return isValid;
-            }
-
-            var j = 0;
-            for (var i = 0; i <= 1; i++)
+            case ImageFileExtension.Gif:
             {
-                if (byteFile[i] != chkByteGif[i])
+                if (byteFile.Count < 4)
                 {
-                    continue;
+                    return isValid;
                 }
 
-                j = j + 1;
-                if (j == 3)
+                var j = 0;
+                for (var i = 0; i <= 1; i++)
                 {
-                    isValid = true;
+                    if (byteFile[i] != chkByteGif[i])
+                    {
+                        continue;
+                    }
+
+                    j = j + 1;
+                    if (j == 3)
+                    {
+                        isValid = true;
+                    }
                 }
+
+                break;
             }
+            case ImageFileExtension.None:
+
+                break;
         }
 
         return isValid;
@@ -328,6 +330,8 @@ public static class FileExtensions
 
                 break;
             }
+            case VideoFileExtension.None:
+                break;
         }
 
         return isValid;
