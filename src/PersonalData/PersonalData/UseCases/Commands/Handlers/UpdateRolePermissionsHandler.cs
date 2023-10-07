@@ -25,7 +25,7 @@ public class UpdateRolePermissionsHandler : IRequestHandler<UpdateRolePermission
         var permissionClaimsRequest = new UpdateRoleClaimsRequest
         {
             RoleId = request.RoleId.ToString(),
-            ClaimType = Claims.Permission
+            ClaimType = Permissions.PERMISSION_CLAIM_TYPE
         };
 
         permissionClaimsRequest.ClaimValues.AddRange(request.Permissions);

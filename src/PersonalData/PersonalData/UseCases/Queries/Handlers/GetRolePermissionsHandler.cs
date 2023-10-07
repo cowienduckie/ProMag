@@ -26,7 +26,7 @@ public class GetRolePermissionsHandler : IRequestHandler<GetRolePermissionsQuery
         var permissionClaimsRequest = new RoleClaimsRequest
         {
             RoleId = request.RoleId.ToString(),
-            ClaimType = Claims.Permission
+            ClaimType = Permissions.PERMISSION_CLAIM_TYPE
         };
 
         var result = await _identityApiClient.GetRolesClaimsAsync(permissionClaimsRequest, cancellationToken: cancellationToken);

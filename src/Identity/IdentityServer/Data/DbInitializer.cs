@@ -1,11 +1,10 @@
-using System.Security.Claims;
 using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
-using Duende.IdentityServer.Models;
-using IdentityModel;
+using IdentityServer.Data.SeedData;
 using IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace IdentityServer.Data;
 
@@ -36,141 +35,53 @@ public static class DbInitializer
         }
 
         EnsureSeedConfigurations(context);
-        EnsureUsers(scope);
+        EnsureIdentity(scope);
     }
 
     private static void EnsureSeedConfigurations(ConfigurationDbContext context)
     {
-        // Seed Clients
         if (!context.Clients.Any())
         {
-            foreach (var client in Config.Clients.ToList())
-            {
-                context.Clients.Add(client.ToEntity());
-            }
+            Log.Information("Clients being populated");
 
+            context.Clients.AddRange(Config.Clients.Select(x => x.ToEntity()));
             context.SaveChanges();
         }
 
-        // Seed Identity Resources
         if (!context.IdentityResources.Any())
         {
-            foreach (var resource in Config.IdentityResources.ToList())
-            {
-                context.IdentityResources.Add(resource.ToEntity());
-            }
+            Log.Information("IdentityResources being populated");
 
+            context.IdentityResources.AddRange(Config.IdentityResources.Select(x => x.ToEntity()));
             context.SaveChanges();
         }
 
-        // Seed API Scopes
         if (!context.ApiScopes.Any())
         {
-            foreach (var resource in Config.ApiScopes.ToList())
-            {
-                context.ApiScopes.Add(resource.ToEntity());
-            }
+            Log.Information("ApiScopes being populated");
 
+            context.ApiScopes.AddRange(Config.ApiScopes.Select(x => x.ToEntity()));
             context.SaveChanges();
         }
 
-        // Seed API Resources
         if (!context.ApiResources.Any())
         {
-            foreach (var resource in Config.ApiResources.ToList())
-            {
-                context.ApiResources.Add(resource.ToEntity());
-            }
+            Log.Information("ApiResources being populated");
 
-            context.SaveChanges();
-        }
-
-        // Seed Identity Providers
-        // ReSharper disable once InvertIf
-        if (!context.IdentityProviders.Any())
-        {
-            context.IdentityProviders
-                .Add(new OidcProvider
-                {
-                    Scheme = "demoidsrv",
-                    DisplayName = "IdentityServer",
-                    Authority = "https://demo.duendesoftware.com",
-                    ClientId = "login"
-                }.ToEntity());
-
+            context.ApiResources.AddRange(Config.ApiResources.Select(x => x.ToEntity()));
             context.SaveChanges();
         }
     }
 
-    private static void EnsureUsers(IServiceScope scope)
+    private static void EnsureIdentity(IServiceScope scope)
     {
-        var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-        // Seed Alice
-        var alice = userMgr.FindByNameAsync("alice").Result;
+        Log.Information("Roles and its claims being populated");
+        IdentitySeeding.SpreadRoles(roleManager).Wait();
 
-        if (alice == null)
-        {
-            alice = new ApplicationUser
-            {
-                UserName = "alice",
-                Email = "AliceSmith@email.com",
-                EmailConfirmed = true
-            };
-
-            var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-
-            result = userMgr.AddClaimsAsync(alice, new[]
-            {
-                new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                new Claim(JwtClaimTypes.GivenName, "Alice"),
-                new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                new Claim(JwtClaimTypes.WebSite, "http://alice.com")
-            }).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-        }
-
-        // Seed Bob
-        var bob = userMgr.FindByNameAsync("bob").Result;
-
-        if (bob == null)
-        {
-            bob = new ApplicationUser
-            {
-                UserName = "bob",
-                Email = "BobSmith@email.com",
-                EmailConfirmed = true
-            };
-
-            var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-
-            result = userMgr.AddClaimsAsync(bob, new[]
-            {
-                new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                new Claim(JwtClaimTypes.GivenName, "Bob"),
-                new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                new Claim("location", "somewhere")
-            }).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new Exception(result.Errors.First().Description);
-            }
-        }
+        Log.Information("Users and its claims being populated");
+        IdentitySeeding.SpreadUsers(userManager).Wait();
     }
 }

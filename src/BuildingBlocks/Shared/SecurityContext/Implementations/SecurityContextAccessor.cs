@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Shared.CustomTypes;
 
 namespace Shared.SecurityContext.Implementations;
 
@@ -49,7 +48,7 @@ public class SecurityContextAccessor : ISecurityContextAccessor
         get
         {
             var user = _httpContextAccessor.HttpContext?.User;
-            var permissions = user?.FindAll(Claims.Permission).Select<Claim, string>(x => x.Value);
+            var permissions = user?.FindAll(CustomTypes.Permissions.PERMISSION_CLAIM_TYPE).Select<Claim, string>(x => x.Value);
 
             return permissions ?? Enumerable.Empty<string>();
         }

@@ -330,7 +330,7 @@ public static class Extensions
             {
                 policy.RequireAssertion(c => c.User
                     .HasClaim(x =>
-                        x.Type == Claims.Permission
+                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
                         && (x.Value == new Permission(Resources.USER, Actions.VIEW).Name
                             || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
                     )
@@ -341,7 +341,7 @@ public static class Extensions
             {
                 policy.RequireAssertion(c => c.User
                     .HasClaim(x =>
-                        x.Type == Claims.Permission
+                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
                         && (x.Value == new Permission(Resources.USER, Actions.CREATE).Name
                             || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
                     )
@@ -351,7 +351,7 @@ public static class Extensions
             {
                 policy.RequireAssertion(c => c.User
                     .HasClaim(x =>
-                        x.Type == Claims.Permission
+                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
                         && (x.Value == new Permission(Resources.ROLE, Actions.VIEW).Name
                             || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
                     )
@@ -361,7 +361,7 @@ public static class Extensions
             {
                 policy.RequireAssertion(c => c.User
                     .HasClaim(x =>
-                        x.Type == Claims.Permission
+                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
                         && (x.Value == new Permission(Resources.ROLE, Actions.CREATE).Name
                             || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
                     )

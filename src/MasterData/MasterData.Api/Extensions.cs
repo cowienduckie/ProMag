@@ -296,7 +296,7 @@ public static class Extensions
         services.AddAuthorization(o =>
         {
             o.AddPolicy(AuthorizationPolicy.CAN_VIEW_MASTER_DATA,
-                policy => { policy.RequireAssertion(c => c.User.HasClaim(x => x.Type == Claims.Permission)); });
+                policy => { policy.RequireAssertion(c => c.User.HasClaim(x => x.Type == Permissions.PERMISSION_CLAIM_TYPE)); });
         });
 
         services
