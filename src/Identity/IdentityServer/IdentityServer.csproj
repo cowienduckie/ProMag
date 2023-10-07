@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -37,5 +38,11 @@
     <ItemGroup>
         <Protobuf Include="..\..\_schema\proto\promag\identity\v1\identity_api.proto" Link="protobuf\identity.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
         <Protobuf Include="..\..\_schema\proto\promag\common\v1\common.proto" Link="protobuf\common.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 </Project>

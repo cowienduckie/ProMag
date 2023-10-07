@@ -98,6 +98,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQl.Gateway", "src\Gateways\GraphQl.Gateway\GraphQl.Gateway.csproj", "{34BBD554-CE77-4CF5-9AFA-C77A504F51C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalData.FunctionalTests", "src\PersonalData\PersonalData.FunctionalTests\PersonalData.FunctionalTests.csproj", "{1BAE7488-F76B-45F1-81D6-39B60EF17C94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication.FunctionalTests", "src\Communication\Communication.FunctionalTests\Communication.FunctionalTests.csproj", "{19409D76-064C-4D52-9253-774328264FCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +140,8 @@ Global
 		{2FA0A38F-AA69-4FE5-A1E5-153D327EF662} = {7D388E96-5A50-4C13-9239-2C1B3EDC9F63}
 		{B564A49F-4A54-43E9-8B66-A21413C9F532} = {B5876F82-BF50-494B-B1D5-EB9F598AB203}
 		{34BBD554-CE77-4CF5-9AFA-C77A504F51C4} = {DAB1E47C-C3F5-4866-8333-8A089F525FD1}
+		{1BAE7488-F76B-45F1-81D6-39B60EF17C94} = {B5876F82-BF50-494B-B1D5-EB9F598AB203}
+		{19409D76-064C-4D52-9253-774328264FCB} = {AA17CD2E-7794-4D5F-A3DC-F34CC4571896}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{844D8686-3CF9-4B6D-9912-15ADEC8E6108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -210,5 +216,13 @@ Global
 		{34BBD554-CE77-4CF5-9AFA-C77A504F51C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34BBD554-CE77-4CF5-9AFA-C77A504F51C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34BBD554-CE77-4CF5-9AFA-C77A504F51C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BAE7488-F76B-45F1-81D6-39B60EF17C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BAE7488-F76B-45F1-81D6-39B60EF17C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BAE7488-F76B-45F1-81D6-39B60EF17C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BAE7488-F76B-45F1-81D6-39B60EF17C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19409D76-064C-4D52-9253-774328264FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19409D76-064C-4D52-9253-774328264FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19409D76-064C-4D52-9253-774328264FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19409D76-064C-4D52-9253-774328264FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

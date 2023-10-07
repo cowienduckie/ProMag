@@ -1,20 +1,24 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/core/aspnet:7.0
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM ${SDK_IMAGE} AS builder
+
 WORKDIR /src
-COPY ["src/ServiceStatus/ServiceStatus.csproj", "src/ServiceStatus/"]
-RUN dotnet restore "src/ServiceStatus/ServiceStatus.csproj"
-COPY . .
-WORKDIR "/src/src/ServiceStatus"
-RUN dotnet build "ServiceStatus.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "ServiceStatus.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY ["src/ServiceStatus/*.csproj", "src/ServiceStatus/"]
 
-FROM base AS final
+RUN dotnet restore src/ServiceStatus/ /property:Configuration=Release -nowarn:msb3202,nu1503
+
+COPY ["src/ServiceStatus/.", "src/ServiceStatus/"]
+
+RUN dotnet publish src/ServiceStatus/ -c Release -o /app --no-restore
+
+FROM ${RUNTIME_IMAGE}
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ServiceStatus.dll"]
+
+ENV ASPNETCORE_ENVIRONMENT Development
+
+COPY --from=builder /app .
+
+ENTRYPOINT [ "dotnet",  "Promag.ServiceStatus.dll"]
+

@@ -1,20 +1,52 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/core/aspnet:7.0
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM ${SDK_IMAGE} AS builder
+
 WORKDIR /src
-COPY ["src/PersonalData/PersonalData.Api/PersonalData.Api.csproj", "src/PersonalData/PersonalData.Api/"]
-RUN dotnet restore "src/PersonalData/PersonalData.Api/PersonalData.Api.csproj"
-COPY . .
-WORKDIR "/src/src/PersonalData/PersonalData.Api"
-RUN dotnet build "PersonalData.Api.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "PersonalData.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY ["src/BuildingBlocks/Shared/*.csproj", "src/BuildingBlocks/Shared/"]
+COPY ["src/BuildingBlocks/Configuration.OpenTelemetry/*.csproj", "src/BuildingBlocks/Configuration.OpenTelemetry/"]
+COPY ["src/BuildingBlocks/Configuration.MassTransit/*.csproj", "src/BuildingBlocks/Configuration.MassTransit/"]
+COPY ["src/BuildingBlocks/Configuration.Metrics/*.csproj", "src/BuildingBlocks/Configuration.Metrics/"]
+COPY ["src/BuildingBlocks/GraphQl/*.csproj", "src/BuildingBlocks/GraphQl/"]
+COPY ["src/BuildingBlocks/EfCore/*.csproj", "src/BuildingBlocks/EfCore/"]
 
-FROM base AS final
+COPY ["src/PersonalData/PersonalData.Api/*.csproj", "src/PersonalData/PersonalData.Api/"]
+COPY ["src/PersonalData/PersonalData/*.csproj", "src/PersonalData/PersonalData/"]
+COPY ["src/PersonalData/PersonalData.FunctionalTests/*.csproj", "src/PersonalData/PersonalData.FunctionalTests/"]
+
+RUN dotnet restore src/PersonalData/PersonalData.Api/ /property:Configuration=Release -nowarn:msb3202,nu1503
+RUN dotnet restore src/PersonalData/PersonalData.FunctionalTests/ /property:Configuration=Debug -nowarn:msb3202,nu1503
+
+COPY ["src/_schema/proto/promag/.", "src/_schema/proto/promag/"]
+
+COPY ["src/BuildingBlocks/Shared/.", "src/BuildingBlocks/Shared/"]
+COPY ["src/BuildingBlocks/Configuration.OpenTelemetry/.", "src/BuildingBlocks/Configuration.OpenTelemetry/"]
+COPY ["src/BuildingBlocks/Configuration.MassTransit/.", "src/BuildingBlocks/Configuration.MassTransit/"]
+COPY ["src/BuildingBlocks/Configuration.Metrics/.", "src/BuildingBlocks/Configuration.Metrics/"]
+COPY ["src/BuildingBlocks/GraphQl/.", "src/BuildingBlocks/GraphQl/"]
+COPY ["src/BuildingBlocks/EfCore/.", "src/BuildingBlocks/EfCore/"]
+
+COPY ["src/PersonalData/PersonalData.Api/.", "src/PersonalData/PersonalData.Api/"]
+COPY ["src/PersonalData/PersonalData/.", "src/PersonalData/PersonalData/"]
+COPY ["src/PersonalData/PersonalData.FunctionalTests/.", "src/PersonalData/PersonalData.FunctionalTests/"]
+
+RUN dotnet publish src/PersonalData/PersonalData.Api/ -c Release -o /app --no-restore
+
+FROM builder AS functionaltest
+WORKDIR /src/src/PersonalData/PersonalData.FunctionalTests
+
+FROM ${RUNTIME_IMAGE}
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PersonalData.Api.dll"]
+
+ENV ASPNETCORE_ENVIRONMENT Development
+
+COPY --from=builder /app .
+COPY ["wait-for-it.sh", "./"]
+RUN chmod +x wait-for-it.sh
+
+RUN ["chmod", "+x", "./wait-for-it.sh"]
+
+ENTRYPOINT [ "dotnet",  "PersonalData.Api.dll"]
+
