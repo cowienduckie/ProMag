@@ -4,9 +4,8 @@ namespace GraphQl.Gateway.Options;
 
 public class ServiceOptions
 {
-    public ServiceConfig SaleService { get; set; }
-    public ServiceConfig IdentityService { get; set; }
-    public ServiceConfig CommunicationService { get; set; }
-    public ServiceConfig PersonalService { get; set; }
-    public ServiceConfig MasterDataService { get; set; }
+    public ServiceConfig IdentityService { get; set; } = default!;
+    public ServiceConfig CommunicationService { get; set; } = default!;
+    public ServiceConfig PersonalService { get; set; } = default!;
+    public ServiceConfig MasterDataService { get; set; } = default!;
 }
