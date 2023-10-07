@@ -35,5 +35,6 @@ var app = builder
     .ConfigurePipeline();
 
 DbInitializer.MigrateDatabase(app);
+DbInitializer.EnsureSeedData(app);
 
 app.Run();

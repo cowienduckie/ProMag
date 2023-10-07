@@ -8,6 +8,11 @@ public class CountryEntityTypeConfiguration : IEntityTypeConfiguration<Country>
 {
     public void Configure(EntityTypeBuilder<Country> builder)
     {
-        builder.HasKey(x => x.Code);
+        builder.HasKey(x => x.Id);
+
+        builder
+            .Property(x => x.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnOrder(1);
     }
 }

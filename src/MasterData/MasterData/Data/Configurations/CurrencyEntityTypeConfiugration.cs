@@ -8,6 +8,11 @@ public class CurrencyEntityTypeConfiguration : IEntityTypeConfiguration<Currency
 {
     public void Configure(EntityTypeBuilder<Currency> builder)
     {
-        builder.HasKey(x => x.Code);
+        builder.HasKey(x => x.Id);
+
+        builder
+            .Property(x => x.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnOrder(1);
     }
 }
