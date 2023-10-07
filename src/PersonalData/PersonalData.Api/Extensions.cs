@@ -328,42 +328,33 @@ public static class Extensions
         {
             o.AddPolicy(AuthorizationPolicy.CAN_VIEW_USER, policy =>
             {
-                policy.RequireAssertion(c => c.User
-                    .HasClaim(x =>
-                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
-                        && (x.Value == new Permission(Resources.USER, Actions.VIEW).Name
-                            || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
+                policy.RequireAssertion(ctx => ctx.User
+                    .HasClaim(claim =>
+                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.USER_VIEW or Permissions.USER_FULL }
                     )
                 );
             });
-
             o.AddPolicy(AuthorizationPolicy.CAN_EDIT_USER, policy =>
             {
-                policy.RequireAssertion(c => c.User
-                    .HasClaim(x =>
-                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
-                        && (x.Value == new Permission(Resources.USER, Actions.CREATE).Name
-                            || x.Value == new Permission(Resources.USER, Actions.FULL).Name)
+                policy.RequireAssertion(ctx => ctx.User
+                    .HasClaim(claim =>
+                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.USER_CREATE or Permissions.USER_FULL }
                     )
                 );
             });
             o.AddPolicy(AuthorizationPolicy.CAN_VIEW_ROLE, policy =>
             {
-                policy.RequireAssertion(c => c.User
-                    .HasClaim(x =>
-                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
-                        && (x.Value == new Permission(Resources.ROLE, Actions.VIEW).Name
-                            || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
+                policy.RequireAssertion(ctx => ctx.User
+                    .HasClaim(claim =>
+                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.ROLE_VIEW or Permissions.ROLE_FULL }
                     )
                 );
             });
             o.AddPolicy(AuthorizationPolicy.CAN_EDIT_ROLE, policy =>
             {
-                policy.RequireAssertion(c => c.User
-                    .HasClaim(x =>
-                        x.Type == Permissions.PERMISSION_CLAIM_TYPE
-                        && (x.Value == new Permission(Resources.ROLE, Actions.CREATE).Name
-                            || x.Value == new Permission(Resources.ROLE, Actions.FULL).Name)
+                policy.RequireAssertion(ctx => ctx.User
+                    .HasClaim(claim =>
+                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.ROLE_CREATE or Permissions.ROLE_FULL }
                     )
                 );
             });
