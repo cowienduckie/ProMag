@@ -1,0 +1,182 @@
+version: '3.8'
+
+services:
+  vault:
+    image: vault:1.13.3
+    container_name: vault
+    networks:
+      - promag
+    cap_add:
+      - IPC_LOCK
+
+  smtp-server:
+    image: mailhog/mailhog:latest
+    container_name: smtp-server
+    networks:
+      - promag
+
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - promag
+    volumes:
+      - seq-data:/data
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    networks:
+      - promag
+
+  postgresql:
+    image: postgres:15-alpine
+    container_name: postgresql
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - promag
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    networks:
+      - promag
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   networks:
+  #     - promag
+  #   volumes:
+  #     - grafana:/var/lib/grafana
+  #   depends_on:
+  #     - prometheus
+
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: prometheus
+  #   networks:
+  #     - promag
+  #   volumes:
+  #     - prometheus:/prometheus
+  #     - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - promag
+
+  identity-api:
+    image: ${REGISTRY:-promag}/identity-api:${TAG:-latest}
+    container_name: identity-api
+    build:
+      context: .
+      dockerfile: src/Identity/IdentityServer/Dockerfile
+    networks:
+      - promag
+    depends_on:
+      - rabbitmq
+      - postgresql
+      - zipkin
+      - seq
+
+  communication-api:
+    image: ${REGISTRY:-promag}/communication-api:${TAG:-latest}
+    container_name: communication-api
+    build:
+      context: .
+      dockerfile: src/Communication/Communication.Api/Dockerfile
+    networks:
+      - promag
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - seq
+      - smtp-server
+
+  personal-data-api:
+    image: ${REGISTRY:-promag}/personal-data-api:${TAG:-latest}
+    container_name: personal-data-api
+    build:
+      context: .
+      dockerfile: src/PersonalData/PersonalData.Api/Dockerfile
+    networks:
+      - promag
+    depends_on:
+      - rabbitmq
+      - postgresql
+      - zipkin
+      - seq
+      - redis
+
+  master-data-api:
+    image: ${REGISTRY:-promag}/master-data-api:${TAG:-latest}
+    container_name: master-data-api
+    build:
+      context: .
+      dockerfile: src/MasterData/MasterData.Api/Dockerfile
+    networks:
+      - promag
+    depends_on:
+      - postgresql
+      - zipkin
+      - seq
+      - redis
+
+#  promag-web:
+#    image: ${REGISTRY:-promag}/promag-web:${TAG:-latest}
+#    container_name: promag-web
+#    build:
+#      context: .
+#      dockerfile: src/Web/Dockerfile
+#    networks:
+#      - promag
+#    depends_on:
+#      - graph-gateway
+#      - identity-api
+#      - web-apigw
+
+  graph-gateway:
+    image: ${REGISTRY:-promag}/graph-gateway:${TAG:-latest}
+    container_name: graph-gateway
+    build:
+      context: .
+      dockerfile: src/Gateways/GraphQl.Gateway/Dockerfile
+    networks:
+      - promag
+    depends_on:
+      - communication-api
+      - personal-data-api
+      - master-data-api
+
+  web-apigw:
+    image: envoyproxy/envoy:v1.14.1
+    container_name: web-apigw
+    networks:
+      - promag
+    depends_on:
+      - personal-data-api
+
+  service-status:
+    image: ${REGISTRY:-promag}/service-status:${TAG:-latest}
+    container_name: service-status
+    build:
+      context: .
+      dockerfile: src/ServiceStatus/Dockerfile
+    networks:
+      - promag
+
+volumes:
+  postgres-data:
+  nexus-data:
+  seq-data:
+  grafana:
+  prometheus:
+
+networks:
+  promag:
+    name: promag-network

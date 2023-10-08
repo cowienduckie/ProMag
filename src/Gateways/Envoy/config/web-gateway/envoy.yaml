@@ -35,7 +35,7 @@ static_resources:
                 access_log:
                   - name: envoy.file_access_log
                     filter:
-                      not_health_check_filter: {}
+                      not_health_check_filter: { }
                     config:
                       path: "/tmp/access.log"
   clusters:

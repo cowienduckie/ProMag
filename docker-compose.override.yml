@@ -1,0 +1,205 @@
+version: '3.7'
+
+services:
+  vault:
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=secret
+
+  smtp-server:
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  seq:
+    ports:
+      - "5341:5341"
+      - "5340:80"
+
+  zipkin:
+    ports:
+      - "9411:9411"
+
+  postgresql:
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=Promag
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=P@ssw0rd
+
+  rabbitmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  # grafana:
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=P@ssw0rd
+  #     - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel
+  #   ports:
+  #     - 3000:3000
+
+  # prometheus:
+  #   ports:
+  #     - 9090:9090
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  identity-api:
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        ./wait-for-it.sh postgresql:5432
+    ports:
+      - "5101:5101"
+      - "15101:15101"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - App__HealthCheckEnabled=true
+      - PathBase=/identity
+      - ConnectionStrings__identity=Server=postgresql;Port=5432;Database=Promag;User Id=postgres;Password=P@ssw0rd;
+      - MessageBus__TransportType=RabbitMQ
+      - MessageBus__RabbitMQ__Url=amqp://rabbitmq
+      - MessageBus__AzureSB__ConnectionString=<config>
+      - Logging__Seq__Url=http://seq/
+      - Logging__Seq__ApiKey=${SEQ_KEY:-}
+      - Logging__Seq__Enabled=true
+      - Logging__MinimumLevel__Default=Information
+      - Metrics__enabled=false
+      - OpenTelemetry__Enabled=true
+      - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+
+  communication-api:
+    ports:
+      - "5002:5002"
+      - "15002:5002"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - App__HealthCheckEnabled=true
+      - MessageBus__TransportType=RabbitMQ
+      - MessageBus__RabbitMQ__Url=amqp://rabbitmq
+      - MessageBus__AzureSB__ConnectionString=<config>
+      - Logging__Seq__Url=http://seq/
+      - Logging__Seq__ApiKey=${SEQ_KEY:-}
+      - Logging__Seq__Enabled=true
+      - Logging__MinimumLevel__Default=Information
+      - Metrics__enabled=false
+      - Services__IdentityService__Url=http://identity-api:5101
+      - Services__IdentityService__GrpcUrl=http://identity-api:15101
+      - OpenTelemetry__Enabled=true
+      - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+      - MailKit__SmtpHost=smtp-server
+
+  personal-data-api:
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        ./wait-for-it.sh postgresql:5432
+    ports:
+      - "5003:5003"
+      - "15003:15003"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - App__HealthCheckEnabled=true
+      - ConnectionStrings__personalData=Server=postgresql;Port=5432;Database=Promag;User Id=postgres;Password=P@ssw0rd;
+      - MessageBus__TransportType=RabbitMQ
+      - MessageBus__RabbitMQ__Url=amqp://rabbitmq
+      - MessageBus__AzureSB__ConnectionString=<config>
+      - Logging__Seq__Url=http://seq/
+      - Logging__Seq__ApiKey=${SEQ_KEY:-}
+      - Logging__Seq__Enabled=true
+      - Logging__MinimumLevel__Default=Information
+      - Metrics__enabled=false
+      - Services__IdentityService__Url=http://identity-api:5101
+      - Services__IdentityService__ExternalUrl=http://${IDENTITY_WEB_HOST:-localhost:5101}
+      - Services__IdentityService__GrpcUrl=http://identity-api:15101
+      - Services__MasterDataService__GrpcUrl=http://master-data-api:15004
+      - OpenTelemetry__Enabled=true
+      - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+
+  master-data-api:
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        ./wait-for-it.sh postgresql:5432
+    ports:
+      - "5004:5004"
+      - "15004:15004"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - App__HealthCheckEnabled=true
+      - ConnectionStrings__masterData=Server=postgresql;Port=5432;Database=Promag;User Id=postgres;Password=P@ssw0rd;
+      - MessageBus__TransportType=RabbitMQ
+      - MessageBus__RabbitMQ__Url=amqp://rabbitmq
+      - MessageBus__AzureSB__ConnectionString=<config>
+      - Logging__Seq__Url=http://seq/
+      - Logging__Seq__ApiKey=${SEQ_KEY:-}
+      - Logging__Seq__Enabled=true
+      - Logging__MinimumLevel__Default=Debug
+      - Metrics__enabled=false
+      - Services__IdentityService__Url=http://identity-api:5101
+      - Services__IdentityService__GrpcUrl=http://identity-api:15101
+      - Services__IdentityService__ExternalUrl=http://${IDENTITY_WEB_HOST:-localhost:5101}
+      - OpenTelemetry__Enabled=true
+      - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+
+#  promag-web:
+#    ports:
+#      - 5102:80
+#    environment:
+#      - IDENTITY_WEB_HOST=${IDENTITY_WEB_HOST:-localhost:5101}
+#      - IDENTITY_WEB_SCHEMA=${IDENTITY_WEB_SCHEMA:-http}
+
+  graph-gateway:
+    ports:
+      - "5100:5100"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - App__HealthCheckEnabled=true
+      - Services__CommunicationService__GrpcUrl=http://communication-api:15002
+      - Services__CommunicationService__Url=http://communication-api:5002
+      - Services__PersonalService__GrpcUrl=http://personal-data-api:15003
+      - Services__PersonalService__Url=http://personal-data-api:5003
+      - Services__MasterDataService__GrpcUrl=http://master-data-api:15004
+      - Services__MasterDataService__Url=http://master-data-api:5004
+      - Services__IdentityService__Url=http://identity-api:5101
+      - Services__IdentityService__GrpcUrl=http://identity-api:15101
+      - Logging__Seq__Url=http://seq/
+      - Logging__Seq__ApiKey=${SEQ_KEY:-}
+      - Logging__Seq__Enabled=true
+      - Logging__MinimumLevel__Default=Information
+      - Metrics__enabled=false
+      - OpenTelemetry__Enabled=true
+      - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+
+  web-apigw:
+    volumes:
+      - ./src/Gateways/Envoy/config/web-gateway:/etc/envoy
+    ports:
+      - "5103:80"
+      - "15103:8001"
+
+  service-status:
+    ports:
+      - "5104:5104"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - HealthChecksUI__EvaluationTimeinSeconds=120
+      - HealthChecksUI__MinimumSecondsBetweenFailureNotifications=240
+      - HealthChecksUI__HealthChecks__0__Name=graph-gateway
+      - HealthChecksUI__HealthChecks__0__Uri=http://graph-gateway:5100/health
+      - HealthChecksUI__HealthChecks__1__Name=identity-api
+      - HealthChecksUI__HealthChecks__1__Uri=http://identity-api:5101/health
+      - HealthChecksUI__HealthChecks__2__Name=communication-api
+      - HealthChecksUI__HealthChecks__2__Uri=http://communication-api:5002/health
+      - HealthChecksUI__HealthChecks__3__Name=personal-data-api
+      - HealthChecksUI__HealthChecks__3__Uri=http://personal-data-api:5003/health
+      - HealthChecksUI__HealthChecks__4__Name=master-data-api
+      - HealthChecksUI__HealthChecks__4__Uri=http://master-data-api:5004/health

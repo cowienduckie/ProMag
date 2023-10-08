@@ -95,6 +95,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalData.Api", "src\PersonalData\PersonalData.Api\PersonalData.Api.csproj", "{B564A49F-4A54-43E9-8B66-A21413C9F532}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{DAB1E47C-C3F5-4866-8333-8A089F525FD1}"
+	ProjectSection(SolutionItems) = preProject
+		src\Gateways\Envoy\config\web-gateway\envoy.yaml = src\Gateways\Envoy\config\web-gateway\envoy.yaml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQl.Gateway", "src\Gateways\GraphQl.Gateway\GraphQl.Gateway.csproj", "{34BBD554-CE77-4CF5-9AFA-C77A504F51C4}"
 EndProject
