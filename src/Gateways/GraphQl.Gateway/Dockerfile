@@ -1,5 +1,5 @@
 ﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
-ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/core/aspnet:7.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:7.0
 
 FROM ${SDK_IMAGE} AS builder
 
@@ -13,7 +13,7 @@ COPY ["src/BuildingBlocks/GraphQl/*.csproj", "src/BuildingBlocks/GraphQl/"]
 
 COPY ["src/Gateways/GraphQl.Gateway/*.csproj", "src/Gateways/GraphQl.Gateway/"]
 
-RUN dotnet restore src/Gateways/GraphQl.Gateway/ /property:Configuration=Release -nowarn:msb3202,nu1503
+RUN dotnet restore src/Gateways/GraphQl.Gateway/ /property:Configuration=Release
 
 COPY ["src/_schema/proto/promag/.", "src/_schema/proto/promag/"]
 COPY ["src/BuildingBlocks/Shared/.", "src/BuildingBlocks/Shared/"]

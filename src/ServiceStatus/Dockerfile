@@ -1,5 +1,5 @@
 ﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
-ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/core/aspnet:7.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:7.0
 
 FROM ${SDK_IMAGE} AS builder
 
@@ -7,7 +7,7 @@ WORKDIR /src
 
 COPY ["src/ServiceStatus/*.csproj", "src/ServiceStatus/"]
 
-RUN dotnet restore src/ServiceStatus/ /property:Configuration=Release -nowarn:msb3202,nu1503
+RUN dotnet restore src/ServiceStatus/ /property:Configuration=Release
 
 COPY ["src/ServiceStatus/.", "src/ServiceStatus/"]
 
@@ -20,5 +20,5 @@ ENV ASPNETCORE_ENVIRONMENT Development
 
 COPY --from=builder /app .
 
-ENTRYPOINT [ "dotnet",  "Promag.ServiceStatus.dll"]
+ENTRYPOINT [ "dotnet",  "ServiceStatus.dll"]
 
