@@ -1,0 +1,71 @@
+# Default values for master-data-api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: localhost:32000/master-data-api
+  tag: local
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "master-data-api"
+
+service:
+  type: ClusterIP
+  port: 5004
+  grpcPort: 15004
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+probes: []
+
+env:
+  normal:
+    - name: App__HealthCheckEnabled
+      value: true
+
+    - name: ASPNETCORE_ENVIRONMENT
+      value: Development
+
+    - name: Logging__Seq__Enabled
+      value: true
+    - name: Logging__Seq__Url
+      value: http://seq:5341/
+    - name: Logging__MinimumLevel__Default
+      value: Error
+
+    - name: OpenTelemetry__Enabled
+      value: false
+    - name: OpenTelemetry__zipkinEndpoint
+      value: http://zipkin:9411/api/v2/spans
+
+    - name: Services__IdentityService__Url
+      value: http://identity-api:5101
+    - name: Services__IdentityService__ExternalUrl
+      value: http://localhost:31101 #change to host IP if do not use NAT
+    - name: Services__IdentityService__GrpcUrl
+      value: http://identity-api:15101
+
+  secret:
+    - name: ConnectionStrings__masterData
+      key: ConnectionString.MasterData
+    - name: Logging__Seq__ApiKey
+      key: Seq.Apikey

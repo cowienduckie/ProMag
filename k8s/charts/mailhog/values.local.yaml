@@ -1,0 +1,20 @@
+image:
+  repository: mailhog/mailhog
+  tag: v1.0.0
+
+auth:
+  enabled: true
+  fileContents: promag:$2y$12$0cVnF0NJsXHC0/CFDOZP1OcUxsccDmdwubUERwEuKbteC78rPVZru
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+env:
+  MH_UI_WEB_PATH: mailhog

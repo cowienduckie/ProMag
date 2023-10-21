@@ -1,0 +1,19 @@
+seq:
+  enabled: true
+  storageClassName: hostpath
+
+rabbitmq:
+  enabled: true
+  storageClassName: hostpath
+
+postgresql:
+  enabled: true
+  storageClassName: hostpath
+
+sonar:
+  enabled: false
+  storageClassName: hostpath
+
+promag:
+  enabled: true
+  storageClassName: hostpath

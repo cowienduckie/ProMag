@@ -1,0 +1,19 @@
+fullnameOverride: seq
+image: 
+  tag: latest
+persistence: 
+  enabled: true
+  existingClaim: seq-pvc
+auth: 
+  enabled: false
+ingress: 
+  enabled: false
+  annotations: 
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts: 
+    - seq.qa.promag.minhtrandev.com
+  tls: 
+    - hosts: 
+      - seq.qa.promag.minhtrandev.com
+      secretName: seq-qa-tls

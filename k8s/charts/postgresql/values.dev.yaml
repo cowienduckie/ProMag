@@ -1,0 +1,16 @@
+persistence: 
+  enabled: true
+  existingClaim: postgresql-pvc
+  
+auth:
+  enablePostgresUser: true
+  database: Promag
+  existingSecret: app-env-secret
+
+resources: 
+  limits: 
+    cpu: 300m
+    memory: 256Mi
+  requests: 
+    cpu: 300m
+    memory: 256Mi

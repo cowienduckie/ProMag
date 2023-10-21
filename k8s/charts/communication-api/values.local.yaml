@@ -1,0 +1,82 @@
+# Default values for communication-api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image: 
+  repository: localhost:32000/communication-api
+  tag: local
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "communication-api"
+
+service: 
+  type: ClusterIP
+  port: 5002
+  grpcPort: 15002
+
+ingress: 
+  enabled: false
+
+resources: 
+  limits: 
+    cpu: 100m
+    memory: 128Mi
+  requests: 
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+probes: []
+
+env: 
+  normal: 
+    - name: App__HealthCheckEnabled
+      value: true
+
+    - name: OpenTelemetry__Enabled
+      value: false
+    - name: OpenTelemetry__zipkinEndpoint
+      value: http://zipkin:9411/api/v2/spans
+
+    - name: Logging__Seq__Enabled
+      value: false
+    - name: Logging__Seq__Url
+      value: http://seq:5341/
+    - name: Logging__MinimumLevel__Default
+      value: Debug
+
+    - name: Services__IdentityService__Url
+      value: http://identity-api:5101
+    - name: Services__IdentityService__GrpcUrl
+      value: http://identity-api:15101
+
+    - name: MailKit__SmtpHost
+      value: mailhog
+    - name: MailKit__Username
+      value: promag
+    - name: MailKit__Password
+      value: P@ssw0rd
+
+    - name: MessageBus__TransportType
+      value: RabbitMQ
+    - name: MessageBus__RabbitMQ__username
+      value: promag
+    - name: MessageBus__RabbitMQ__Url
+      value: amqp://rabbitmq
+
+  secret: 
+    - name: Logging__Seq__ApiKey
+      key: Seq.Apikey
+    - name: MessageBus__AzureSB__ConnectionString
+      key: azureSB.ConnectionString
+    - name: MessageBus__RabbitMQ__password
+      key: RabbitMQ.Password

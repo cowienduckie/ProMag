@@ -1,0 +1,23 @@
+image: 
+  tag: latest
+
+persistence: 
+  enabled: true
+  existingClaim: postgresql-pvc
+  
+auth:
+  enablePostgresUser: true
+  database: Promag
+  existingSecret: app-env-secret
+
+service: 
+  type: NodePort
+  nodePort: 31001
+
+resources: 
+  limits: 
+    cpu: 200m
+    memory: 256Mi
+  requests: 
+    cpu: 100m
+    memory: 256Mi

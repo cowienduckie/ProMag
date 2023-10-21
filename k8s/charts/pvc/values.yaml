@@ -1,0 +1,19 @@
+seq:
+  enabled: true
+  storageClassName: default
+
+rabbitmq:
+  enabled: true
+  storageClassName: default
+
+postgresql:
+  enabled: false
+  storageClassName: default
+
+sonar:
+  enabled: false
+  storageClassName: default
+
+promag:
+  enabled: true
+  storageClassName: azurefile
