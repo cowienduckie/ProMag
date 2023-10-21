@@ -212,7 +212,7 @@ public static class Extensions
             switch (messageBusOptions.TransportType)
             {
                 case MessageBusTransportType.RabbitMQ:
-                    x.UsingRabbitMq((ctx, cfg) =>
+                    x.UsingRabbitMq((_, cfg) =>
                     {
                         cfg.Host(new Uri(messageBusOptions.RabbitMq.Url), "/", hc =>
                         {
@@ -220,23 +220,23 @@ public static class Extensions
                             hc.Password(messageBusOptions.RabbitMq.Password);
                         });
 
-                        ConfigureEndpoint(ctx, cfg);
+                        ConfigureEndpoint(cfg);
                     });
                     break;
                 case MessageBusTransportType.AzureSB:
-                    x.UsingAzureServiceBus((ctx, cfg) =>
+                    x.UsingAzureServiceBus((_, cfg) =>
                     {
                         cfg.Host(messageBusOptions.AzureSb.ConnectionString);
 
-                        ConfigureEndpoint(ctx, cfg);
+                        ConfigureEndpoint(cfg);
                     });
                     break;
                 case MessageBusTransportType.Memory:
-                    x.UsingInMemory((ctx, cfg) =>
+                    x.UsingInMemory((_, cfg) =>
                     {
                         cfg.ConcurrentMessageLimit = messageBusOptions.Memory.TransportConcurrencyLimit;
 
-                        ConfigureEndpoint(ctx, cfg);
+                        ConfigureEndpoint(cfg);
                     });
                     break;
                 default:
@@ -246,7 +246,7 @@ public static class Extensions
 
         return services;
 
-        void ConfigureEndpoint(IRegistrationContext ctx, IBusFactoryConfigurator cfg)
+        void ConfigureEndpoint(IBusFactoryConfigurator cfg)
         {
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();
 
