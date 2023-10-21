@@ -11,7 +11,8 @@ RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /usr/l
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash \
   && apt-get install nodejs
 
+COPY ["nuget.config", "./"]
 COPY ["Promag.sln", "./"]
 COPY ["src/.", "src"]
 
-RUN dotnet restore Promag.sln -nowarn:msb3202,nu1503
+RUN dotnet restore Promag.sln

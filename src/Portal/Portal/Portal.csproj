@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.MassTransit\Configuration.MassTransit.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.Metrics\Configuration.Metrics.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.OpenTelemetry\Configuration.OpenTelemetry.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Configuration.Vault\Configuration.Vault.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\EfCore\EfCore.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\GraphQl\GraphQl.csproj"/>
+        <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\..\_schema\proto\promag\common\v1\common.proto" Link="protobuf\common.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\pagination\v1\pagination.proto" Link="protobuf\pagination.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\portal\v1\portal_api.proto" Link="protobuf\portal_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\master_data\v1\master_data_api.proto" Link="protobuf\master_data_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EFCore.NamingConventions" Version="7.0.2"/>
+        <PackageReference Include="Google.Protobuf" Version="3.24.4"/>
+        <PackageReference Include="Grpc.Tools" Version="2.59.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11"/>
+    </ItemGroup>
+
+</Project>

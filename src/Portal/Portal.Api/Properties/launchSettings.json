@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "Https": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "externalUrlConfiguration": true,
+      "applicationUrl": "https://localhost:5001;",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

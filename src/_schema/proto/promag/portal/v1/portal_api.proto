@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package promag.portal.v1;
+
+option csharp_namespace = "Promag.Protobuf.Portal.V1";
+
+import "promag/common/v1/common.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+service PortalApi {
+  rpc Ping (google.protobuf.Empty) returns (promag.common.v1.PongReply);
+}

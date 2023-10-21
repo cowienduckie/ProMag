@@ -160,6 +160,36 @@ services:
             - OpenTelemetry__Enabled=true
             - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
 
+    portal-api:
+        entrypoint:
+            - dotnet
+            - Portal.Api.dll
+            - /bin/bash
+            - -c
+            - |
+                ./wait-for-it.sh postgresql:5432
+        ports:
+            - '5001:5001'
+            - '15001:15001'
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - App__HealthCheckEnabled=true
+            - ConnectionStrings__portal=Server=postgresql;Port=5432;Database=Promag;User Id=postgres;Password=P@ssw0rd;
+            - MessageBus__TransportType=RabbitMQ
+            - MessageBus__RabbitMQ__Url=amqp://rabbitmq
+            - MessageBus__AzureSB__ConnectionString=<config>
+            - Logging__Seq__Url=http://seq/
+            - Logging__Seq__ApiKey=${SEQ_KEY:-}
+            - Logging__Seq__Enabled=true
+            - Logging__MinimumLevel__Default=Information
+            - Metrics__enabled=false
+            - Services__IdentityService__Url=http://identity-api:5101
+            - Services__IdentityService__ExternalUrl=http://${IDENTITY_WEB_HOST:-localhost:5101}
+            - Services__IdentityService__GrpcUrl=http://identity-api:15101
+            - Services__MasterDataService__GrpcUrl=http://master-data-api:15004
+            - OpenTelemetry__Enabled=true
+            - OpenTelemetry__zipkinEndpoint=http://zipkin:9411/api/v2/spans
+
     #  promag-web:
     #    ports:
     #      - 5102:80

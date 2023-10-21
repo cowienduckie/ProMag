@@ -127,6 +127,21 @@ services:
             - seq
             - redis
 
+    portal-api:
+        image: ${REGISTRY:-promag}/portal-api:${TAG:-latest}
+        container_name: portal-api
+        build:
+            context: .
+            dockerfile: src/Portal/Portal.Api/Dockerfile
+        networks:
+            - promag
+        depends_on:
+            - rabbitmq
+            - postgresql
+            - zipkin
+            - seq
+            - redis
+
     #  promag-web:
     #    image: ${REGISTRY:-promag}/promag-web:${TAG:-latest}
     #    container_name: promag-web
