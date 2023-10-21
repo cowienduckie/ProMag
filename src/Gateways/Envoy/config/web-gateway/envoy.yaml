@@ -47,3 +47,11 @@ static_resources:
         - socket_address:
             address: host.docker.internal
             port_value: 5003
+    - name: portal
+      connect_timeout: 0.25s
+      type: strict_dns
+      lb_policy: round_robin
+      hosts:
+        - socket_address:
+            address: host.docker.internal
+            port_value: 5001

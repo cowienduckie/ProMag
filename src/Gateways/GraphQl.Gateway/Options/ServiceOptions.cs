@@ -8,4 +8,5 @@ public class ServiceOptions
     public ServiceConfig CommunicationService { get; set; } = default!;
     public ServiceConfig PersonalService { get; set; } = default!;
     public ServiceConfig MasterDataService { get; set; } = default!;
+    public ServiceConfig PortalService { get; set; } = default!;
 }

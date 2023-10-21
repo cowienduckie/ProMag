@@ -15,7 +15,8 @@ public static class Config
         new ApiScope("graphql-gateway", "GraphQL Gateway"),
         new ApiScope("communication", "Communication API"),
         new ApiScope("personal-data", "Personal Data API"),
-        new ApiScope("master-data", "Master Data API")
+        new ApiScope("master-data", "Master Data API"),
+        new ApiScope("portal", "Portal API")
     );
 
     public static readonly IImmutableList<ApiResource> ApiResources = ImmutableArray.Create(
@@ -35,6 +36,10 @@ public static class Config
         new ApiResource("master-data", "Master Data API")
         {
             Scopes = { "master-data" }
+        },
+        new ApiResource("portal", "Portal API")
+        {
+            Scopes = { "portal" }
         }
     );
 
@@ -74,6 +79,7 @@ public static class Config
                 "master-data",
                 "personal-data",
                 "communication",
+                "portal",
                 "graphql-gateway"
             },
 
@@ -116,6 +122,7 @@ public static class Config
                 "master-data",
                 "personal-data",
                 "communication",
+                "portal",
                 "graphql-gateway"
             },
 

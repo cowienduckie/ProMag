@@ -96,7 +96,9 @@ public static class Extensions
         hcBuilder
             .AddUrlGroup(new Uri($"{serviceOptions.CommunicationService.Url}/health"), "communicationapi-check", tags: new[] { "communicationapi" })
             .AddUrlGroup(new Uri($"{serviceOptions.IdentityService.Url}/health"), "identityapi-check", tags: new[] { "idsvrapi" })
-            .AddUrlGroup(new Uri($"{serviceOptions.PersonalService.Url}/health"), "personalapi-check", tags: new[] { "personalapi" });
+            .AddUrlGroup(new Uri($"{serviceOptions.PersonalService.Url}/health"), "personalapi-check", tags: new[] { "personalapi" })
+            .AddUrlGroup(new Uri($"{serviceOptions.MasterDataService.Url}/health"), "masterdataapi-check", tags: new[] { "masterdataapi" })
+            .AddUrlGroup(new Uri($"{serviceOptions.PortalService.Url}/health"), "portalapi-check", tags: new[] { "portalapi" });
 
         return services;
     }
@@ -112,14 +114,19 @@ public static class Extensions
                 (_, client) => { client.BaseAddress = new Uri($"{serviceOptions.PersonalService.Url}/graphql"); })
             .AddHeaderPropagation();
         services
-            .AddHttpClient(WellKnownSchemaNames.PersonalData,
+            .AddHttpClient(WellKnownSchemaNames.MasterData,
                 (_, client) => { client.BaseAddress = new Uri($"{serviceOptions.MasterDataService.Url}/graphql"); })
+            .AddHeaderPropagation();
+        services
+            .AddHttpClient(WellKnownSchemaNames.Portal,
+                (_, client) => { client.BaseAddress = new Uri($"{serviceOptions.PortalService.Url}/graphql"); })
             .AddHeaderPropagation();
 
         services
             .AddGraphQLServer()
             .AddRemoteSchema(WellKnownSchemaNames.PersonalData)
-            .AddRemoteSchema(WellKnownSchemaNames.MasterData);
+            .AddRemoteSchema(WellKnownSchemaNames.MasterData)
+            .AddRemoteSchema(WellKnownSchemaNames.Portal);
 
         return services;
     }
