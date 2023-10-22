@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: promag/personal-data-api
+  repository: promagapp/personal-data-api
   tag: latest
   pullPolicy: Always # IfNotPresent
 

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image: 
-  repository: promag/graph-gateway
+  repository: promagapp/graph-gateway
   tag: latest
   pullPolicy: Always
 

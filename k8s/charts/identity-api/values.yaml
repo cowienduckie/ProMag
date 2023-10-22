@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image: 
-  repository: promag/identity-api
+  repository: promagapp/identity-api
   tag: latest
   pullPolicy: Always
 

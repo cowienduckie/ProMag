@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: promag/master-data-api
+  repository: promagapp/master-data-api
   tag: latest
   pullPolicy: Always # IfNotPresent
 

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: promag/portal-api
+  repository: promagapp/portal-api
   tag: latest
   pullPolicy: Always # IfNotPresent
 
