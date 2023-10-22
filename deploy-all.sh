@@ -29,13 +29,15 @@ END
 clean='yes'
 skip_infrastructure=''
 skip_service=''
-namespace='local'
-image_tag='local'
 build_solution=''
 build_images=''
 push_images=''
-container_registry='localhost:32000'
+namespace='local'
 value_file='values.local.yaml'
+image_tag='local'
+container_registry='localhost:32000'
+#image_tag='latest'
+#container_registry='docker.io/promagapp'
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -89,7 +91,7 @@ fi
 
 if [[ $push_images ]]; then
   echo "#################### Pushing images to the container registry ####################"
-  services=(portal-api identity-api communication-api personal-data-api master-data-api graph-gateway web-apigw)
+  services=(portal-api identity-api communication-api personal-data-api master-data-api graph-gateway service-status)
 
   for service in "${services[@]}"
   do
