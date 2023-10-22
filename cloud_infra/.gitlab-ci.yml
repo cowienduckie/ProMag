@@ -1,0 +1,11 @@
+stages:
+  - checkov_terraform
+
+checkov-job:
+  stage: checkov_terraform
+  environment: sit
+  script:
+    - ./scripts/checkov.sh
+  tags:
+      - sit
+      - infra
