@@ -52,6 +52,13 @@ env:
     - name: Logging__MinimumLevel__Default
       value: Error
 
+    - name: MessageBus__TransportType
+      value: RabbitMQ
+    - name: MessageBus__RabbitMQ__username
+      value: promag
+    - name: MessageBus__RabbitMQ__Url
+      value: amqp://rabbitmq
+
     - name: OpenTelemetry__Enabled
       value: false
     - name: OpenTelemetry__zipkinEndpoint
@@ -69,3 +76,7 @@ env:
       key: ConnectionString.MasterData
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
+    - name: MessageBus__AzureSB__ConnectionString
+      key: azureSB.ConnectionString
+    - name: MessageBus__RabbitMQ__password
+      key: RabbitMQ.Password
