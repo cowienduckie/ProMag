@@ -36,8 +36,6 @@ namespace='local'
 value_file='values.local.yaml'
 image_tag='local'
 container_registry='localhost:32000'
-#image_tag='latest'
-#container_registry='docker.io/promagapp'
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
