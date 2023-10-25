@@ -65,7 +65,7 @@ metadata:
   name: promag-pvc
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: {{ .Values.promag.storageClassName }}
   resources:
     requests:
