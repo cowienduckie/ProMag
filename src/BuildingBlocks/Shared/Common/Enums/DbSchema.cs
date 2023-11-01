@@ -11,5 +11,8 @@ public enum DbSchema
     MasterData = 2,
 
     [Description("Personal")]
-    PersonalData = 3
+    PersonalData = 3,
+
+    [Description("Portal")]
+    Portal = 4
 }

@@ -25,14 +25,14 @@ ingress:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
     }
   hosts: 
-    - host: id.dev.promag.cf
+    - host: id.promag.minhtrandev.com
       paths: [
           /
         ]
 
   tls: 
     - hosts: 
-      - id.dev.promag.cf
+      - id.promag.minhtrandev.com
       secretName: id-dev-tls
 
 resources: 
@@ -90,7 +90,7 @@ env:
       value: amqp://rabbitmq
 
     - name: IdentityServiceOptions__ExternalIdentityBaseUrl
-      value: https://id.dev.promag.cf
+      value: https://id.promag.minhtrandev.com
 
   secret: 
     - name: ConnectionStrings__identity

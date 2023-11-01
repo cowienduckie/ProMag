@@ -10,7 +10,7 @@ namespace Portal.Data;
 
 public sealed class PortalContext : BaseDbContext
 {
-    private static readonly string _defaultSchema = DbSchema.PersonalData.GetDescription();
+    private static readonly string _defaultSchema = DbSchema.Portal.GetDescription();
 
     public PortalContext(
         DbContextOptions<PortalContext> options,
