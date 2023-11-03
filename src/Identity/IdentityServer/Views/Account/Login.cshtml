@@ -1,0 +1,96 @@
+@model IdentityServer.Models.Account.LoginViewModel
+<div class="default-theme">
+    <div class="page-wrapper">
+        <div class="entry-page">
+            <div class="row entry-page-layout">
+                <div class="col-6 entry-page-hero-img login-hero-img">
+                    <div class="entry-page-logo"></div>
+                </div>
+                <div class="col-6 entry-page-content">
+                    <div class="entry-page-title-hint">You are signing in to</div>
+                    <div class="entry-page-title">ProMag</div>
+                    <div class="entry-page-form">
+                        <div class="form-title">Sign In</div>
+                        <form asp-action="Login">
+                            <div class="form-content">
+                                <input type="hidden" asp-for="ReturnUrl"/>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="input-group flex-nowrap input-group-icon">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="addon-email">
+                                                    <i class="material-icons-outlined">email</i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" asp-for="Username" placeholder="Email" aria-label="Email" aria-describedby="addon-email">
+                                        </div>
+                                        <div class="invalid-feedback" style="display:block;">
+                                            <span asp-validation-for="Username"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group flex-nowrap input-group-icon">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="addon-password">
+                                                    <i class="material-icons-outlined">lock</i>
+                                                </span>
+                                            </div>
+                                            <input type="password" class="form-control" asp-for="Password" placeholder="Password" aria-label="Password" aria-describedby="addon-password">
+                                        </div>
+                                        <div class="invalid-feedback" style="display:block;">
+                                            <span asp-validation-for="Password"></span>
+                                        </div>
+                                    </div>
+
+                                    @if (Model.AllowRememberLogin)
+                                    {
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" asp-for="RememberLogin">
+                                                <label class="custom-control-label" asp-for="RememberLogin">Remember me</label>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block" name="button" value="login">Login</button>
+                                    </div>
+
+                                    @if (Model.VisibleExternalProviders.Any())
+                                    {
+                                        <div class="form-group text-center">
+                                            @foreach (var provider in Model.VisibleExternalProviders)
+                                            {
+                                                @switch (provider.AuthenticationScheme)
+                                                {
+                                                    case "Google":
+                                                        <button type="button" class="btn btn-info" style="background-color:#dd4b39!important; color:#fff">
+                                                            <i class="fab fa-google-plus fa-2x"></i>
+                                                        </button>
+                                                        break;
+                                                    case "Facebook":
+                                                        <button type="button" class="btn btn-info" style="background-color:#3b5998!important; color:#fff">
+                                                            <i class="fab fa-facebook-square fa-2x"></i>
+                                                        </button>
+                                                        break;
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </fieldset>
+                            </div>
+                        </form>
+                        <br>
+                        <div class="form-group">
+                            <div>
+                                <a asp-controller="Account" asp-action="ForgetPassword">Forgot password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

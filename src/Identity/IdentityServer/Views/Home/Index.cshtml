@@ -1,0 +1,41 @@
+@using Duende.IdentityServer.Extensions
+@{
+    //var version = typeof(IdentityServerMiddleware).Assembly.GetName().Version?.ToString();
+    string? name = null;
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        name = Context.User.GetDisplayName();
+    }
+}
+<body>
+<div class="page-wrapper">
+    <div class="entry-page">
+        <div class="row entry-page-layout">
+            <div class="col-6 entry-page-hero-img forgot-hero-img">
+                <div class="entry-page-logo"></div>
+            </div>
+            <div class="col-6 entry-page-content">
+                <div class="entry-page-title-hint">You are login successfully </div>
+                <div class="entry-page-title">ProMag</div>
+                <div class="entry-page-form">
+                    <div class="form-title"></div>
+                    <div class="form-content">
+                        <div class="alert alert-success">
+                            <p>
+                                <i class="material-icons-outlined">check</i> <strong>Successfully</strong>
+                            </p>
+                            Hello:@name <br>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <a asp-controller="Account" asp-action="Logout">Log out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

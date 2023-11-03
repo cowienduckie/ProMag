@@ -1,4 +1,4 @@
-using IdentityServer.Models;
+using IdentityServer.Models.DbModel;
 using IdentityServer.Options;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

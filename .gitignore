@@ -461,3 +461,4 @@ identityserver_log.txt
 tempkey.rsa
 workspace.xml
 tempkey.jwk
+!/src/Identity/IdentityServer/wwwroot/images/

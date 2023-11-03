@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Karla:400,700");
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* padding-bottom: 60px; */
+    overflow-x: hidden;
+}
+
+.authentication-bg.enlarged {
+    min-height: 100px;
+}
+
+body.authentication-bg {
+    background-image: url("../images/big/bg.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.home-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+}
