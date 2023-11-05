@@ -64,7 +64,7 @@ public class ConsentController : Controller
     /// </summary>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Index(ConsentInputModel model)
+    public async Task<IActionResult> Index([FromForm] ConsentInputModel model)
     {
         var result = await ProcessConsent(model);
 

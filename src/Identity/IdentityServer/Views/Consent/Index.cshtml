@@ -17,8 +17,11 @@
                 <span class="size-text">is requesting your permission</span>
             </div>
             <partial name="_ValidationSummary"/>
-            <form asp-action="Index" class="consent-form">
-                <input type="hidden" asp-for="ReturnUrl"/>
+            <form asp-action="Index" method="post" class="consent-form">
+
+                <input type="hidden" asp-for="ReturnUrl" name="ReturnUrl"/>
+                <input type="hidden" asp-for="ScopesConsented" name="ScopesConsented"/>
+
                 @if (Model.IdentityScopes.Any())
                 {
                     <div class="panel panel-default consent-buttons">

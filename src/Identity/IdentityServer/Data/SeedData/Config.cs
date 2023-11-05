@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace IdentityServer.Data.SeedData;
 
@@ -50,25 +51,33 @@ public static class Config
             ClientName = "Promag SPA",
             ClientSecrets =
             {
-                new Secret("nSkZKHlfW/cgXeRiWBR9246YFn0wbj2K6E+6xVYQ5mo=")
+                new Secret("Promag-SPA".ToSha256())
             },
 
-            AllowedGrantTypes = GrantTypes.Implicit,
+            AllowedGrantTypes = GrantTypes.Code,
 
             AllowedCorsOrigins =
             {
-                "https://localhost:5102",
-                "http://localhost:5102",
+                "https://localhost:3000",
+                "http://localhost:3000",
                 "https://promag.minhtrandev.com",
                 "http://promag.minhtrandev.com"
             },
 
             RedirectUris =
             {
-                "https://localhost:5102/auth/callback",
-                "http://localhost:5102/auth/callback",
+                "https://localhost:3000/auth/callback",
+                "http://localhost:3000/auth/callback",
                 "https://promag.minhtrandev.com/auth/callback",
                 "http://promag.minhtrandev.com/auth/callback"
+            },
+
+            PostLogoutRedirectUris =
+            {
+                "https://localhost:3000/",
+                "http://localhost:3000/",
+                "https://promag.minhtrandev.com/",
+                "http://promag.minhtrandev.com/"
             },
 
             AllowedScopes =
@@ -83,6 +92,7 @@ public static class Config
                 "graphql-gateway"
             },
 
+            RequireConsent = true,
             AlwaysIncludeUserClaimsInIdToken = true,
             AllowAccessTokensViaBrowser = true,
             RequirePkce = false,
