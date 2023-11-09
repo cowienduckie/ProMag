@@ -46,6 +46,8 @@ try
     DbInitializer.MigrateDatabase(app);
     DbInitializer.EnsureSeedData(app);
 
+    Log.Information("IdentityServer - Application initialized!");
+
     app.Run();
 }
 catch (Exception ex) when (ex.GetType().Name is not "HostAbortedException")
