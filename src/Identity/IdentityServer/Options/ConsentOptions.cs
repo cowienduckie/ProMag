@@ -1,5 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace IdentityServer.Options;
 
+[SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
+[SuppressMessage("ReSharper", "ConvertToConstant.Global")]
+[SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible")]
 public static class ConsentOptions
 {
     public static bool EnableOfflineAccess = true;

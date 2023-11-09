@@ -1,4 +1,5 @@
 @using Duende.IdentityServer.Extensions
+@using IdentityServer.Common
 @{
     //var version = typeof(IdentityServerMiddleware).Assembly.GetName().Version?.ToString();
     string? name = null;
@@ -25,11 +26,16 @@
                             <p>
                                 <i class="material-icons-outlined">check</i> <strong>Successfully</strong>
                             </p>
-                            Hello:@name <br>
+                            Hello @name! <br>
                         </div>
                         <div class="form-group">
                             <div>
-                                <a asp-controller="Account" asp-action="Logout">Log out</a>
+                                <a href="@Constants.PRODUCTION_URL">Go to Dashboard</a><i class="material-icons-outlined">arrow_right_alt</i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <a asp-controller="Account" asp-action="Logout">Log out</a><i class="material-icons-outlined">arrow_right_alt</i>
                             </div>
                         </div>
                     </div>

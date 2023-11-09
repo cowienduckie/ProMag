@@ -13,11 +13,26 @@ public static class Config
     );
 
     public static readonly IImmutableList<ApiScope> ApiScopes = ImmutableArray.Create(
-        new ApiScope("graphql-gateway", "GraphQL Gateway"),
-        new ApiScope("communication", "Communication API"),
-        new ApiScope("personal-data", "Personal Data API"),
-        new ApiScope("master-data", "Master Data API"),
+        new ApiScope("graphql-gateway", "GraphQL Gateway")
+        {
+            Required = true
+        },
+        new ApiScope("communication", "Communication API")
+        {
+            Required = true
+        },
+        new ApiScope("personal-data", "Personal Data API")
+        {
+            Required = true
+        },
+        new ApiScope("master-data", "Master Data API")
+        {
+            Required = true
+        },
         new ApiScope("portal", "Portal API")
+        {
+            Required = true
+        }
     );
 
     public static readonly IImmutableList<ApiResource> ApiResources = ImmutableArray.Create(
@@ -53,6 +68,8 @@ public static class Config
             {
                 new Secret("Promag-SPA".ToSha256())
             },
+
+            ClientUri = "https://promag.minhtrandev.com",
 
             AllowedGrantTypes = GrantTypes.Code,
 
