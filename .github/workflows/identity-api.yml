@@ -13,11 +13,6 @@ jobs:
   deploy:
     name: Deploy Identity API
     runs-on: ubuntu-latest
-    env:
-      PROJECT_REGION: us-central1
-      IMAGE: identity-api:latest
-      ARTIFACTS_REGISTRY: promag
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,5 +29,5 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
-          docker build -t ${{ PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT }}/${{ ARTIFACTS_REGISTRY }}/${{ IMAGE }} .
-          docker push ${{ PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT }}/${{ ARTIFACTS_REGISTRY }}/${{ IMAGE }}
+          docker build -t us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest .
+          docker push us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest
