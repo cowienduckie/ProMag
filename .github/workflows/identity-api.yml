@@ -29,7 +29,7 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
-          gcloud auth login --quite
+          gcloud auth login --quiet
           gcloud auth configure-docker us-central1-docker.pkg.dev
           
           docker build -t us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest -f ./src/Identity/IdentityServer/Dockerfile .
