@@ -23,17 +23,13 @@ jobs:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           export_default_credentials: true
+      - run: |-
+          gcloud --quiet auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build and push the docker image
         env:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        run: |
-          gcloud auth login --quiet
-          gcloud auth configure-docker us-central1-docker.pkg.dev
-          
+        run: |         
           docker build -t us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest -f ./src/Identity/IdentityServer/Dockerfile .
-          
-          gcloud auth application-default print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-central1-docker.pkg.dev
-          
           docker push us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest
