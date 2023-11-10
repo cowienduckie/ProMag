@@ -13,6 +13,9 @@ jobs:
   deploy:
     name: Deploy Identity API
     runs-on: ubuntu-latest
+    env:
+      IMAGE: identity-api
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,13 +26,17 @@ jobs:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           export_default_credentials: true
-      - run: |-
+          
+      - name: Configure Docker for authentication
+        run: |-
           gcloud --quiet auth configure-docker us-central1-docker.pkg.dev
 
-      - name: Build and push the docker image
-        env:
-          GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        run: |         
-          docker build -t us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest -f ./src/Identity/IdentityServer/Dockerfile .
-          docker push us-central1-docker.pkg.dev/promag-402801/promag/identity-api:latest
+      - name: Build Docker image
+        run: |-
+          docker build \
+            --tag "us-central1-docker.pkg.dev/promag-402801/promag/$IMAGE:latest" \
+            -f "./src/Identity/IdentityServer/Dockerfile" \
+            .
+      - name: Push Docker image
+        run: |-
+          docker push "us-central1-docker.pkg.dev/promag-402801/promag/$IMAGE:latest
