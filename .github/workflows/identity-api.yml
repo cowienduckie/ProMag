@@ -34,5 +34,5 @@ jobs:
           GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
-          docker build -t {{ PROJECT_REGION }}-docker.pkg.dev/{{ secrets.GOOGLE_PROJECT }}/{{ ARTIFACTS_REGISTRY }}/{{ IMAGE }} .
-          docker push {{ PROJECT_REGION }}-docker.pkg.dev/{{ secrets.GOOGLE_PROJECT }}/{{ ARTIFACTS_REGISTRY }}/{{ IMAGE }}
+          docker build -t ${{ PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT }}/${{ ARTIFACTS_REGISTRY }}/${{ IMAGE }} .
+          docker push ${{ PROJECT_REGION }}-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT }}/${{ ARTIFACTS_REGISTRY }}/${{ IMAGE }}
