@@ -17,6 +17,8 @@ service:
   type: ClusterIP
   port: 5101
   grpcPort: 15101
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 
 ingress:
   enabled: true

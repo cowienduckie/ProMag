@@ -33,7 +33,7 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 80
+                  number: 5100
         {{- end }}
   {{- end }}
 {{- end }}

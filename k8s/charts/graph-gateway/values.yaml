@@ -16,6 +16,8 @@ fullnameOverride: "graph-gateway"
 service:
   type: ClusterIP
   port: 5100
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 
 ingress:
   enabled: true

@@ -18,12 +18,14 @@ service:
   type: ClusterIP
   port: 80
   adminPort: 8001
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 
 ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: gce
-    networking.gke.io/managed-certificates: "cert-manager"
+    networking.gke.io/managed-certificates: cert-manager
     # nginx.ingress.kubernetes.io/use-regex: "true"
     # nginx.ingress.kubernetes.io/rewrite-target: /$2
     # nginx.ingress.kubernetes.io/configuration-snippet: |
