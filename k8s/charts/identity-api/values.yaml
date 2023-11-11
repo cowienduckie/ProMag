@@ -22,9 +22,8 @@ ingress:
   enabled: true
   annotations:
     {
-      kubernetes.io/ingress.class: "gce",
-      kubernetes.io/ingress.global-static-ip-name: "identity-server-ip",
-      networking.gke.io/managed-certificates: "cert-manager",
+      kubernetes.io/ingress.class: gce,
+      networking.gke.io/managed-certificates: cert-manager,
     }
   hosts:
     - host: id.promag.minhtrandev.com

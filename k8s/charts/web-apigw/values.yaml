@@ -22,8 +22,7 @@ service:
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: "gce"
-    kubernetes.io/ingress.global-static-ip-name: "identity-server-ip"
+    kubernetes.io/ingress.class: gce
     networking.gke.io/managed-certificates: "cert-manager"
     # nginx.ingress.kubernetes.io/use-regex: "true"
     # nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -32,7 +31,7 @@ ingress:
     #   grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
   hosts:
     - host: apis.promag.minhtrandev.com
-      paths: [/web-apigw(/|$)(.*)]
+      paths: [/web-apigw]
   tls:
     - hosts:
         - apis.promag.minhtrandev.com
