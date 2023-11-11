@@ -4,6 +4,8 @@ metadata:
   name: {{ include "graph-gateway.fullname" . }}
   labels:
 {{ include "graph-gateway.labels" . | indent 4 }}
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 spec:
   type: {{ .Values.service.type }}
   ports:
