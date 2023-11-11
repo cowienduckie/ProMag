@@ -26,7 +26,7 @@ jobs:
       CLUSTER_NAME: sit-cluster
       NAMESPACE: ingress-nginx
       CHART: ingress-nginx
-      CHART_REPO: k8s/charts/ingress-nginx
+      CHART_REPO: bitnami/ingress-nginx
       DEPLOYMENT: ingress-nginx
       VALUES_FILE: values.yaml
 
@@ -45,7 +45,7 @@ jobs:
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-          helm repo add stable https://charts.helm.sh/stable
+          helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Deploy to GKE
         run: |-
