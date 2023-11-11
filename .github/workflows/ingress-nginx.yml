@@ -26,7 +26,7 @@ jobs:
       CLUSTER_NAME: sit-cluster
       NAMESPACE: ingress-nginx
       CHART: ingress-nginx
-      CHART_REPO: bitnami/ingress-nginx
+      CHART_REPO: bitnami/nginx-ingress-controller
       DEPLOYMENT: ingress-nginx
       VALUES_FILE: values.yaml
 
