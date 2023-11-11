@@ -52,3 +52,4 @@ jobs:
           gcloud container clusters get-credentials $CLUSTER_NAME --location $LOCATION
 
           helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART $CHART_REPO
+          kubectl apply -f k8s/charts/$CHART/cm.yaml
