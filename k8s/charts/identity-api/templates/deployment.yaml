@@ -12,11 +12,11 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
       labels:
         app.kubernetes.io/name: {{ include "identity-api.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-      annotations:
-        rollme: {{ randAlphaNum 5 | quote }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
