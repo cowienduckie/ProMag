@@ -25,7 +25,6 @@ ingress:
       kubernetes.io/ingress.class: "gce",
       kubernetes.io/ingress.global-static-ip-name: "identity-server-ip",
       networking.gke.io/managed-certificates: "cert-manager",
-      cert-manager.io/cluster-issuer: "letsencrypt-prod",
     }
   hosts:
     - host: id.promag.minhtrandev.com

@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-image: 
+image:
   repository: REPOSITORY_PATH
   tag: latest
   pullPolicy: Always
@@ -13,34 +13,33 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "graph-gateway"
 
-service: 
+service:
   type: ClusterIP
   port: 5100
 
-ingress: 
+ingress:
   enabled: true
-  annotations: 
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "gateways-ip"
+    networking.gke.io/managed-certificates: "cert-manager"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
       grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-  hosts: 
+  hosts:
     - host: apis.promag.minhtrandev.com
-      paths: [
-          /gateway
-        ]
+      paths: [/gateway]
 
-  tls: 
-    - hosts: 
-      - apis.promag.minhtrandev.com
+  tls:
+    - hosts:
+        - apis.promag.minhtrandev.com
       secretName: gateway-dev-tls
 
-resources: 
-  limits: 
+resources:
+  limits:
     cpu: 100m
     memory: 256Mi
-  requests: 
+  requests:
     cpu: 100m
     memory: 128Mi
 
@@ -50,19 +49,19 @@ tolerations: []
 
 affinity: {}
 
-probes: 
-  liveness: 
+probes:
+  liveness:
     path: /liveness
     initialDelaySeconds: 10
     periodSeconds: 15
-  readiness: 
+  readiness:
     path: /health
     timeoutSeconds: 5
     initialDelaySeconds: 10
     periodSeconds: 30
 
-env: 
-  normal: 
+env:
+  normal:
     - name: App__HealthCheckEnabled
       value: true
 
@@ -108,6 +107,6 @@ env:
     - name: Services__IdentityService__GrpcUrl
       value: http://identity-api:15101
 
-  secret: 
+  secret:
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
