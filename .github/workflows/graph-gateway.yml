@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - src/Gateway/GraphQl.Gateway/**/*
+      - src/Gateways/GraphQl.Gateway/**/*
       - k8s/charts/graph-gateway/**/*
       - src/BuildingBlocks/Shared/**/*
       - .github/workflows/graph-gateway.yml
@@ -26,7 +26,7 @@ jobs:
 
       # Docker variables
       IMAGE: graph-gateway
-      DOCKERFILE_PATH: ./src/Gateway/GraphQl.Gateway/Dockerfile
+      DOCKERFILE_PATH: ./src/Gateways/GraphQl.Gateway/Dockerfile
 
       # Kubernetes variables
       CLUSTER_NAME: sit-cluster
