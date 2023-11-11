@@ -70,4 +70,6 @@ jobs:
         run: |-
           gcloud container clusters get-credentials $CLUSTER_NAME --location $LOCATION
 
+          sed -i "s/REPOSITORY_PATH/$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE/g" k8s/charts/$CHART/$VALUES_FILE
+
           helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART k8s/charts/$CHART
