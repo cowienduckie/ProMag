@@ -69,5 +69,5 @@ jobs:
 
           helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART k8s/charts/$CHART
 
-          kubectl scale deployment $DEPLOYMENT --replicas=0
-          kubectl scale deployment $DEPLOYMENT --replicas=1
+          kubectl scale deployment --namespace $NAMESPACE $DEPLOYMENT --replicas=0
+          kubectl scale deployment --namespace $NAMESPACE $DEPLOYMENT --replicas=1
