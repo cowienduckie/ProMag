@@ -19,17 +19,20 @@ resource "google_container_cluster" "cluster" {
       maximum       = var.gke_config.autoscaling_config.resource_limits.memory.maximum != null ? var.gke_config.autoscaling_config.resource_limits.memory.maximum : 4
     }
   }
+  depends_on = [ google_container_node_pool.node_pool ]
+  deletion_protection = false
 }
 
 
 resource "google_container_node_pool" "node_pool" {
-  name       = var.gke_config.node_pool_name
-  location   = var.location
-  cluster    = google_container_cluster.cluster.name
-  node_count = var.gke_config.node_count
+  for_each = var.gke_config.node_pool_config
+  name = each.value.node_pool_name
+  location   = each.value.node_location != null ? each.value.node_location : "us-west1"
+  cluster    = var.gke_config.cluster_name
+  node_count = each.value.node_count
   node_config {
     # for_each = var.gke_config.node_config
-    preemptible  = var.gke_config.node_config.preemptible != null ? var.gke_config.node_config.preemptible : true
-    machine_type = var.gke_config.node_config.machine_type != null ? var.gke_config.node_config.machine_type : "n1-standard-1"
+    preemptible  = each.value.node_config.preemptible != null ? each.value.node_config.preemptible : true
+    machine_type = each.value.node_config.machine_type != null ? each.value.node_config.machine_type : "n1-standard-1"
   }
 }

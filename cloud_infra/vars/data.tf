@@ -19,11 +19,25 @@ locals {
         }
       }
 
-      node_pool_name = "${var.env}-node-pool"
-      node_count     = 1
-      node_config = {
-        preemptible  = true
-        machine_type = "n1-standard-4"
+      node_pool_config = {
+        "pool_1" = {
+          node_pool_name = "${var.env}-node-pool-1"
+          node_location = "us-central1-a"
+          node_count     = 1
+          node_config = {
+            preemptible  = true
+            machine_type = "n1-standard-4"
+          }
+        }
+        "pool_2" = {
+          node_pool_name = "${var.env}-node-pool-2"
+          node_location = "us-central1-a"
+          node_count     = 5
+          node_config = {
+            preemptible  = true
+            machine_type = "e2-highcpu-8"
+          }
+        }
       }
     }
 
