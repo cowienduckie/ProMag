@@ -1,0 +1,85 @@
+@model IdentityServer.Models.Consent.ConsentViewModel
+<div class="consent-page">
+    <div class="row entry-page-layout">
+        <div class="col-6  entry-page-hero-img register-hero-img">
+            <div class="entry-page-logo"></div>
+        </div>
+        <div class="col-6  entry-page-content">
+            <div class="entry-page-title">ProMag</div>
+            @if (Model.ClientLogoUrl != null)
+            {
+                <div class="client-logo">
+                    <img src="@Model.ClientLogoUrl" alt="">
+                </div>
+            }
+            <div class="entry-page-title-hint distance-head">
+                <span class="size-text">@Model.ClientName</span>
+                <span class="size-text">is requesting your permission</span>
+            </div>
+            <partial name="_ValidationSummary"/>
+            <form asp-action="Index" method="post" class="consent-form">
+
+                <input type="hidden" asp-for="ReturnUrl" name="ReturnUrl"/>
+                <input type="hidden" asp-for="ScopesConsented" name="ScopesConsented"/>
+
+                @if (Model.IdentityScopes.Any())
+                {
+                    <div class="panel panel-default consent-buttons">
+                        <div class="panel-heading distance-ul">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="size-text">Personal Information</span>
+                        </div>
+                        <ul class="list-group">
+                            @foreach (var scope in Model.IdentityScopes)
+                            {
+                                <partial name="_ScopeListItem" model="@scope"/>
+                            }
+                        </ul>
+
+                    </div>
+                }
+                @if (Model.ResourceScopes.Any())
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading distance-ul">
+                            <span class="glyphicon glyphicon-tasks"></span>
+                            Application Access
+                        </div>
+                        <ul class="list-group">
+                            @foreach (var scope in Model.ResourceScopes)
+                            {
+                                <partial name="_ScopeListItem" model="scope"/>
+                            }
+
+                        </ul>
+                    </div>
+                }
+
+                @if (Model.AllowRememberConsent)
+                {
+                    <div class="consent-remember distance-head">
+                        <label>
+                            <input class="consent-scopecheck" asp-for="RememberConsent"/>
+                            <strong class="size-text">Remember My Decision</strong>
+                        </label>
+                    </div>
+                }
+                <div class="consent-buttons distance-head">
+                    <button name="button" value="yes" class="btn btn-primary mr-2" autofocus>
+                        <span class="size-text">Yes, Allow</span>
+                    </button>
+                    <button style="background-color:#e7e7e7" name="button" value="no" class="btn btn-default ml-2">
+                        <span class="size-text">No,Do Not Allow</span>
+                    </button>
+                    @if (Model.ClientUrl != null)
+                    {
+                        <a class="pull-right btn btn-default" target="_blank" href="@Model.ClientUrl">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                            <strong>@Model.ClientName</strong>
+                        </a>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

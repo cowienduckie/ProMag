@@ -3,10 +3,10 @@ using Configuration.Metrics;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
 using HealthChecks.UI.Client;
+using IdentityServer.Boundaries.Grpc;
 using IdentityServer.Data;
-using IdentityServer.Grpc;
 using IdentityServer.IntegrationEvents;
-using IdentityServer.Models;
+using IdentityServer.Models.DbModel;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -34,7 +34,7 @@ internal static class Extensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddRazorPages();
+        builder.Services.AddControllersWithViews();
 
         builder.Services
             .AddGrpc()
@@ -82,7 +82,7 @@ internal static class Extensions
             .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages().RequireAuthorization();
+                endpoints.MapDefaultControllerRoute().RequireAuthorization();
 
                 endpoints.MapGrpcService<IdentityService>();
 

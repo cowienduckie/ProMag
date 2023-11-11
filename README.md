@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**ProMag** is the graduated project for my engineering degree. It is a web application that helps members in a project team can easily to collaborate and manage personal tasks, and the project's progress too! 
+**ProMag** is the graduated project for my engineering degree. It is a web application that helps members in a project team can easily to collaborate and manage personal tasks, and the project's progress too!
 
 The project is built with microservice architecture using .NET 7 and ReactJS. In addition, it can run locally with Docker or any Kubernetes cluster, or cloud services. Moreover, it also provide monitoring tools for tracing logging and metrics, CI/CD pipelines for building and testing.
 
@@ -108,5 +108,5 @@ kubectl get services --namespace=local
 
 After all the pods are running, you can access the services via the following URLs:
 
-- GraphQL Gateway: http://localhost:31100/graphql
-- Identity Server: http://localhost:31101
+- GraphQL Gateway: [http://localhost:31100/graphql](http://localhost:31100/graphql)
+- Identity Server: [http://localhost:31101](http://localhost:31101)

@@ -500,3 +500,5 @@ terraform.rc
 
 # This proj key
 *.json
+
+!/src/Identity/IdentityServer/wwwroot/images/

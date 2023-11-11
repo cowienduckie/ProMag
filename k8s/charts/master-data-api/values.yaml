@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: promag/master-data-api
+  repository: promagapp/master-data-api
   tag: latest
   pullPolicy: Always # IfNotPresent
 
@@ -61,6 +61,13 @@ env:
     - name: Logging__MinimumLevel__Default
       value: Error
 
+    - name: MessageBus__TransportType
+      value: RabbitMQ
+    - name: MessageBus__RabbitMQ__username
+      value: promag
+    - name: MessageBus__RabbitMQ__Url
+      value: amqp://rabbitmq
+
     - name: OpenTelemetry__Enabled
       value: true
     - name: OpenTelemetry__zipkinEndpoint
@@ -78,3 +85,7 @@ env:
       key: ConnectionString.MasterData
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
+    - name: MessageBus__AzureSB__ConnectionString
+      key: azureSB.ConnectionString
+    - name: MessageBus__RabbitMQ__password
+      key: RabbitMQ.Password

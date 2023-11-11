@@ -1,0 +1,64 @@
+﻿@using IdentityServer.Common
+@model IdentityServer.Models.Account.LoggedOutViewModel
+
+@{
+    // set this so the layout rendering sees an anonymous user
+    ViewData["signed-out"] = true;
+}
+<body class="default-theme">
+<div class="page-wrapper">
+    <div class="entry-page">
+        <div class="row entry-page-layout">
+            <div class="col-6 entry-page-hero-img logout-hero-img ">
+                <div class="entry-page-logo"></div>
+            </div>
+            <div class="col-6 entry-page-content">
+                <div class="entry-page-title-hint"></div>
+                <div class="entry-page-title-hint">You are now logged out</div>
+                <div class="entry-page-title">ProMag</div>
+                <div class="entry-page-form">
+                    <div class="form-title"></div>
+                    <div class="form-content">
+                        <div class="alert alert-success">
+                            <p>
+                                <em class="material-icons-outlined">check</em> <strong>Successfully</strong>
+                            </p>
+                            You are now logged out
+                        </div>
+                        <div class="form-group">
+                            @if (Model.SignOutIframeUrl != null)
+                            {
+                                <iframe title="Sign Out" width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>
+                            }
+                            @if (Model.PostLogoutRedirectUri != null)
+                            {
+                                <div>
+                                    Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
+                                    <span>@Model.ClientName</span> application.
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <a asp-controller="Account" asp-action="Login">Login</a><i class="material-icons-outlined">arrow_right_alt</i>
+                                </div>
+                                <div>
+                                    <a href="@Constants.PRODUCTION_URL">Dashboard</a><i class="material-icons-outlined">arrow_right_alt</i>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+@section scripts
+{
+    @if (Model.AutomaticRedirectAfterSignOut)
+    {
+        <script src="~/js/signout-redirect.js"></script>
+    }
+}

@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0"/>
         <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="7.0.0"/>
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="7.1.0"/>
         <PackageReference Include="Duende.IdentityServer" Version="6.3.5"/>
         <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.5"/>
         <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.3.5"/>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.58.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.12" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.58.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.12"/>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.12"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -44,5 +44,56 @@
         <Content Include="..\..\..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="wwwroot\css\site.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\css\site.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\css\site.scss"/>
+        <_ContentIncludedByDefault Remove="wwwroot\duende-logo.svg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\favicon.ico"/>
+        <_ContentIncludedByDefault Remove="wwwroot\js\signin-redirect.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\js\signout-redirect.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\README.md"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.eot"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.svg"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.ttf"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff2"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\LICENSE"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.less"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.min.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.slim.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt"/>
+        <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\README.md"/>
     </ItemGroup>
 </Project>

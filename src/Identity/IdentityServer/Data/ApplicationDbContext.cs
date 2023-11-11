@@ -1,4 +1,4 @@
-using IdentityServer.Models;
+using IdentityServer.Models.DbModel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Common.Enums;

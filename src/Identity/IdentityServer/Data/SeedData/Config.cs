@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace IdentityServer.Data.SeedData;
 
@@ -12,11 +13,26 @@ public static class Config
     );
 
     public static readonly IImmutableList<ApiScope> ApiScopes = ImmutableArray.Create(
-        new ApiScope("graphql-gateway", "GraphQL Gateway"),
-        new ApiScope("communication", "Communication API"),
-        new ApiScope("personal-data", "Personal Data API"),
-        new ApiScope("master-data", "Master Data API"),
+        new ApiScope("graphql-gateway", "GraphQL Gateway")
+        {
+            Required = true
+        },
+        new ApiScope("communication", "Communication API")
+        {
+            Required = true
+        },
+        new ApiScope("personal-data", "Personal Data API")
+        {
+            Required = true
+        },
+        new ApiScope("master-data", "Master Data API")
+        {
+            Required = true
+        },
         new ApiScope("portal", "Portal API")
+        {
+            Required = true
+        }
     );
 
     public static readonly IImmutableList<ApiResource> ApiResources = ImmutableArray.Create(
@@ -50,25 +66,35 @@ public static class Config
             ClientName = "Promag SPA",
             ClientSecrets =
             {
-                new Secret("nSkZKHlfW/cgXeRiWBR9246YFn0wbj2K6E+6xVYQ5mo=")
+                new Secret("Promag-SPA".ToSha256())
             },
 
-            AllowedGrantTypes = GrantTypes.Implicit,
+            ClientUri = "https://promag.minhtrandev.com",
+
+            AllowedGrantTypes = GrantTypes.Code,
 
             AllowedCorsOrigins =
             {
-                "https://localhost:5102",
-                "http://localhost:5102",
+                "https://localhost:3000",
+                "http://localhost:3000",
                 "https://promag.minhtrandev.com",
                 "http://promag.minhtrandev.com"
             },
 
             RedirectUris =
             {
-                "https://localhost:5102/auth/callback",
-                "http://localhost:5102/auth/callback",
+                "https://localhost:3000/auth/callback",
+                "http://localhost:3000/auth/callback",
                 "https://promag.minhtrandev.com/auth/callback",
                 "http://promag.minhtrandev.com/auth/callback"
+            },
+
+            PostLogoutRedirectUris =
+            {
+                "https://localhost:3000/",
+                "http://localhost:3000/",
+                "https://promag.minhtrandev.com/",
+                "http://promag.minhtrandev.com/"
             },
 
             AllowedScopes =
@@ -83,6 +109,7 @@ public static class Config
                 "graphql-gateway"
             },
 
+            RequireConsent = true,
             AlwaysIncludeUserClaimsInIdToken = true,
             AllowAccessTokensViaBrowser = true,
             RequirePkce = false,

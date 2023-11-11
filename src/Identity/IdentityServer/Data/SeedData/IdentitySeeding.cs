@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using System.Security.Claims;
 using IdentityModel;
-using IdentityServer.Models;
+using IdentityServer.Models.DbModel;
 using Microsoft.AspNetCore.Identity;
 using Shared.CustomTypes;
 

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: promag/service-status
+  repository: promagapp/service-status
   tag: latest
   pullPolicy: Always
 

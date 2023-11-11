@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using IdentityServer.Models;
+using IdentityServer.Models.DbModel;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Promag.Protobuf.Identity.V1;

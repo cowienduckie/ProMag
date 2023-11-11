@@ -1,0 +1,28 @@
+﻿@model IdentityServer.Models.Consent.ScopeViewModel
+<li class="container-li">
+    <label>
+        @if (Model.Required)
+        {
+            <input type="hidden"
+                   name="ScopesConsented"
+                   value="@Model.Name"/>
+        }
+        <strong class="size">@Model.DisplayName</strong>
+        @if (Model.Emphasize)
+        {
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+        }
+    </label>
+    @if (Model.Required)
+    {
+        <span>
+            <em>(required)</em>
+        </span>
+    }
+    @if (Model.Description != null)
+    {
+        <div class="consent-description">
+            <label for="scopes_@Model.Name">@Model.Description</label>
+        </div>
+    }
+</li>

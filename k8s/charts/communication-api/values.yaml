@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image: 
-  repository: promag/communication-api
+  repository: promagapp/communication-api
   tag: latest
   pullPolicy: Always
 

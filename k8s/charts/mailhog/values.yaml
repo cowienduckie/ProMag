@@ -1,0 +1,33 @@
+image:
+  repository: mailhog/mailhog
+  tag: v1.0.0
+
+auth:
+  enabled: true
+  fileContents: promag:$2y$12$0cVnF0NJsXHC0/CFDOZP1OcUxsccDmdwubUERwEuKbteC78rPVZru
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: promag.minhtrandev.com
+      paths: [
+        /mailhog
+      ]
+  tls:
+    - hosts:
+      - promag.minhtrandev.com
+      secretName: dev-tls
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+env:
+  MH_UI_WEB_PATH: mailhog
