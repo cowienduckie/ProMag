@@ -1,4 +1,4 @@
-name: Identity API Pipeline
+name: Portal API Pipeline
 
 on:
   workflow_dispatch:
@@ -7,14 +7,14 @@ on:
     branches:
       - main
     paths:
-      - src/Identity/**/*
-      - k8s/charts/identity-api/**/*
+      - src/Portal/**/*
+      - k8s/charts/portal-api/**/*
       - src/BuildingBlocks/Shared/**/*
-      - .github/workflows/identity-api.yml
+      - .github/workflows/portal-api.yml
 
 jobs:
   deploy:
-    name: Deploy Identity API
+    name: Deploy Portal API
     runs-on: ubuntu-latest
     env:
       # Google Cloud variables
@@ -25,14 +25,14 @@ jobs:
       LOCATION: us-central1-a
 
       # Docker variables
-      IMAGE: identity-api
-      DOCKERFILE_PATH: ./src/Identity/IdentityServer/Dockerfile
+      IMAGE: portal-api
+      DOCKERFILE_PATH: ./src/Portal/Portal.Api/Dockerfile
 
       # Kubernetes variables
       CLUSTER_NAME: sit-cluster
       NAMESPACE: prod
-      CHART: identity-api
-      DEPLOYMENT: identity-api
+      CHART: portal-api
+      DEPLOYMENT: portal-api
       VALUES_FILE: values.yaml
 
     steps:
