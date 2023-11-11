@@ -1,0 +1,75 @@
+name: Graph Gateway Pipeline
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+    paths:
+      - src/Gateway/GraphQl.Gateway/**/*
+      - k8s/charts/graph-gateway/**/*
+      - src/BuildingBlocks/Shared/**/*
+      - .github/workflows/graph-gateway.yml
+
+jobs:
+  deploy:
+    name: Deploy Graph Gateway
+    runs-on: ubuntu-latest
+    env:
+      # Google Cloud variables
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+      PROJECT_NAME: promag
+      REGION: us-central1
+      LOCATION: us-central1-a
+
+      # Docker variables
+      IMAGE: graph-gateway
+      DOCKERFILE_PATH: ./src/Gateway/GraphQl.Gateway/Dockerfile
+
+      # Kubernetes variables
+      CLUSTER_NAME: sit-cluster
+      NAMESPACE: prod
+      CHART: graph-gateway
+      DEPLOYMENT: graph-gateway
+      VALUES_FILE: values.yaml
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install the GCloud CLI
+        uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: ${{ secrets.GOOGLE_PROJECT }}
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          install_components: "gke-gcloud-auth-plugin"
+          export_default_credentials: true
+
+      - name: Configure Docker for authentication
+        run: |-
+          gcloud --quiet auth configure-docker $REGION-docker.pkg.dev
+
+      - name: Build Docker image
+        run: |-
+          docker build \
+            --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
+            -f $DOCKERFILE_PATH \
+            .
+
+      - name: Push Docker image
+        run: |-
+          docker push "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest"
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Deploy to GKE
+        run: |-
+          gcloud container clusters get-credentials $CLUSTER_NAME --location $LOCATION
+
+          sed -i "s|REPOSITORY_PATH|$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE|g" k8s/charts/$CHART/$VALUES_FILE
+
+          helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART k8s/charts/$CHART
