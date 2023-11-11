@@ -19,6 +19,7 @@ jobs:
       GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
       PROJECT_NAME: promag
       REGION: us-central1
+      LOCATION: us-central1-a
 
       # Docker variables
       IMAGE: identity-api
@@ -63,6 +64,6 @@ jobs:
 
       - name: Deploy to GKE
         run: |-
-          gcloud container clusters get-credentials $CLUSTER_NAME --region $REGION
+          gcloud container clusters get-credentials $CLUSTER_NAME --location $LOCATION
 
           helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART k8s/charts/$CHART
