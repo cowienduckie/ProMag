@@ -28,12 +28,12 @@ ingress:
     #   proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
     #   grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
   hosts:
-    - host: apis.promag.minhtrandev.com
+    - host: graph.promag.minhtrandev.com
       paths: [/gateway]
 
   # tls:
   #   - hosts:
-  #       - apis.promag.minhtrandev.com
+  #       - graph.promag.minhtrandev.com
   #     secretName: gateway-dev-tls
 
 resources:
