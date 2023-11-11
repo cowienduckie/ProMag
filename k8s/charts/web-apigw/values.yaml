@@ -32,10 +32,10 @@ ingress:
   hosts:
     - host: apis.promag.minhtrandev.com
       paths: [/web-apigw]
-  tls:
-    - hosts:
-        - apis.promag.minhtrandev.com
-      secretName: gateway-dev-tls
+  # tls:
+  #   - hosts:
+  #       - apis.promag.minhtrandev.com
+  #     secretName: gateway-dev-tls
 
 resources:
   limits:

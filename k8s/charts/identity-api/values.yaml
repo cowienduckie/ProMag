@@ -29,10 +29,10 @@ ingress:
     - host: id.promag.minhtrandev.com
       paths: [/]
 
-  tls:
-    - hosts:
-        - id.promag.minhtrandev.com
-      secretName: id-dev-tls
+  # tls:
+  #   - hosts:
+  #       - id.promag.minhtrandev.com
+  #     secretName: id-dev-tls
 
 resources:
   limits:

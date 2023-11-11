@@ -29,10 +29,10 @@ ingress:
     - host: apis.promag.minhtrandev.com
       paths: [/gateway]
 
-  tls:
-    - hosts:
-        - apis.promag.minhtrandev.com
-      secretName: gateway-dev-tls
+  # tls:
+  #   - hosts:
+  #       - apis.promag.minhtrandev.com
+  #     secretName: gateway-dev-tls
 
 resources:
   limits:
