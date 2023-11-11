@@ -19,10 +19,10 @@ service:
   port: 80
   adminPort: 8001
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'
+    # cloud.google.com/neg: '{"ingress": true}'
 
 ingress:
-  enabled: true
+  enabled: false
   annotations:
     kubernetes.io/ingress.class: gce
     networking.gke.io/managed-certificates: cert-manager
