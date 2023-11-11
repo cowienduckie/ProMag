@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: cert-manager
+spec:
+  domains:
+    - id.promag.minhtrandev.com
+    - apis.promag.minhtrandev.com
