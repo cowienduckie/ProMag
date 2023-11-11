@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE: identity-api
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,8 +25,9 @@ jobs:
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT }}
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          install_components: "gke-gcloud-auth-plugin"
           export_default_credentials: true
-          
+
       - name: Configure Docker for authentication
         run: |-
           gcloud --quiet auth configure-docker us-central1-docker.pkg.dev
@@ -37,7 +38,26 @@ jobs:
             --tag "us-central1-docker.pkg.dev/promag-402801/promag/$IMAGE:latest" \
             -f "./src/Identity/IdentityServer/Dockerfile" \
             .
-            
+
       - name: Push Docker image
         run: |-
           docker push "us-central1-docker.pkg.dev/promag-402801/promag/$IMAGE:latest"
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: sit-cluster
+          location: us-central1
+          credentials: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+      - name: Deploy to GKE
+        env:
+          chart: identity-api
+          namespace: prod
+          value_file: values.yaml
+        run: |-
+          helm upgrade --install --namespace $namespace -f k8s/charts/$chart/$value_file $chart k8s/charts/$chart
