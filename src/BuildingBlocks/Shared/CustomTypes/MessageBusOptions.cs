@@ -6,7 +6,6 @@ namespace Shared.CustomTypes;
 public static class MessageBusTransportType
 {
     public const string RabbitMQ = nameof(RabbitMQ);
-    public const string AzureSB = nameof(AzureSB);
     public const string Memory = "Memory";
 }
 
@@ -14,7 +13,6 @@ public class MessageBusOptions
 {
     public string TransportType { get; set; } = string.Empty;
     public RabbitMqOptions RabbitMq { get; set; } = default!;
-    public AzureSbOptions AzureSb { get; set; } = default!;
     public MemoryOptions Memory { get; set; } = default!;
 }
 
@@ -23,11 +21,6 @@ public class RabbitMqOptions
     public string UserName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;
-}
-
-public class AzureSbOptions
-{
-    public string ConnectionString { get; set; } = string.Empty;
 }
 
 public class MemoryOptions

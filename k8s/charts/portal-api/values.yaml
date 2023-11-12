@@ -87,7 +87,5 @@ env:
       key: Seq.Apikey
     - name: ConnectionStrings__portal
       key: ConnectionString.Portal
-    - name: MessageBus__AzureSB__ConnectionString
-      key: azureSB.ConnectionString
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
