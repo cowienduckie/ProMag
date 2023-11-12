@@ -62,14 +62,6 @@ internal static class Extensions
             app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
         }
-        else
-        {
-            app.Use((context, next) =>
-            {
-                context.Request.Scheme = "https";
-                return next(context);
-            });
-        }
 
         var forwardOptions = new ForwardedHeadersOptions
         {

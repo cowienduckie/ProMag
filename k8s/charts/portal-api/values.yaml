@@ -9,7 +9,7 @@ image:
   tag: latest
   pullPolicy: Always # IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: "portal-api"
 
@@ -23,17 +23,17 @@ ingress:
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 512Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 200m
+    memory: 256Mi
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
 probes:
   liveness:
@@ -52,7 +52,7 @@ env:
       value: Development
 
     - name: App__HealthCheckEnabled
-      value: true
+      value: 'true'
 
     - name: MessageBus__TransportType
       value: RabbitMQ
@@ -62,16 +62,16 @@ env:
       value: amqp://rabbitmq
 
     - name: OpenTelemetry__Enabled
-      value: true
+      value: 'true'
     - name: OpenTelemetry__zipkinEndpoint
       value: http://zipkin:9411/api/v2/spans
 
     - name: Logging__Seq__Enabled
-      value: true
+      value: 'true'
     - name: Logging__Seq__Url
       value: http://seq:5341/
     - name: Logging__MinimumLevel__Default
-      value: Error
+      value: Warning
 
     - name: Services__IdentityService__Url
       value: http://identity-api:5101

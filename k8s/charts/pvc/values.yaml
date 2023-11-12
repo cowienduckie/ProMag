@@ -17,3 +17,7 @@ sonar:
 promag:
   enabled: true
   storageClassName: standard-rwo
+
+redis:
+  enabled: true
+  storageClassName: standard

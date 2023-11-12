@@ -1,0 +1,24 @@
+# Default values for Redis.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+fullnameOverride: "redis"
+
+persistence:
+  enabled: true
+  existingClaim: redis-pvc
+
+auth:
+  existingSecret: app-env-secret
+  existingSecretPasswordKey: redis.password
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 256Mi
+  requests:
+    cpu: 150m
+    memory: 128Mi
+
+replica:
+  replicaCount: 1
