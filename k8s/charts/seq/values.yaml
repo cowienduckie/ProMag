@@ -27,7 +27,3 @@ resources:
 persistence:
   enabled: true
   existingClaim: seq-pvc
-
-secret:
-  - name: firstRunAdminPasswordHash
-    key: Seq.HashPassword
