@@ -21,5 +21,3 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "graph-gateway.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-status:
-  loadBalancer: {}
