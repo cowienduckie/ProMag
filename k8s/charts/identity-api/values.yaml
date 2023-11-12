@@ -26,6 +26,7 @@ ingress:
     {
       kubernetes.io/ingress.class: gce,
       networking.gke.io/managed-certificates: cert-manager,
+      networking.gke.io/v1beta1.FrontendConfig: identity-api-fe-config,
     }
   hosts:
     - host: id.promag.minhtrandev.com

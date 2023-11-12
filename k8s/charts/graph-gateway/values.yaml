@@ -24,6 +24,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: gce
     networking.gke.io/managed-certificates: cert-manager
+    networking.gke.io/v1beta1.FrontendConfig: graph-gateway-fe-config
     # nginx.ingress.kubernetes.io/configuration-snippet: |
     #   proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
     #   grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
