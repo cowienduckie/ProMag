@@ -9,7 +9,7 @@ image:
   tag: latest
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: "identity-api"
 
@@ -23,28 +23,20 @@ service:
 ingress:
   enabled: true
   annotations:
-    {
-      kubernetes.io/ingress.class: gce,
-      networking.gke.io/managed-certificates: cert-manager,
-      networking.gke.io/v1beta1.FrontendConfig: identity-api-fe-config,
-    }
+    kubernetes.io/ingress.class: gce
+    networking.gke.io/managed-certificates: cert-manager
+    networking.gke.io/v1beta1.FrontendConfig: identity-api-fe-config
   hosts:
     - host: id.promag.minhtrandev.com
-      paths: [/]
+      paths: [ / ]
 
 resources:
   limits:
+    cpu: 400m
+    memory: 512Mi
+  requests:
     cpu: 200m
     memory: 256Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
 
 probes:
   liveness:
@@ -61,23 +53,26 @@ env:
   normal:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
+
     - name: PathBase
       value: /
 
     - name: App__HealthCheckEnabled
-      value: true
+      value: 'true'
 
     - name: OpenTelemetry__Enabled
-      value: true
+      value: 'true'
     - name: OpenTelemetry__zipkinEndpoint
       value: http://zipkin:9411/api/v2/spans
 
     - name: Logging__Seq__Enabled
-      value: true
+      value: 'true'
     - name: Logging__Seq__Url
       value: http://seq:5341/
     - name: Logging__MinimumLevel__Default
-      value: Error
+      value: Warning
+    - name: Logging__MinimumLevel__Override__Microsoft.EntityFrameworkCore
+      value: Warning
 
     - name: MessageBus__TransportType
       value: RabbitMQ
@@ -94,7 +89,5 @@ env:
       key: ConnectionString.Identity
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
-    - name: MessageBus__AzureSB__ConnectionString
-      key: azureSB.ConnectionString
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
