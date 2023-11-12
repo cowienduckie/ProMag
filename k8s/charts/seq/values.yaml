@@ -10,7 +10,7 @@ acceptEULA: "Y"
 
 firstRunAdminUsername: "admin"
 firstRunAdminPasswordHash: # P@ssw0rd
-  QMr6aKfAE66MH6dAx1T4TYvt1SQd5CikLC0KIDHutJxAamNj1vl6pnmAUS+ZtpRGlZ34OdC7RvXFvMV+Lv/BfNm5gFaDKJEouo8ROiUBhTDM"
+  "QMr6aKfAE66MH6dAx1T4TYvt1SQd5CikLC0KIDHutJxAamNj1vl6pnmAUS+ZtpRGlZ34OdC7RvXFvMV+Lv/BfNm5gFaDKJEouo8ROiUBhTDM"
 firstRunRequireAuthenticationForHttpIngestion: true
 
 service:
