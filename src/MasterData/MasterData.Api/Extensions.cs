@@ -137,9 +137,6 @@ public static class Extensions
 
                 hcBuilder.AddRabbitMQ(name: "masterData-rabbitmqbus-check", tags: new[] { "rabbitmqbus" });
                 break;
-            case MessageBusTransportType.AzureSB:
-                // hcBuilder.AddAzureServiceBusQueue(messageBusOptions.AzureSB.ConnectionString, "default");
-                break;
         }
 
         var connString = configuration.GetConnectionString("masterData");
@@ -209,14 +206,6 @@ public static class Extensions
                             hc.Username(messageBusOptions.RabbitMq.UserName);
                             hc.Password(messageBusOptions.RabbitMq.Password);
                         });
-
-                        ConfigureEndpoint(ctx, cfg);
-                    });
-                    break;
-                case MessageBusTransportType.AzureSB:
-                    x.UsingAzureServiceBus((ctx, cfg) =>
-                    {
-                        cfg.Host(messageBusOptions.AzureSb.ConnectionString);
 
                         ConfigureEndpoint(ctx, cfg);
                     });

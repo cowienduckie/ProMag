@@ -85,7 +85,5 @@ env:
   secret:
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
-    - name: MessageBus__AzureSB__ConnectionString
-      key: azureSB.ConnectionString
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
