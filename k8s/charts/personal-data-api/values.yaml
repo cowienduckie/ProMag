@@ -84,6 +84,13 @@ env:
     - name: OpenTelemetry__zipkinEndpoint
       value: http://zipkin:9411/api/v2/spans
 
+    - name: Redis__Enabled
+      value: 'true'
+    - name: Redis__InstanceName
+      value: 'Promag_'
+    - name: Redis__SlidingExpirationInSecond
+      value: '3600'
+
   secret:
     - name: ConnectionStrings__personalData
       key: ConnectionString.PersonalData
@@ -91,3 +98,5 @@ env:
       key: Seq.Apikey
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
+    - name: Redis__Configuration
+      key: Redis.Configuration

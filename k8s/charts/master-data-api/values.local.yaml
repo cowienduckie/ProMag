@@ -9,7 +9,7 @@ image:
   tag: local
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: "master-data-api"
 
@@ -29,13 +29,13 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-probes: []
+probes: [ ]
 
 env:
   normal:
@@ -71,6 +71,13 @@ env:
     - name: Services__IdentityService__GrpcUrl
       value: http://identity-api:15101
 
+    - name: Redis__Enabled
+      value: 'false'
+    - name: Redis__InstanceName
+      value: 'Promag_'
+    - name: Redis__SlidingExpirationInSecond
+      value: '3600'
+
   secret:
     - name: ConnectionStrings__masterData
       key: ConnectionString.MasterData
@@ -78,3 +85,5 @@ env:
       key: Seq.Apikey
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
+    - name: Redis__Configuration
+      key: Redis.Configuration
