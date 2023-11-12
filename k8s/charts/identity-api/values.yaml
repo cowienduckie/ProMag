@@ -52,7 +52,7 @@ probes:
 env:
   normal:
     - name: ASPNETCORE_ENVIRONMENT
-      value: Development
+      value: Production
 
     - name: PathBase
       value: /
