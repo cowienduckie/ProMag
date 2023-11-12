@@ -5,4 +5,4 @@ metadata:
 spec:
   domains:
     - id.promag.minhtrandev.com
-    - apis.promag.minhtrandev.com
+    - graph.promag.minhtrandev.com
