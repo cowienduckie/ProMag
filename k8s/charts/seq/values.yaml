@@ -1,0 +1,33 @@
+# Default values for Seq.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: datalust/seq
+  tag: latest
+
+acceptEULA: "Y"
+
+firstRunAdminUsername: "admin"
+firstRunAdminPasswordHash: # P@ssw0rd
+  QMr6aKfAE66MH6dAx1T4TYvt1SQd5CikLC0KIDHutJxAamNj1vl6pnmAUS+ZtpRGlZ34OdC7RvXFvMV+Lv/BfNm5gFaDKJEouo8ROiUBhTDM"
+firstRunRequireAuthenticationForHttpIngestion: true
+
+service:
+  type: ClusterIP
+
+resources:
+  limits:
+    cpu: 300
+    memory: 256Mi
+  requests:
+    cpu: 300m
+    memory: 256Mi
+
+persistence:
+  enabled: true
+  existingClaim: seq-pvc
+
+secret:
+  - name: firstRunAdminPasswordHash
+    key: Seq.HashPassword

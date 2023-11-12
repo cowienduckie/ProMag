@@ -1,0 +1,54 @@
+name: Seq Pipeline
+
+on:
+    workflow_dispatch:
+
+    push:
+        branches:
+            - main
+        paths:
+            - k8s/charts/seq/**/*
+            - .github/workflows/seq.yml
+
+jobs:
+    deploy:
+        name: Deploy Seq
+        runs-on: ubuntu-latest
+        env:
+            # Google Cloud variables
+            GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+            GOOGLE_PROJECT: ${{ secrets.GOOGLE_PROJECT }}
+            PROJECT_NAME: promag
+            REGION: us-central1
+            LOCATION: us-central1-a
+
+            # Kubernetes variables
+            CLUSTER_NAME: sit-cluster
+            NAMESPACE: prod
+            CHART: seq
+            CHART_REPO: datalust/seq
+            DEPLOYMENT: seq
+            VALUES_FILE: values.yaml
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install the GCloud CLI
+              uses: google-github-actions/setup-gcloud@v0
+              with:
+                  project_id: ${{ secrets.GOOGLE_PROJECT }}
+                  service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+                  install_components: 'gke-gcloud-auth-plugin'
+                  export_default_credentials: true
+
+            - name: Install Helm
+              run: |
+                  curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+                  helm repo add datalust https://helm.datalust.co
+
+            - name: Deploy to GKE
+              run: |-
+                  gcloud container clusters get-credentials $CLUSTER_NAME --location $LOCATION
+
+                  helm upgrade --install --namespace $NAMESPACE -f k8s/charts/$CHART/$VALUES_FILE $CHART $CHART_REPO
