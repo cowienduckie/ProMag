@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using HotChocolate;
 using HotChocolate.Authorization;
@@ -18,17 +19,18 @@ using Shared.Serialization;
 
 namespace MasterData.Boundaries.GraphQl;
 
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public class Query
 {
     [GraphQLName("Ping")]
-    public async Task<PongReply> Ping([Service] ISender mediator)
+    public static async Task<PongReply> Ping([Service] ISender mediator)
     {
         return await mediator.Send(new PingQuery());
     }
 
     [GraphQLName("Countries")]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<IList<CountryDto>> GetCountries(
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<IList<CountryDto>> GetCountries(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -43,8 +45,8 @@ public class Query
     }
 
     [GraphQLName("Languages")]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<IList<LanguageDto>> GetLanguages(
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<IList<LanguageDto>> GetLanguages(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -59,8 +61,8 @@ public class Query
     }
 
     [GraphQLName("Timezones")]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<IList<TimezoneDto>> GetTimeZones(
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<IList<TimezoneDto>> GetTimeZones(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -75,8 +77,8 @@ public class Query
     }
 
     [GraphQLName("Currencies")]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<IList<CurrencyDto>> GetCurrencies(
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<IList<CurrencyDto>> GetCurrencies(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -93,21 +95,21 @@ public class Query
     [GraphQLName("ActivityLogs")]
     [UseOffsetPaging(typeof(ActivityLogType))]
     [UseFiltering(typeof(ActivityLogFilterInputType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogsQuery());
     }
 
     [GraphQLName("ActivityLog")]
     [GraphQLType(typeof(ActivityLogType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_MASTER_DATA)]
-    public async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
+    [Authorize(AuthorizationPolicy.ADMIN)]
+    public static async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogByIdQuery(id));
     }
 
-    private async Task<IList<TDto>> GetDtos<TDto>(
+    private static async Task<IList<TDto>> GetDtos<TDto>(
         string cacheKey,
         Func<Task<IList<TDto>>> getDtos,
         IDistributedCache distributedCache,

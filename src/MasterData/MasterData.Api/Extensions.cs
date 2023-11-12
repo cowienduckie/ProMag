@@ -295,8 +295,12 @@ public static class Extensions
 
         services.AddAuthorization(o =>
         {
-            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_MASTER_DATA,
-                policy => { policy.RequireAssertion(c => c.User.HasClaim(x => x.Type == Permissions.PERMISSION_CLAIM_TYPE)); });
+            o.AddPolicy(AuthorizationPolicy.ADMIN,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME));
+                });
         });
 
         services
