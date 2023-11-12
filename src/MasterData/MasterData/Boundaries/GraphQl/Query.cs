@@ -23,14 +23,14 @@ namespace MasterData.Boundaries.GraphQl;
 public class Query
 {
     [GraphQLName("Ping")]
-    public static async Task<PongReply> Ping([Service] ISender mediator)
+    public async Task<PongReply> Ping([Service] ISender mediator)
     {
         return await mediator.Send(new PingQuery());
     }
 
     [GraphQLName("Countries")]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<IList<CountryDto>> GetCountries(
+    public async Task<IList<CountryDto>> GetCountries(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -46,7 +46,7 @@ public class Query
 
     [GraphQLName("Languages")]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<IList<LanguageDto>> GetLanguages(
+    public async Task<IList<LanguageDto>> GetLanguages(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -62,7 +62,7 @@ public class Query
 
     [GraphQLName("Timezones")]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<IList<TimezoneDto>> GetTimeZones(
+    public async Task<IList<TimezoneDto>> GetTimeZones(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -78,7 +78,7 @@ public class Query
 
     [GraphQLName("Currencies")]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<IList<CurrencyDto>> GetCurrencies(
+    public async Task<IList<CurrencyDto>> GetCurrencies(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] ISerializerService serializer,
@@ -96,7 +96,7 @@ public class Query
     [UseOffsetPaging(typeof(ActivityLogType))]
     [UseFiltering(typeof(ActivityLogFilterInputType))]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
+    public async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogsQuery());
     }
@@ -104,7 +104,7 @@ public class Query
     [GraphQLName("ActivityLog")]
     [GraphQLType(typeof(ActivityLogType))]
     [Authorize(AuthorizationPolicy.ADMIN)]
-    public static async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
+    public async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogByIdQuery(id));
     }
