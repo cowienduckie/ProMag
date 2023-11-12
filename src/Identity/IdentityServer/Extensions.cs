@@ -146,9 +146,6 @@ internal static class Extensions
                 });
                 hcBuilder.AddRabbitMQ(name: "idsvr-rabbitmqbus-check", tags: new[] { "rabbitmqbus" });
                 break;
-            case MessageBusTransportType.AzureSB:
-                // hcBuilder.AddAzureServiceBusQueue(messageBusOptions.AzureSb.ConnectionString, "default");
-                break;
         }
 
         return services;
@@ -220,13 +217,6 @@ internal static class Extensions
                             hc.Password(messageBusOptions.RabbitMq.Password);
                         });
 
-                        ConfigureEndpoint(cfg);
-                    });
-                    break;
-                case MessageBusTransportType.AzureSB:
-                    x.UsingAzureServiceBus((_, cfg) =>
-                    {
-                        cfg.Host(messageBusOptions.AzureSb.ConnectionString);
                         ConfigureEndpoint(cfg);
                     });
                     break;
