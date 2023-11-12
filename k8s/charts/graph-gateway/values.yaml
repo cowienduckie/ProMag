@@ -32,11 +32,6 @@ ingress:
     - host: graph.promag.minhtrandev.com
       paths: [/]
 
-  # tls:
-  #   - hosts:
-  #       - graph.promag.minhtrandev.com
-  #     secretName: gateway-dev-tls
-
 resources:
   limits:
     cpu: 100m

@@ -1,7 +1,0 @@
-rbac:
-  create: true
-controller:
-  service:
-    type: NodePort
-    nodePorts:
-      http: 31000
