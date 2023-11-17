@@ -30,7 +30,7 @@ public class Query
     }
 
     [GraphQLName("Countries")]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<IList<CountryDto>> GetCountries(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -46,7 +46,7 @@ public class Query
     }
 
     [GraphQLName("Languages")]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<IList<LanguageDto>> GetLanguages(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -62,7 +62,7 @@ public class Query
     }
 
     [GraphQLName("Timezones")]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<IList<TimezoneDto>> GetTimeZones(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -78,7 +78,7 @@ public class Query
     }
 
     [GraphQLName("Currencies")]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<IList<CurrencyDto>> GetCurrencies(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -96,7 +96,7 @@ public class Query
     [GraphQLName("ActivityLogs")]
     [UseOffsetPaging(typeof(ActivityLogType))]
     [UseFiltering(typeof(ActivityLogFilterInputType))]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogsQuery());
@@ -104,7 +104,7 @@ public class Query
 
     [GraphQLName("ActivityLog")]
     [GraphQLType(typeof(ActivityLogType))]
-    [Authorize(Policy = AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN)]
     public async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogByIdQuery(id));
