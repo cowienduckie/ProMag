@@ -131,7 +131,7 @@ public static class Extensions
             .AddRemoteSchema(WellKnownSchemaNames.MasterData)
             .AddRemoteSchema(WellKnownSchemaNames.Portal)
             .AddErrorFilter<ValidationErrorFilter>()
-            .AddDirectiveMergeHandler<IgnoreAuthorizeDirectiveHandler>();
+            .AddDirectiveMergeHandler<IgnoreTypesDirectiveMergeHandler>();
 
         return services;
     }
