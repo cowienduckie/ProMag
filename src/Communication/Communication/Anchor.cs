@@ -1,5 +1,3 @@
 namespace Communication;
 
-public struct Anchor
-{
-}
+public struct Anchor;

@@ -1,5 +1,3 @@
 ﻿namespace Portal;
 
-public struct Anchor
-{
-}
+public struct Anchor;

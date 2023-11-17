@@ -1,5 +1,3 @@
 ﻿namespace EfCore;
 
-public class TransactionAttribute : Attribute
-{
-}
+public class TransactionAttribute : Attribute;

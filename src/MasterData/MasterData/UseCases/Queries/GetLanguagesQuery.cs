@@ -3,6 +3,4 @@ using MediatR;
 
 namespace MasterData.UseCases.Queries;
 
-public class GetLanguagesQuery : IRequest<IList<LanguageDto>>
-{
-}
+public class GetLanguagesQuery : IRequest<IList<LanguageDto>>;

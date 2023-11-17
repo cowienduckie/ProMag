@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>12</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,9 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate" Version="13.5.1"/>
-        <PackageReference Include="HotChocolate.Diagnostics" Version="13.5.1"/>
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
+        <PackageReference Include="HotChocolate" Version="13.7.0"/>
+        <PackageReference Include="HotChocolate.Diagnostics" Version="13.7.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
         <PackageReference Include="OpenTelemetry" Version="1.6.0"/>
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.6.0"/>
         <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.6.0"/>

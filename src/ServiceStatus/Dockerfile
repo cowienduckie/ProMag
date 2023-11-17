@@ -1,5 +1,5 @@
-﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
-ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:7.0
+﻿ARG SDK_IMAGE=mcr.microsoft.com/dotnet/sdk:8.0
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:8.0
 
 FROM ${SDK_IMAGE} AS builder
 

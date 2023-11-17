@@ -33,7 +33,7 @@ public class CorrelationIdMiddleware
             {
                 if (!context.Response.Headers.ContainsKey(_options.Header))
                 {
-                    context.Response.Headers.Add(_options.Header, correlationId.ToString());
+                    context.Response.Headers.Append(_options.Header, correlationId.ToString());
                 }
 
                 return Task.CompletedTask;
@@ -61,7 +61,7 @@ public class CorrelationIdMiddleware
 
         if (!context.Request.Headers.ContainsKey(_options.Header))
         {
-            context.Request.Headers.Add(_options.Header, correlationId);
+            context.Request.Headers.Append(_options.Header, correlationId);
         }
 
         return Guid.Parse(correlationId!);
