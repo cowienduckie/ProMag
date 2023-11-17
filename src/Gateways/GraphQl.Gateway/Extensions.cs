@@ -1,7 +1,6 @@
 using Configuration.Metrics;
 using Configuration.OpenTelemetry;
 using GraphQl.Errors;
-using GraphQl.Gateway.Middlewares;
 using GraphQl.Gateway.Options;
 using GraphQl.Gateway.Schemas;
 using HealthChecks.UI.Client;
@@ -127,11 +126,10 @@ public static class Extensions
 
         services
             .AddGraphQLServer()
+            .AddErrorFilter<ValidationErrorFilter>()
             .AddRemoteSchema(WellKnownSchemaNames.PersonalData)
             .AddRemoteSchema(WellKnownSchemaNames.MasterData)
-            .AddRemoteSchema(WellKnownSchemaNames.Portal)
-            .AddErrorFilter<ValidationErrorFilter>()
-            .AddDirectiveMergeHandler<IgnoreTypesDirectiveMergeHandler>();
+            .AddRemoteSchema(WellKnownSchemaNames.Portal);
 
         return services;
     }

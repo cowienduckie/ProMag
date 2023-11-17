@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate" Version="13.7.0"/>
-        <PackageReference Include="HotChocolate.Diagnostics" Version="13.7.0"/>
+        <PackageReference Include="HotChocolate" Version="13.5.1" />
+        <PackageReference Include="HotChocolate.Diagnostics" Version="13.5.1" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
         <PackageReference Include="OpenTelemetry" Version="1.6.0"/>
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.6.0"/>
