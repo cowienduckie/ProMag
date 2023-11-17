@@ -1,8 +1,6 @@
 namespace Shared.Domain;
 
-public abstract class AuditableEntity : AuditableEntity<Guid>
-{
-}
+public abstract class AuditableEntity : AuditableEntity<Guid>;
 
 public abstract class AuditableEntity<T> : BaseEntity<T>, IAuditableEntity, ISoftDelete
 {

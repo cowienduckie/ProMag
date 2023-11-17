@@ -3,6 +3,4 @@ using MediatR;
 
 namespace MasterData.UseCases.Queries;
 
-public class GetCurrenciesQuery : IRequest<IList<CurrencyDto>>
-{
-}
+public class GetCurrenciesQuery : IRequest<IList<CurrencyDto>>;

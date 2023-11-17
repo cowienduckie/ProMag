@@ -3,6 +3,4 @@ using MediatR;
 
 namespace MasterData.UseCases.Queries;
 
-public class GetActivityLogsQuery : IRequest<IQueryable<ActivityLogDto>>
-{
-}
+public class GetActivityLogsQuery : IRequest<IQueryable<ActivityLogDto>>;

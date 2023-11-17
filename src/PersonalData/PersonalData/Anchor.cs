@@ -1,5 +1,3 @@
 namespace PersonalData;
 
-public struct Anchor
-{
-}
+public struct Anchor;

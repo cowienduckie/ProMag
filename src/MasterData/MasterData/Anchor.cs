@@ -1,5 +1,3 @@
 namespace MasterData;
 
-public struct Anchor
-{
-}
+public struct Anchor;

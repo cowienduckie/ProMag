@@ -1,5 +1,3 @@
 namespace Portal.Data.Audit;
 
-public class ActivityLogAttribute : Attribute
-{
-}
+public class ActivityLogAttribute : Attribute;
