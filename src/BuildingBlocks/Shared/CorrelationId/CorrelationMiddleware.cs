@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -5,6 +6,7 @@ using Serilog.Context;
 
 namespace Shared.CorrelationId;
 
+[SuppressMessage("Usage", "ASP0019:Suggest using IHeaderDictionary.Append or the indexer")]
 public class CorrelationIdMiddleware
 {
     private readonly RequestDelegate _next;
@@ -33,7 +35,7 @@ public class CorrelationIdMiddleware
             {
                 if (!context.Response.Headers.ContainsKey(_options.Header))
                 {
-                    context.Response.Headers.Append(_options.Header, correlationId.ToString());
+                    context.Response.Headers.Add(_options.Header, correlationId.ToString());
                 }
 
                 return Task.CompletedTask;
@@ -61,7 +63,7 @@ public class CorrelationIdMiddleware
 
         if (!context.Request.Headers.ContainsKey(_options.Header))
         {
-            context.Request.Headers.Append(_options.Header, correlationId);
+            context.Request.Headers.Add(_options.Header, correlationId);
         }
 
         return Guid.Parse(correlationId!);
