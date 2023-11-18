@@ -20,6 +20,7 @@ using Shared.Serialization;
 namespace MasterData.Boundaries.GraphQl;
 
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class Query
 {
     [GraphQLName("Ping")]

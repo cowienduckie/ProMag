@@ -1,5 +1,6 @@
 using Configuration.Metrics;
 using Configuration.OpenTelemetry;
+using GraphQl.Errors;
 using GraphQl.Gateway.Options;
 using GraphQl.Gateway.Schemas;
 using HealthChecks.UI.Client;
@@ -14,7 +15,7 @@ namespace GraphQl.Gateway;
 
 public static class Extensions
 {
-    private const string CORS_POLICY = "CorsPolicy";
+    private const string CORS_POLICY = nameof(CORS_POLICY);
 
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
@@ -50,27 +51,28 @@ public static class Extensions
                             ServeMode = GraphQLToolServeMode.Embedded
                         });
 
-                    var appOptions = app.Configuration.GetOptions<AppOptions>("App");
-
-                    if (appOptions.HealthCheckEnabled)
-                    {
-                        endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                        {
-                            Predicate = _ => true,
-                            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                        });
-                        endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
-                        {
-                            Predicate = r => r.Name.Contains("self")
-                        });
-                    }
-
-
                     endpoints.MapGet(pathBase, context =>
                     {
-                        context.Response.Redirect($"{pathBase}ui/playground");
+                        context.Response.Redirect($"{pathBase}/graphql");
 
                         return Task.CompletedTask;
+                    });
+
+                    var appOptions = app.Configuration.GetOptions<AppOptions>("App");
+
+                    if (!appOptions.HealthCheckEnabled)
+                    {
+                        return;
+                    }
+
+                    endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                    {
+                        Predicate = _ => true,
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                    });
+                    endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                    {
+                        Predicate = r => r.Name.Contains("self")
                     });
                 }
             );
@@ -124,6 +126,7 @@ public static class Extensions
 
         services
             .AddGraphQLServer()
+            .AddErrorFilter<ValidationErrorFilter>()
             .AddRemoteSchema(WellKnownSchemaNames.PersonalData)
             .AddRemoteSchema(WellKnownSchemaNames.MasterData)
             .AddRemoteSchema(WellKnownSchemaNames.Portal);

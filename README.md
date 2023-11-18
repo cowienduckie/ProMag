@@ -6,11 +6,11 @@
 
 **ProMag** is the graduated project for my engineering degree. It is a web application that helps members in a project team can easily to collaborate and manage personal tasks, and the project's progress too!
 
-The project is built with microservice architecture using .NET 7 and ReactJS. In addition, it can run locally with Docker or any Kubernetes cluster, or cloud services. Moreover, it also provide monitoring tools for tracing logging and metrics, CI/CD pipelines for building and testing.
+The project is built with microservice architecture using .NET 8 and ReactJS. In addition, it can run locally with Docker or any Kubernetes cluster, or cloud services. Moreover, it also provide monitoring tools for tracing logging and metrics, CI/CD pipelines for building and testing.
 
 ## Technical Stacks
 
-- .NET 7
+- .NET 8
 - GraphQL with [HotChocolate](https://chillicream.com/products/hotchocolate) using as a GraphQL Server and Gateway
 - Inter-service communication with [gRPC](https://grpc.io/)
 - Message Broker with [RabbitMQ](https://www.rabbitmq.com/) and [MassTransit](https://masstransit.io/)

@@ -84,8 +84,7 @@ public static class Extensions
 
         return options is { Enabled: false }
             ? app
-            : app
-                .UseMetricsAllEndpoints()
+            : app.UseMetricsAllEndpoints()
                 .UseMetricsAllMiddleware();
     }
 

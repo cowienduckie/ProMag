@@ -10,7 +10,7 @@ persistence:
 
 auth:
   existingSecret: app-env-secret
-  existingSecretPasswordKey: redis.password
+  existingSecretPasswordKey: redis-password
 
 resources:
   limits:

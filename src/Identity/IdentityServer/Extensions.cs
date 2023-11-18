@@ -12,7 +12,6 @@ using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry;
@@ -59,7 +58,6 @@ internal static class Extensions
 
         if (app.Environment.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
             app.UseMigrationsEndPoint();
         }
 
@@ -319,37 +317,6 @@ internal static class Extensions
             options.KnownProxies.Clear();
         });
 
-        // Configure for testing with Postman
-        services.Configure<CookiePolicyOptions>(options =>
-        {
-            options.MinimumSameSitePolicy = SameSiteMode.Lax;
-            options.OnAppendCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            options.OnDeleteCookie = cookieContext => CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-        });
-
-        // Configure for Razor UI
-        builder.Services.AddAuthorization(options =>
-            options.AddPolicy("admin",
-                policy => policy.RequireClaim("sub", "1"))
-        );
-
-        builder.Services.Configure<RazorPagesOptions>(opt => opt.Conventions.AuthorizeFolder("/Admin", "admin"));
-
         return services;
-    }
-
-    private static void CheckSameSite(HttpContext httpContext, CookieOptions options)
-    {
-        if (options.SameSite != SameSiteMode.None)
-        {
-            return;
-        }
-
-        var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
-
-        if (userAgent.Contains("Postman")) // For test with Postman only
-        {
-            options.SameSite = SameSiteMode.Lax;
-        }
     }
 }

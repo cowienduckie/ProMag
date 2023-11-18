@@ -74,7 +74,9 @@ public static class Extensions
             .UseEndpoints(endpoints =>
                 {
                     endpoints.MapGrpcService<MasterDataService>();
+                    
                     endpoints.MapGraphQL();
+                    
                     endpoints
                         .MapBananaCakePop()
                         .WithOptions(new GraphQLToolOptions
