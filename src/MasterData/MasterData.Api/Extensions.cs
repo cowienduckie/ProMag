@@ -12,7 +12,6 @@ using HotChocolate.Execution.Options;
 using MassTransit;
 using MasterData.Api.Options;
 using MasterData.Boundaries.Grpc;
-using MasterData.Common.Constants;
 using MasterData.Data;
 using MasterData.IntegrationEvents.Consumers;
 using MediatR;
@@ -74,9 +73,9 @@ public static class Extensions
             .UseEndpoints(endpoints =>
                 {
                     endpoints.MapGrpcService<MasterDataService>();
-                    
+
                     endpoints.MapGraphQL();
-                    
+
                     endpoints
                         .MapBananaCakePop()
                         .WithOptions(new GraphQLToolOptions
@@ -286,11 +285,22 @@ public static class Extensions
 
         services.AddAuthorization(o =>
         {
-            o.AddPolicy(AuthorizationPolicy.ADMIN,
+            o.AddPolicy(AuthorizationPolicy.ADMIN_ACCESS,
                 policy =>
                 {
                     policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
                                                  || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME));
+                });
+
+            o.AddPolicy(AuthorizationPolicy.MEMBER_ACCESS,
+                policy => { policy.RequireAssertion(c => c.User.IsInRole(Roles.MEMBER_ROLE_NAME)); });
+
+            o.AddPolicy(AuthorizationPolicy.ADMIN_MEMBER_ACCESS,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.MEMBER_ROLE_NAME));
                 });
         });
 

@@ -7,7 +7,6 @@ using HotChocolate.Types;
 using MasterData.Boundaries.GraphQl.Dtos;
 using MasterData.Boundaries.GraphQl.Filters;
 using MasterData.Boundaries.GraphQl.ObjectTypes;
-using MasterData.Common.Constants;
 using MasterData.UseCases.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
@@ -15,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Promag.Protobuf.Commons.V1;
 using Shared;
 using Shared.Caching;
+using Shared.CustomTypes;
 using Shared.Serialization;
 
 namespace MasterData.Boundaries.GraphQl;
@@ -23,14 +23,14 @@ namespace MasterData.Boundaries.GraphQl;
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class Query
 {
-    [GraphQLName("Ping")]
+    [GraphQLName("MasterDataPing")]
     public async Task<PongReply> Ping([Service] ISender mediator)
     {
         return await mediator.Send(new PingQuery());
     }
 
     [GraphQLName("Countries")]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IList<CountryDto>> GetCountries(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -46,7 +46,7 @@ public class Query
     }
 
     [GraphQLName("Languages")]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IList<LanguageDto>> GetLanguages(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -62,7 +62,7 @@ public class Query
     }
 
     [GraphQLName("Timezones")]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IList<TimezoneDto>> GetTimeZones(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -78,7 +78,7 @@ public class Query
     }
 
     [GraphQLName("Currencies")]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IList<CurrencyDto>> GetCurrencies(
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
@@ -96,7 +96,7 @@ public class Query
     [GraphQLName("ActivityLogs")]
     [UseOffsetPaging(typeof(ActivityLogType))]
     [UseFiltering(typeof(ActivityLogFilterInputType))]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<IQueryable<ActivityLogDto>> GetActivityLogs([Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogsQuery());
@@ -104,7 +104,7 @@ public class Query
 
     [GraphQLName("ActivityLog")]
     [GraphQLType(typeof(ActivityLogType))]
-    [Authorize(AuthorizationPolicy.ADMIN)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<ActivityLogDto> GetActivityLogById(Guid id, [Service] ISender mediator)
     {
         return await mediator.Send(new GetActivityLogByIdQuery(id));

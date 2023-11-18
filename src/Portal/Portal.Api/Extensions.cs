@@ -21,7 +21,6 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Portal.Api.Options;
 using Portal.Boundaries.Grpc;
-using Portal.Common.Constants;
 using Portal.Data;
 using Portal.Data.Audit;
 using Promag.Protobuf.MasterData.V1;
@@ -294,14 +293,23 @@ public static class Extensions
 
         services.AddAuthorization(o =>
         {
-            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_PORTAL_DATA, policy =>
-            {
-                policy.RequireAssertion(ctx => ctx.User
-                    .HasClaim(claim =>
-                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.USER_VIEW or Permissions.USER_FULL }
-                    )
-                );
-            });
+            o.AddPolicy(AuthorizationPolicy.ADMIN_ACCESS,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME));
+                });
+
+            o.AddPolicy(AuthorizationPolicy.MEMBER_ACCESS,
+                policy => { policy.RequireAssertion(c => c.User.IsInRole(Roles.MEMBER_ROLE_NAME)); });
+
+            o.AddPolicy(AuthorizationPolicy.ADMIN_MEMBER_ACCESS,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.MEMBER_ROLE_NAME));
+                });
         });
 
         services
