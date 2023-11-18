@@ -21,7 +21,6 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using PersonalData.Api.Options;
 using PersonalData.Boundaries.Grpc;
-using PersonalData.Common.Constants;
 using PersonalData.Data;
 using PersonalData.Data.Audit;
 using PersonalData.Data.Filters;
@@ -315,38 +314,23 @@ public static class Extensions
 
         services.AddAuthorization(o =>
         {
-            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_USER, policy =>
-            {
-                policy.RequireAssertion(ctx => ctx.User
-                    .HasClaim(claim =>
-                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.USER_VIEW or Permissions.USER_FULL }
-                    )
-                );
-            });
-            o.AddPolicy(AuthorizationPolicy.CAN_EDIT_USER, policy =>
-            {
-                policy.RequireAssertion(ctx => ctx.User
-                    .HasClaim(claim =>
-                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.USER_CREATE or Permissions.USER_FULL }
-                    )
-                );
-            });
-            o.AddPolicy(AuthorizationPolicy.CAN_VIEW_ROLE, policy =>
-            {
-                policy.RequireAssertion(ctx => ctx.User
-                    .HasClaim(claim =>
-                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.ROLE_VIEW or Permissions.ROLE_FULL }
-                    )
-                );
-            });
-            o.AddPolicy(AuthorizationPolicy.CAN_EDIT_ROLE, policy =>
-            {
-                policy.RequireAssertion(ctx => ctx.User
-                    .HasClaim(claim =>
-                        claim is { Type: Permissions.PERMISSION_CLAIM_TYPE, Value: Permissions.ROLE_CREATE or Permissions.ROLE_FULL }
-                    )
-                );
-            });
+            o.AddPolicy(AuthorizationPolicy.ADMIN_ACCESS,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME));
+                });
+
+            o.AddPolicy(AuthorizationPolicy.MEMBER_ACCESS,
+                policy => { policy.RequireAssertion(c => c.User.IsInRole(Roles.MEMBER_ROLE_NAME)); });
+
+            o.AddPolicy(AuthorizationPolicy.ADMIN_MEMBER_ACCESS,
+                policy =>
+                {
+                    policy.RequireAssertion(c => c.User.IsInRole(Roles.ADMIN_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.SUPER_USER_ROLE_NAME)
+                                                 || c.User.IsInRole(Roles.MEMBER_ROLE_NAME));
+                });
         });
 
         services

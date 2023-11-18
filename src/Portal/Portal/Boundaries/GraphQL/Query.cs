@@ -7,7 +7,7 @@ namespace Portal.Boundaries.GraphQL;
 
 public class Query
 {
-    [GraphQLName("Ping")]
+    [GraphQLName("PortalPing")]
     public async Task<PongReply> Ping([Service] ISender mediator)
     {
         return await mediator.Send(new PingQuery());

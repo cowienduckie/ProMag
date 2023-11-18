@@ -12,23 +12,29 @@ using Newtonsoft.Json;
 using PersonalData.Boundaries.GraphQl.Dtos;
 using PersonalData.Boundaries.GraphQl.Filters;
 using PersonalData.Boundaries.GraphQl.ObjectTypes;
-using PersonalData.Common.Constants;
-using PersonalData.Common.Enums;
 using PersonalData.Services;
 using PersonalData.UseCases.Queries;
+using Promag.Protobuf.Commons.V1;
 using Promag.Protobuf.Identity.V1;
 using Shared;
 using Shared.Caching;
 using Shared.CustomTypes;
+using UserType = PersonalData.Common.Enums.UserType;
 
 namespace PersonalData.Boundaries.GraphQl;
 
 public class Query
 {
+    [GraphQLName("PersonalDataPing")]
+    public async Task<PongReply> Ping([Service] ISender mediator)
+    {
+        return await mediator.Send(new PingQuery());
+    }
+
     [GraphQLName("Users")]
     [UseOffsetPaging(typeof(PersonType))]
     [UseFiltering(typeof(PersonFilterType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_USER)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IQueryable<PersonDto>> GetUsers([Service] IMediator mediator)
     {
         return await mediator.Send(new GetPeopleQuery(UserType.User));
@@ -36,7 +42,7 @@ public class Query
 
     [GraphQLName("Person")]
     [GraphQLType(typeof(PersonType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_USER)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<PersonDto?> GetPersonById(
         Guid personId,
         [Service] ISender mediator,
@@ -75,7 +81,7 @@ public class Query
 
     [GraphQLName("Me")]
     [GraphQLType(typeof(PersonType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_USER)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<PersonDto?> GetMyProfile(
         [Service] IHttpContextAccessor contextAccessor,
         [Service] ISender mediator)
@@ -94,7 +100,7 @@ public class Query
 
     [GraphQLName("Roles")]
     [GraphQLType(typeof(ListType<RoleType>))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_ROLE)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<List<RoleDto>> GetRoles(
         [Service] IHttpContextAccessor contextAccessor,
         [Service] IIdentityService identityService)
@@ -119,7 +125,7 @@ public class Query
 
     [GraphQLName("Role")]
     [GraphQLType(typeof(RoleType))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_ROLE)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<RoleDto?> GetRoleById(
         Guid roleId,
         [Service] IIdentityService identityService)
@@ -131,7 +137,7 @@ public class Query
 
     [GraphQLName("Permissions")]
     [GraphQLType(typeof(ListType<StringType>))]
-    [Authorize(AuthorizationPolicy.CAN_VIEW_ROLE)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<List<string>> GetRolePermissions(
         Guid roleId,
         [Service] ISender mediator)
