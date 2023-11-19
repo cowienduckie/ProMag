@@ -1,4 +1,4 @@
-using Communication.UseCases.Query;
+using Communication.UseCases.Queries;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MediatR;

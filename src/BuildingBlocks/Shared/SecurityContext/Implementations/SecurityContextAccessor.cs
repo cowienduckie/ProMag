@@ -16,13 +16,23 @@ public class SecurityContextAccessor : ISecurityContextAccessor
     {
         get
         {
-            var claim = _httpContextAccessor.HttpContext?.User.FindFirst("sub");
+            var claim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
 
             return claim?.Value;
         }
     }
 
     public string? Username
+    {
+        get
+        {
+            var claim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email);
+
+            return claim?.Value;
+        }
+    }
+
+    public string? Email
     {
         get
         {

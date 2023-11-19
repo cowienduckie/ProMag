@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-namespace Shared.Common.Extensions;
+namespace Shared.Common.Helpers;
 
-public static partial class RegexExtensions
+public static partial class RegexHelper
 {
     [GeneratedRegex("\\s+")]
     private static partial Regex WhiteSpace();

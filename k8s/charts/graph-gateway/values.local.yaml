@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-image: 
+image:
   repository: localhost:32000/graph-gateway
   tag: local
   pullPolicy: Always
@@ -13,29 +13,27 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "graph-gateway"
 
-service: 
+service:
   type: NodePort
   port: 5100
   httpNodePort: 31100
 
-ingress: 
+ingress:
   enabled: false
-  annotations: 
+  annotations:
     kubernetes.io/ingress.class: nginx
-  hosts: 
+  hosts:
     - host: promag.local
-      paths: [
-          /gateway
-        ]
-  
+      paths: [/gateway]
+
   tls: []
 
-resources: 
-  limits: 
-    cpu: 100m
-    memory: 128Mi
-  requests: 
-    cpu: 100m
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 250m
     memory: 128Mi
 
 nodeSelector: {}
@@ -46,8 +44,8 @@ affinity: {}
 
 probes: []
 
-env: 
-  normal: 
+env:
+  normal:
     - name: App__HealthCheckEnabled
       value: true
 
@@ -93,6 +91,6 @@ env:
     - name: Services__IdentityService__GrpcUrl
       value: http://identity-api:15101
 
-  secret: 
+  secret:
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey

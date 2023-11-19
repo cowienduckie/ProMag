@@ -308,8 +308,6 @@ public static class Extensions
 
     private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-
         var serviceOptions = configuration.GetOptions<ServiceOptions>("Services");
 
         services.AddAuthorization(o =>

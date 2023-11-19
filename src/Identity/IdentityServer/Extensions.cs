@@ -21,7 +21,7 @@ using RabbitMQ.Client;
 using Serilog;
 using Shared;
 using Shared.Common.Enums;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 using Shared.CorrelationId;
 using Shared.CustomTypes;
 using Shared.Grpc;

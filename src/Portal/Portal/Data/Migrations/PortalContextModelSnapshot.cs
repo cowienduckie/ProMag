@@ -18,7 +18,7 @@ namespace Portal.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Portal")
-                .HasAnnotation("ProductVersion", "7.0.12")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -104,7 +104,7 @@ namespace Portal.Data.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Attachment", "Portal");
+                    b.ToTable("Attachments", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.Project", b =>
@@ -161,7 +161,7 @@ namespace Portal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Project", "Portal");
+                    b.ToTable("Projects", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.ProjectStatus", b =>
@@ -206,7 +206,7 @@ namespace Portal.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectStatus", "Portal");
+                    b.ToTable("ProjectStatuses", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.Section", b =>
@@ -242,7 +242,7 @@ namespace Portal.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Section", "Portal");
+                    b.ToTable("Sections", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.Story", b =>
@@ -299,7 +299,7 @@ namespace Portal.Data.Migrations
 
                     b.HasIndex("TargetId");
 
-                    b.ToTable("Story", "Portal");
+                    b.ToTable("Stories", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.Tag", b =>
@@ -341,7 +341,7 @@ namespace Portal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag", "Portal");
+                    b.ToTable("Tags", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.TagFollower", b =>
@@ -354,7 +354,7 @@ namespace Portal.Data.Migrations
 
                     b.HasKey("TagId", "UserId");
 
-                    b.ToTable("TagFollower", "Portal");
+                    b.ToTable("TagFollowers", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.Task", b =>
@@ -434,7 +434,7 @@ namespace Portal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Task", "Portal");
+                    b.ToTable("Tasks", "Portal");
                 });
 
             modelBuilder.Entity("Portal.Domain.TaskFollower", b =>
@@ -447,7 +447,7 @@ namespace Portal.Data.Migrations
 
                     b.HasKey("TaskId", "UserId");
 
-                    b.ToTable("TaskFollower", "Portal");
+                    b.ToTable("TaskFollowers", "Portal");
                 });
 
             modelBuilder.Entity("ProjectTask", b =>

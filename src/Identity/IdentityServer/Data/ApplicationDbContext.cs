@@ -2,7 +2,7 @@ using IdentityServer.Models.DbModel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Common.Enums;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 
 namespace IdentityServer.Data;
 

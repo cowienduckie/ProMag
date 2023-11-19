@@ -1,6 +1,6 @@
 using HotChocolate.Types;
 using PersonalData.UseCases.Commands;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 
 namespace PersonalData.Boundaries.GraphQl.InputObjectTypes;
 

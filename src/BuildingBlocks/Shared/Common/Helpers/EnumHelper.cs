@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-namespace Shared.Common.Extensions;
+namespace Shared.Common.Helpers;
 
-public static class EnumExtensions
+public static class EnumHelper
 {
     public static string GetDescription(this Enum enumValue)
     {

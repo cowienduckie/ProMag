@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using Configuration.MassTransit;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
@@ -287,8 +286,6 @@ public static class Extensions
 
     private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-
         var serviceOptions = configuration.GetOptions<ServiceOptions>("Services");
 
         services.AddAuthorization(o =>

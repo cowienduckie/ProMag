@@ -1,6 +1,6 @@
 using HotChocolate.Types;
 using Promag.Protobuf.MasterData.V1;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 
 namespace MasterData.Boundaries.GraphQl.InputObjectTypes;
 

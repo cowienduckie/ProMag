@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,7 @@ public class PersonalDataController : ControllerBase
         _fileStore = storageFactory.GetStore("filesystem")!;
     }
 
-    private string CurrentUserId => HttpContext.User.FindFirst("sub")?.Value ?? throw new ArgumentNullException();
+    private string CurrentUserId => HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new ArgumentNullException();
     private static string AvatarFolder => "avatar";
 
     [HttpGet("ping")]

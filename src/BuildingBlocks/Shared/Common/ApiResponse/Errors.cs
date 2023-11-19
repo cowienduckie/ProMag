@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 
 namespace Shared.Common.ApiResponse;
 
@@ -11,7 +11,13 @@ public enum Errors
     COM_000,
 
     [Description("Not found {CustomMessage}.")]
-    COM_001
+    COM_001,
+
+    [Description("User ID is not a valid Guid.")]
+    VAL_000,
+
+    [Description("Validation failed. Detail messages: \n{CustomMessage}")]
+    VAL_001
 }
 
 public static class ErrorExtensions

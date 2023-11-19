@@ -1,9 +1,9 @@
 using System.Text;
 using Microsoft.Extensions.Primitives;
 
-namespace Shared.Common.Extensions;
+namespace Shared.Common.Helpers;
 
-public class PathExtensions
+public class PathHelper
 {
     private const string CurrentDirectoryToken = ".";
     private const string ParentDirectoryToken = "..";
