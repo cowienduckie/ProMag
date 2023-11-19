@@ -3,7 +3,7 @@ using EfCore.Context;
 using Microsoft.EntityFrameworkCore;
 using PersonalData.Domain;
 using Shared.Common.Enums;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 using Shared.SecurityContext;
 using Shared.Serialization;
 

@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-namespace Shared.Common.Extensions;
+namespace Shared.Common.Helpers;
 
-public static partial class StringExtensions
+public static partial class StringHelper
 {
     public static string RemoveSuffix(this string s, string suffix)
     {

@@ -2,7 +2,7 @@ using EfCore.Auditing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.Common.Enums;
-using Shared.Common.Extensions;
+using Shared.Common.Helpers;
 
 namespace MasterData.Data.Configurations;
 
