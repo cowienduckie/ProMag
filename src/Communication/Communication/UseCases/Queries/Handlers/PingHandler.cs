@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Promag.Protobuf.Commons.V1;
 
-namespace Communication.UseCases.Query;
+namespace Communication.UseCases.Queries.Handlers;
 
 public class PingHandler : IRequestHandler<PingQuery, PongReply>
 {
