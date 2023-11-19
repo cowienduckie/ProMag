@@ -86,14 +86,17 @@ public class Query
         [Service] IHttpContextAccessor contextAccessor,
         [Service] ISender mediator)
     {
-        var personIdFromContext = contextAccessor.HttpContext?.User.FindFirst("sub")?.Value;
+        var personIdFromContext = contextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         if (personIdFromContext is null)
         {
             return null;
         }
 
-        var personId = Guid.Parse(personIdFromContext);
+        if (!Guid.TryParse(personIdFromContext, out var personId))
+        {
+            return null;
+        }
 
         return await mediator.Send(new GetPersonByIdQuery(personId));
     }
