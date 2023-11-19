@@ -9,7 +9,7 @@ image:
   tag: local
   pullPolicy: Always
 
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "master-data-api"
 
@@ -24,18 +24,18 @@ ingress:
 resources:
   limits:
     cpu: 100m
-    memory: 128Mi
+    memory: 256Mi
   requests:
     cpu: 100m
     memory: 128Mi
 
-nodeSelector: { }
+nodeSelector: {}
 
-tolerations: [ ]
+tolerations: []
 
-affinity: { }
+affinity: {}
 
-probes: [ ]
+probes: []
 
 env:
   normal:
@@ -46,7 +46,7 @@ env:
       value: Development
 
     - name: Logging__Seq__Enabled
-      value: true
+      value: false
     - name: Logging__Seq__Url
       value: http://seq:5341/
     - name: Logging__MinimumLevel__Default
@@ -72,11 +72,11 @@ env:
       value: http://identity-api:15101
 
     - name: Redis__Enabled
-      value: 'false'
+      value: "true"
     - name: Redis__InstanceName
-      value: 'Promag_'
+      value: "Promag_"
     - name: Redis__SlidingExpirationInSecond
-      value: '3600'
+      value: "3600"
 
   secret:
     - name: ConnectionStrings__masterData

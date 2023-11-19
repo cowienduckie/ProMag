@@ -9,7 +9,7 @@ image:
   tag: local
   pullPolicy: Always
 
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "personal-data-api"
 
@@ -23,19 +23,19 @@ ingress:
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 200m
+    memory: 256Mi
   requests:
     cpu: 100m
     memory: 128Mi
 
-nodeSelector: { }
+nodeSelector: {}
 
-tolerations: [ ]
+tolerations: []
 
-affinity: { }
+affinity: {}
 
-probes: [ ]
+probes: []
 
 env:
   normal:
@@ -43,7 +43,7 @@ env:
       value: Development
 
     - name: App__HealthCheckEnabled
-      value: 'true'
+      value: "true"
 
     - name: MessageBus__TransportType
       value: RabbitMQ
@@ -53,7 +53,7 @@ env:
       value: amqp://rabbitmq
 
     - name: Logging__Seq__Enabled
-      value: 'false'
+      value: "false"
     - name: Logging__Seq__Url
       value: http://seq:5341/
     - name: Logging__MinimumLevel__Default
@@ -71,16 +71,16 @@ env:
       value: http://master-data-api:15004
 
     - name: OpenTelemetry__Enabled
-      value: 'false'
+      value: "false"
     - name: OpenTelemetry__zipkinEndpoint
       value: http://zipkin:9411/api/v2/spans
 
     - name: Redis__Enabled
-      value: 'false'
+      value: "true"
     - name: Redis__InstanceName
-      value: 'Promag_'
+      value: "Promag_"
     - name: Redis__SlidingExpirationInSecond
-      value: '3600'
+      value: "3600"
 
   secret:
     - name: ConnectionStrings__personalData

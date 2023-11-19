@@ -89,7 +89,7 @@ fi
 
 if [[ $push_images ]]; then
   echo "#################### Pushing images to the container registry ####################"
-  services=(portal-api identity-api communication-api personal-data-api master-data-api graph-gateway service-status)
+  services=(portal-api identity-api communication-api personal-data-api master-data-api graph-gateway)
 
   for service in "${services[@]}"
   do
@@ -122,10 +122,12 @@ if [[ -z $skip_infrastructure ]]; then
   helm upgrade --install --namespace $namespace -f k8s/charts/pvc/$value_file pvc k8s/charts/pvc
   echo "Install RabbitMQ"
   helm upgrade --install --namespace $namespace rabbitmq -f k8s/charts/rabbitmq/$value_file bitnami/rabbitmq
-  echo "Install mailhog"
-  helm upgrade --install --namespace $namespace mailhog -f k8s/charts/mailhog/$value_file codecentric/mailhog
+  # echo "Install mailhog"
+  # helm upgrade --install --namespace $namespace mailhog -f k8s/charts/mailhog/$value_file codecentric/mailhog
   echo "Install postgresql"
   helm upgrade --install --namespace $namespace postgresql -f k8s/charts/postgresql/$value_file bitnami/postgresql
+  echo "Install redis"
+  helm upgrade --install --namespace $namespace redis -f k8s/charts/redis/$value_file bitnami/redis
 
   waitsecs=20; while [ $waitsecs -gt 0 ]; do echo -ne "$waitsecs\033[0K\r"; sleep 1; : $((waitsecs--)); done
 fi

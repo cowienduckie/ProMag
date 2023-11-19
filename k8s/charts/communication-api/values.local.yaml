@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-image: 
+image:
   repository: localhost:32000/communication-api
   tag: local
   pullPolicy: Always
@@ -13,19 +13,19 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: "communication-api"
 
-service: 
+service:
   type: ClusterIP
   port: 5002
   grpcPort: 15002
 
-ingress: 
+ingress:
   enabled: false
 
-resources: 
-  limits: 
+resources:
+  limits:
     cpu: 100m
-    memory: 128Mi
-  requests: 
+    memory: 256Mi
+  requests:
     cpu: 100m
     memory: 128Mi
 
@@ -37,8 +37,8 @@ affinity: {}
 
 probes: []
 
-env: 
-  normal: 
+env:
+  normal:
     - name: App__HealthCheckEnabled
       value: true
 
@@ -73,7 +73,7 @@ env:
     - name: MessageBus__RabbitMQ__Url
       value: amqp://rabbitmq
 
-  secret: 
+  secret:
     - name: Logging__Seq__ApiKey
       key: Seq.Apikey
     - name: MessageBus__RabbitMQ__password

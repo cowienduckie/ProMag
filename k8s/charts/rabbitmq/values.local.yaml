@@ -1,22 +1,22 @@
 fullnameOverride: rabbitmq
-image: 
+image:
   tag: latest
-persistence: 
+persistence:
   enabled: true
   existingClaim: rabbitmq-pvc
-auth: 
+auth:
   username: promag
   existingPasswordSecret: app-env-secret
 
 plugins: "rabbitmq_management"
 
-service: 
-  type: NodePort  
+service:
+  type: NodePort
 
-resources: 
-  limits: 
+resources:
+  limits:
     cpu: 500m
-    memory: 256Mi
-  requests: 
+    memory: 512Mi
+  requests:
     cpu: 500m
     memory: 256Mi

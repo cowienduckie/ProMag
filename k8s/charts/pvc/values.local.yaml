@@ -17,3 +17,7 @@ sonar:
 promag:
   enabled: true
   storageClassName: hostpath
+
+redis:
+  enabled: true
+  storageClassName: hostpath
