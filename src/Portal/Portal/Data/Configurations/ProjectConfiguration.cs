@@ -49,6 +49,7 @@ public class ProjectConfiguration : BaseEntityConfiguration<Project>
             .HasForeignKey(s => s.ProjectId);
 
         builder.HasMany(p => p.Tasks)
-            .WithMany(t => t.Projects);
+            .WithOne(t => t.Project)
+            .HasForeignKey(t => t.ProjectId);
     }
 }

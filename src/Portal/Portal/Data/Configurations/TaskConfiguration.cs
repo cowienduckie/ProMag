@@ -61,8 +61,9 @@ public class TaskConfiguration : BaseEntityConfiguration<Task>
 
     protected override void ConfigureRelationships(EntityTypeBuilder<Task> builder)
     {
-        builder.HasMany(t => t.Projects)
-            .WithMany(p => p.Tasks);
+        builder.HasOne(t => t.Project)
+            .WithMany(p => p.Tasks)
+            .HasForeignKey(t => t.ProjectId);
 
         builder.HasOne(t => t.Section)
             .WithMany(s => s.Tasks)

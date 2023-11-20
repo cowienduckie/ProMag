@@ -13,9 +13,18 @@ namespace Portal.Boundaries.GraphQL;
 public class Mutation
 {
     [GraphQLType(typeof(CreateProjectResponseType))]
-    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<CreateProjectResponse> CreateProject(
         CreateProjectCommand input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
+    }
+
+    [GraphQLType(typeof(UpdateKanbanProjectResponseType))]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<UpdateKanbanProjectResponse> UpdateKanbanProject(
+        UpdateKanbanProjectCommand input,
         [Service] ISender mediator)
     {
         return await mediator.Send(input);
