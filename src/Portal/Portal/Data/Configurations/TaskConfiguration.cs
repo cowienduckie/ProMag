@@ -54,15 +54,20 @@ public class TaskConfiguration : BaseEntityConfiguration<Task>
             .IsRequired();
 
         builder.Property(t => t.AssigneeId);
+
+        builder.Property(t => t.SectionId)
+            .IsRequired();
     }
 
     protected override void ConfigureRelationships(EntityTypeBuilder<Task> builder)
     {
-        builder.HasMany(t => t.Projects)
-            .WithMany(p => p.Tasks);
+        builder.HasOne(t => t.Project)
+            .WithMany(p => p.Tasks)
+            .HasForeignKey(t => t.ProjectId);
 
-        builder.HasMany(t => t.Sections)
-            .WithMany(s => s.Tasks);
+        builder.HasOne(t => t.Section)
+            .WithMany(s => s.Tasks)
+            .HasForeignKey(t => t.SectionId);
 
         builder.HasMany(t => t.Stories)
             .WithOne(s => s.TargetTask)

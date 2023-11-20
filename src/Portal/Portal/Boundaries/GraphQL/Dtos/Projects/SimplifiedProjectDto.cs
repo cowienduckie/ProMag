@@ -1,6 +1,6 @@
 using Portal.Domain;
 
-namespace Portal.Boundaries.GraphQL.Dtos;
+namespace Portal.Boundaries.GraphQL.Dtos.Projects;
 
 public class SimplifiedProjectDto
 {
@@ -11,7 +11,7 @@ public class SimplifiedProjectDto
     public DateTime? LastModifiedOn { get; set; }
 }
 
-public static class Converter
+public static partial class DtoConverter
 {
     public static SimplifiedProjectDto ToSimplifiedProjectDto(this Project project)
     {

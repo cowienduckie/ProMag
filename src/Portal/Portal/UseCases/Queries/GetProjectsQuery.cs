@@ -1,5 +1,5 @@
 using MediatR;
-using Portal.Boundaries.GraphQL.Dtos;
+using Portal.Boundaries.GraphQL.Dtos.Projects;
 
 namespace Portal.UseCases.Queries;
 

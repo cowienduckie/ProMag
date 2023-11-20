@@ -1,6 +1,6 @@
 using GraphQl.CustomFilters;
 using HotChocolate.Data.Filters;
-using Portal.Boundaries.GraphQL.Dtos;
+using Portal.Boundaries.GraphQL.Dtos.Projects;
 
 namespace Portal.Boundaries.GraphQL.Filters;
 
@@ -11,7 +11,7 @@ public class SimplifiedProjectFilter : FilterInputType<SimplifiedProjectDto>
     {
         descriptor.BindFieldsExplicitly();
 
-        descriptor.Field(t => t.Id).Type<EqualAndContainStringFilter>();
-        descriptor.Field(t => t.Name).Type<EqualAndContainStringFilter>();
+        descriptor.Field(t => t.Id).Type<EqualOrContainStringFilter>();
+        descriptor.Field(t => t.Name).Type<EqualOrContainStringFilter>();
     }
 }

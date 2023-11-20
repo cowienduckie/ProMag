@@ -61,9 +61,9 @@ public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, Create
                 WorkspaceId = Guid.Empty, // TODO: Implement Workspace feature
                 Sections = new List<Section>
                 {
-                    new("To Do"),
-                    new("In Progress"),
-                    new("Done")
+                    new("To Do", 1),
+                    new("In Progress", 2),
+                    new("Done", 3)
                 }
             };
 

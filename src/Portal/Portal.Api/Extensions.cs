@@ -267,7 +267,11 @@ public static class Extensions
 
         services.AddDbContext<PortalContext>(options =>
         {
-            options.UseNpgsql(connString, opt => { opt.EnableRetryOnFailure(3); });
+            options.UseNpgsql(connString, o =>
+            {
+                o.EnableRetryOnFailure(3);
+                o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            });
 
             options.EnableDetailedErrors();
 

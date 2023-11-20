@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Portal.Data;
@@ -11,9 +12,11 @@ using Portal.Data;
 namespace Portal.Data.Migrations
 {
     [DbContext(typeof(PortalContext))]
-    partial class PortalContextModelSnapshot : ModelSnapshot
+    [Migration("20231120133233_AddOrderIndexToSection")]
+    partial class AddOrderIndexToSection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -429,9 +432,6 @@ namespace Portal.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("SectionId")
                         .HasColumnType("uuid");
 
@@ -442,8 +442,6 @@ namespace Portal.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("SectionId");
 
@@ -461,6 +459,21 @@ namespace Portal.Data.Migrations
                     b.HasKey("TaskId", "UserId");
 
                     b.ToTable("TaskFollowers", "Portal");
+                });
+
+            modelBuilder.Entity("ProjectTask", b =>
+                {
+                    b.Property<Guid>("ProjectsId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TasksId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ProjectsId", "TasksId");
+
+                    b.HasIndex("TasksId");
+
+                    b.ToTable("ProjectTask", "Portal");
                 });
 
             modelBuilder.Entity("TagTask", b =>
@@ -535,19 +548,11 @@ namespace Portal.Data.Migrations
 
             modelBuilder.Entity("Portal.Domain.Task", b =>
                 {
-                    b.HasOne("Portal.Domain.Project", "Project")
-                        .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Portal.Domain.Section", "Section")
                         .WithMany("Tasks")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Project");
 
                     b.Navigation("Section");
                 });
@@ -561,6 +566,21 @@ namespace Portal.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("ProjectTask", b =>
+                {
+                    b.HasOne("Portal.Domain.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Portal.Domain.Task", null)
+                        .WithMany()
+                        .HasForeignKey("TasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TagTask", b =>
@@ -583,8 +603,6 @@ namespace Portal.Data.Migrations
                     b.Navigation("Sections");
 
                     b.Navigation("Statues");
-
-                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("Portal.Domain.Section", b =>

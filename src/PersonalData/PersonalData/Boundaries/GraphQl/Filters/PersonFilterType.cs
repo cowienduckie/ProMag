@@ -11,8 +11,8 @@ public class PersonFilterType : FilterInputType<PersonDto>
     {
         descriptor.BindFieldsExplicitly();
 
-        descriptor.Field(t => t.FirstName).Type<EqualAndContainStringFilter>();
-        descriptor.Field(t => t.LastName).Type<EqualAndContainStringFilter>();
+        descriptor.Field(t => t.FirstName).Type<EqualOrContainStringFilter>();
+        descriptor.Field(t => t.LastName).Type<EqualOrContainStringFilter>();
         descriptor.Field(t => t.UserStatus).Type<EqualIntFilter>();
     }
 }
