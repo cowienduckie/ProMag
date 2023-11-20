@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using Configuration.MassTransit;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;

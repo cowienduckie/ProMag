@@ -10,7 +10,7 @@ public class ActivityLogFilterInputType : FilterInputType<ActivityLogDto>
     {
         descriptor.BindFieldsExplicitly();
 
-        descriptor.Field(t => t.Username).Type<EqualAndContainStringFilter>();
+        descriptor.Field(t => t.Username).Type<EqualOrContainStringFilter>();
         descriptor.Field(t => t.Action).Type<EqualStringFilter>();
     }
 }
