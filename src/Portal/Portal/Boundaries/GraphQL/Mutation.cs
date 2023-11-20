@@ -29,4 +29,13 @@ public class Mutation
     {
         return await mediator.Send(input);
     }
+
+    [GraphQLType(typeof(CreateTaskResponseType))]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<CreateTaskResponse> CreateTask(
+        CreateTaskCommand input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
+    }
 }
