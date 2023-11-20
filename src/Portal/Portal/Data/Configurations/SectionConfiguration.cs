@@ -16,6 +16,9 @@ public class SectionConfiguration : BaseEntityConfiguration<Section>
 
         builder.Property(s => s.ProjectId)
             .IsRequired();
+
+        builder.Property(s => s.OrderIndex)
+            .IsRequired();
     }
 
     protected override void ConfigureRelationships(EntityTypeBuilder<Section> builder)
@@ -25,6 +28,7 @@ public class SectionConfiguration : BaseEntityConfiguration<Section>
             .HasForeignKey(s => s.ProjectId);
 
         builder.HasMany(s => s.Tasks)
-            .WithMany(t => t.Sections);
+            .WithOne(t => t.Section)
+            .HasForeignKey(t => t.SectionId);
     }
 }

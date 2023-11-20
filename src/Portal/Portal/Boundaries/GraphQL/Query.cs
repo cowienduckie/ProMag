@@ -4,7 +4,7 @@ using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using MediatR;
-using Portal.Boundaries.GraphQL.Dtos;
+using Portal.Boundaries.GraphQL.Dtos.Projects;
 using Portal.Boundaries.GraphQL.Filters;
 using Portal.Boundaries.GraphQL.ObjectTypes;
 using Portal.UseCases.Queries;
@@ -29,5 +29,15 @@ public class Query
     public async Task<IQueryable<SimplifiedProjectDto>> GetProjects([Service] ISender mediator)
     {
         return await mediator.Send(new GetProjectsQuery());
+    }
+
+    [GraphQLName("KanbanProject")]
+    [GraphQLType(typeof(KanbanProjectType))]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<KanbanProjectDto?> GetKanbanProjectById(
+        GetKanbanProjectByIdQuery input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
     }
 }

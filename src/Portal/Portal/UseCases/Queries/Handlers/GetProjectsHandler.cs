@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Portal.Boundaries.GraphQL.Dtos;
+using Portal.Boundaries.GraphQL.Dtos.Projects;
 using Portal.Data;
 using Shared.SecurityContext;
 
