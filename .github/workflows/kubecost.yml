@@ -24,7 +24,7 @@ jobs:
 
       # Kubernetes variables
       CLUSTER_NAME: sit-cluster
-      NAMESPACE: prod
+      NAMESPACE: kubecost
       CHART: kubecost
       CHART_REPO: kubecost/cost-analyzer
       DEPLOYMENT: kubecost
