@@ -10,21 +10,23 @@ public enum Errors
     [Description("Interal server error. Please contact the administrator.")]
     COM_000,
 
-    [Description("Not found {CustomMessage}.")]
+    [Description("Not found {0}.")]
     COM_001,
 
     [Description("User ID is not a valid Guid.")]
     VAL_000,
 
-    [Description("Validation failed. Detail messages: \n{CustomMessage}")]
+    [Description("Validation failed. Detail messages: \n{0}")]
     VAL_001
 }
 
 public static class ErrorExtensions
 {
-    public static string GetMessages(this Errors error, params string[] messageParams)
+    public static string GetMessages(this Errors error, params object?[] messageParams)
     {
-        var messageFormat = error.GetDescription();
+        var messageFormat = error
+            .GetDescription()
+            .Replace("\n", Environment.NewLine);
         var paramsCount = messageFormat.CountUniqueParams();
 
         if (paramsCount != messageParams.Length)
@@ -33,7 +35,9 @@ public static class ErrorExtensions
                 "The number of parameters in the error message does not match the number of parameters passed.");
         }
 
-        return string.Format(messageFormat, messageParams.ToArray<object>());
+        messageParams = messageParams.Select(p => p?.ToString()).ToArray<object?>();
+
+        return string.Format(messageFormat, messageParams);
     }
 
     public static string GetCode(this Errors error)

@@ -7,6 +7,7 @@ using Portal.Boundaries.GraphQL.Dtos.Tasks;
 using Portal.Data;
 using Portal.UseCases.Responses;
 using Shared.Common.ApiResponse;
+using Shared.Common.Helpers;
 
 namespace Portal.UseCases.Mutations.Handlers;
 
@@ -45,13 +46,18 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
                 return new UpdateKanbanProjectResponse
                 {
                     StatusCode = ResponseStatuses.NotFound.GetCode(),
-                    ErrorCode = Errors.VAL_001.GetCode(),
-                    ErrorMessage = Errors.VAL_001.GetMessages("ProjectId")
+                    ErrorCode = Errors.COM_001.GetCode(),
+                    ErrorMessage = Errors.COM_001.GetMessages("ProjectId")
                 };
             }
 
             // Update column of tasks
-            var sectionDict = request.Tasks.ToFrozenDictionary(t => Guid.Parse(t.Key), t => Guid.Parse(((KanbanTaskDto)t.Value).Column));
+            var sectionDict = request.Tasks
+                .Select(t => t.Value
+                    .AsDictionary<string, object?>()
+                    .GetObject<KanbanTaskDto>())
+                .ToFrozenDictionary(t => Guid.Parse(t.Id), t => Guid.Parse(t.Column));
+
             var tasks = await _portalContext.Tasks
                 .Where(t => t.ProjectId.ToString() == request.ProjectId && t.DeletedOn == null)
                 .ToListAsync(cancellationToken);
