@@ -1,4 +1,4 @@
 kubecostProductConfigs:
   projectID: "promag-402801"
-  bigQueryBillingDataDataset: "promag_billing_export.gcp_billing_export_v1_017C01_2D38FD_0685EC"
+  bigQueryBillingDataDataset: "billing_data.promag_billing_export""
   gcpSecretName: "gcp-secret"
