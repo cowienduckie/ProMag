@@ -23,7 +23,7 @@ public class Query
     }
 
     [GraphQLName("Projects")]
-    [UseOffsetPaging(typeof(SimplifiedProjectType))]
+    [UseOffsetPaging(typeof(SimplifiedProjectType), IncludeTotalCount = true, MaxPageSize = 9, DefaultPageSize = 9)]
     [UseFiltering(typeof(SimplifiedProjectFilter))]
     [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<IQueryable<SimplifiedProjectDto>> GetProjects([Service] ISender mediator)
