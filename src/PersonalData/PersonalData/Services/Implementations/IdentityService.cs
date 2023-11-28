@@ -34,7 +34,7 @@ public class IdentityService : IIdentityService
             })
             .ToDictionary(k => k.UserId, kv => kv.Roles);
 
-        _logger.LogInformation("{Service} - {Method} - Start", nameof(IdentityService), nameof(FetchUserRolesByPersonIds));
+        _logger.LogInformation("{Service} - {Method} - Finish", nameof(IdentityService), nameof(FetchUserRolesByPersonIds));
 
         return userRoles;
     }

@@ -44,9 +44,7 @@ public class MailKitSender : IEmailSender
         message.From.Add(new MailboxAddress(_mailkitOptions.Email, _mailkitOptions.Email));
 
         email.ToAddress.ForEach(x => { message.To.Add(new MailboxAddress(x, x)); });
-
         email.CcAddress.ForEach(x => { message.Cc.Add(new MailboxAddress(x, x)); });
-
         email.BccAddress.ForEach(x => { message.Bcc.Add(new MailboxAddress(x, x)); });
 
         message.Body = new TextPart(email.IsHtml ? TextFormat.Html : TextFormat.Plain) { Text = email.Body };

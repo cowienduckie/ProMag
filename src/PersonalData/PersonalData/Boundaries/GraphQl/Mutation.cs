@@ -19,8 +19,7 @@ public class Mutation
     [GraphQLType(typeof(PersonType))]
     [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<PersonDto> EditUser(
-        [GraphQLType(typeof(EditUserInputType))]
-        EditUserCommand editUserInput,
+        [GraphQLType(typeof(EditUserInputType))] EditUserCommand editUserInput,
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] IConfiguration configuration)
@@ -39,8 +38,7 @@ public class Mutation
     [GraphQLType(typeof(InviteUserResponseType))]
     [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<InviteUserResponse> InviteUser(
-        [GraphQLType(typeof(InviteUserInputType))]
-        InviteUserCommand inviteUserInput,
+        [GraphQLType(typeof(InviteUserInputType))] InviteUserCommand inviteUserInput,
         [Service] ISender mediator)
     {
         return await mediator.Send(inviteUserInput);
@@ -48,8 +46,7 @@ public class Mutation
 
     [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<bool> UnlockUser(
-        [GraphQLType(typeof(UnlockUserInputType))]
-        UnlockUserCommand unlockUserInput,
+        [GraphQLType(typeof(UnlockUserInputType))] UnlockUserCommand unlockUserInput,
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] IConfiguration configuration)
@@ -67,8 +64,7 @@ public class Mutation
 
     [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<bool> LockUser(
-        [GraphQLType(typeof(LockUserInputType))]
-        LockUserCommand lockUserInput,
+        [GraphQLType(typeof(LockUserInputType))] LockUserCommand lockUserInput,
         [Service] ISender mediator,
         [Service] IDistributedCache distributedCache,
         [Service] IConfiguration configuration)

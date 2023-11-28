@@ -84,13 +84,13 @@ public class InviteUserHandler : IRequestHandler<InviteUserCommand, InviteUserRe
 
         _logger.LogInformation("{Handler} - Publish event by Email from Communication service", nameof(InviteUserHandler));
 
-        await _bus.Send<ISendActiveAccountEmail>(new // TODO: Move interfaces to Shared then store implementation in each service
+        await _bus.Send<ISendActiveAccountEmail>(new
         {
-            _correlationContext.CorrelationContext?.CorrelationId,
+            CorrelationId = _correlationContext.CorrelationContext?.CorrelationId,
             ReceiverEmail = person.Email,
-            createLoginAccountResult.UserName,
+            UserName = createLoginAccountResult.UserName,
             FullName = $"{person.FirstName} {person.LastName}",
-            createLoginAccountResult.ActivateUrl
+            ActivateUrl = createLoginAccountResult.ActivateUrl
         }, cancellationToken);
 
         _logger.LogInformation("{Handler} - Finish", nameof(InviteUserHandler));
