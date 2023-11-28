@@ -34,7 +34,7 @@ public class Query
     [GraphQLName("Users")]
     [UseOffsetPaging(typeof(PersonType))]
     [UseFiltering(typeof(PersonFilterType))]
-    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<IQueryable<PersonDto>> GetUsers([Service] IMediator mediator)
     {
         return await mediator.Send(new GetPeopleQuery(UserType.User));
@@ -103,7 +103,7 @@ public class Query
 
     [GraphQLName("Roles")]
     [GraphQLType(typeof(ListType<RoleType>))]
-    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<List<RoleDto>> GetRoles(
         [Service] IHttpContextAccessor contextAccessor,
         [Service] IIdentityService identityService)
@@ -128,7 +128,7 @@ public class Query
 
     [GraphQLName("Role")]
     [GraphQLType(typeof(RoleType))]
-    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<RoleDto?> GetRoleById(
         Guid roleId,
         [Service] IIdentityService identityService)
@@ -140,11 +140,13 @@ public class Query
 
     [GraphQLName("Permissions")]
     [GraphQLType(typeof(ListType<StringType>))]
-    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<List<string>> GetRolePermissions(
         Guid roleId,
         [Service] ISender mediator)
     {
-        return await mediator.Send(new GetRolePermissionsQuery(roleId)) as List<string> ?? new List<string>();
+        var permissions = await mediator.Send(new GetRolePermissionsQuery(roleId));
+
+        return permissions.ToList();
     }
 }
