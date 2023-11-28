@@ -9,8 +9,7 @@ namespace MasterData.Boundaries.GraphQl;
 public class Mutation
 {
     public async Task<CreateActivityLogResponse> CreateActivityLog(
-        [GraphQLType(typeof(CreateActivityLogInputType))]
-        CreateActivityLogRequest createActivityLogInput,
+        [GraphQLType(typeof(CreateActivityLogInputType))] CreateActivityLogRequest createActivityLogInput,
         [Service] IMediator mediator)
     {
         return await mediator.Send(new CreateActivityLogCommand(createActivityLogInput));

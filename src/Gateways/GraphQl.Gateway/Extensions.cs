@@ -123,13 +123,18 @@ public static class Extensions
             .AddHttpClient(WellKnownSchemaNames.Portal,
                 (_, client) => { client.BaseAddress = new Uri($"{serviceOptions.PortalService.Url}/graphql"); })
             .AddHeaderPropagation();
+        services
+            .AddHttpClient(WellKnownSchemaNames.Communication,
+                (_, client) => { client.BaseAddress = new Uri($"{serviceOptions.CommunicationService.Url}/graphql"); })
+            .AddHeaderPropagation();
 
         services
             .AddGraphQLServer()
             .AddErrorFilter<ValidationErrorFilter>()
             .AddRemoteSchema(WellKnownSchemaNames.PersonalData)
             .AddRemoteSchema(WellKnownSchemaNames.MasterData)
-            .AddRemoteSchema(WellKnownSchemaNames.Portal);
+            .AddRemoteSchema(WellKnownSchemaNames.Portal)
+            .AddRemoteSchema(WellKnownSchemaNames.Communication);
 
         return services;
     }

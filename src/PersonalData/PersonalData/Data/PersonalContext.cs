@@ -23,6 +23,9 @@ public sealed class PersonalContext : BaseDbContext
     }
 
     public DbSet<Person> People => Set<Person>();
+    public DbSet<Workspace> Workspaces => Set<Workspace>();
+    public DbSet<Team> Teams => Set<Team>();
+    public DbSet<Organization> Organizations => Set<Organization>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

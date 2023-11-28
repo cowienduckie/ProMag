@@ -6,5 +6,6 @@ public class MailKitOptions
     public int Port { get; set; } = 587;
     public string Username { get; set; } = default!;
     public string Password { get; set; } = default!;
-    public string Email { get; set; } = default!;
+    public string MailBoxAddress { get; set; } = default!;
+    public string MailBoxName { get; set; } = default!;
 }

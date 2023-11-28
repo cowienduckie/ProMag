@@ -41,12 +41,10 @@ public class MailKitSender : IEmailSender
             Subject = email.Subject
         };
 
-        message.From.Add(new MailboxAddress(_mailkitOptions.Email, _mailkitOptions.Email));
+        message.From.Add(new MailboxAddress(_mailkitOptions.MailBoxName, _mailkitOptions.MailBoxAddress));
 
         email.ToAddress.ForEach(x => { message.To.Add(new MailboxAddress(x, x)); });
-
         email.CcAddress.ForEach(x => { message.Cc.Add(new MailboxAddress(x, x)); });
-
         email.BccAddress.ForEach(x => { message.Bcc.Add(new MailboxAddress(x, x)); });
 
         message.Body = new TextPart(email.IsHtml ? TextFormat.Html : TextFormat.Plain) { Text = email.Body };

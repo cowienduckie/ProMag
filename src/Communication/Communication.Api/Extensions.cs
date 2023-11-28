@@ -41,6 +41,8 @@ public static class Extensions
 
         builder.Services.AddSingleton<IHandlebarsRender, HandlebarsRender>();
 
+        builder.Services.AddControllers().AddApplicationPart(typeof(Anchor).Assembly);
+
         return builder.Build();
     }
 
@@ -51,6 +53,7 @@ public static class Extensions
             .UseRouting()
             .UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapGrpcService<CommunicationService>();
 
                 var appOptions = app.Configuration.GetOptions<AppOptions>("App");

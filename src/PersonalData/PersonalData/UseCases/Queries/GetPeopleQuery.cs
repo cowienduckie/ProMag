@@ -11,5 +11,5 @@ public class GetPeopleQuery : IRequest<IQueryable<PersonDto>>
         UserType = userType;
     }
 
-    public UserType UserType { get; set; }
+    public UserType UserType { get; }
 }

@@ -69,11 +69,15 @@ env:
       value: http://identity-api:15101
 
     - name: MailKit__SmtpHost
-      value: mailhog
+      value: smtp.mailgun.org
+    - name: MailKit__SmtpPort
+      value: '587'
     - name: MailKit__Username
-      value: promag
-    - name: MailKit__Password
-      value: P@ssw0rd
+      value: 'postmaster@mg.minhtrandev.com'
+    - name: MailKit__MailBoxAddress
+      value: 'promag@minhtrandev.com'
+    - name: MailKit__MailBoxName
+      value: 'Promag'
 
     - name: MessageBus__TransportType
       value: RabbitMQ
@@ -87,3 +91,5 @@ env:
       key: Seq.Apikey
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
+    - name: MailKit__Password
+      value: MailKit.Password

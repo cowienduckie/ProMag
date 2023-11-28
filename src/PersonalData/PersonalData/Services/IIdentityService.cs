@@ -8,9 +8,9 @@ public interface IIdentityService
         IEnumerable<string> personIds,
         CancellationToken cancellationToken);
 
-
     Task<List<RoleDto>> FetchAllRoles(CancellationToken cancellationToken = default);
 
     Task<List<RoleDto>> FetchRoleById(IEnumerable<string> roleIds, CancellationToken cancellationToken = default);
+
     Task<List<RoleDto>> FetchRoleById(string roleId, CancellationToken cancellationToken = default);
 }

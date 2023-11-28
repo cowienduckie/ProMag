@@ -16,7 +16,8 @@ public class MailKitSenderTests
         Port = 1025,
         Username = "fakeUser",
         Password = "fakePwd",
-        Email = "fake@email.com"
+        MailBoxAddress = "fake@email.com",
+        MailBoxName = "fakeName"
     };
 
     [Fact]

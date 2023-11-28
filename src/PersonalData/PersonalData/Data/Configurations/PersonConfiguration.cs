@@ -1,3 +1,4 @@
+using EfCore.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -6,9 +7,9 @@ using PersonalData.Domain;
 
 namespace PersonalData.Data.Configurations;
 
-public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
+public class PersonConfiguration : BaseEntityConfiguration<Person>
 {
-    public void Configure(EntityTypeBuilder<Person> builder)
+    protected override void ConfigureProperties(EntityTypeBuilder<Person> builder)
     {
         builder.ToTable("People");
         builder.HasKey(x => x.Id);
@@ -36,5 +37,16 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
         builder
             .Property(x => x.Email)
             .IsRequired();
+    }
+
+    protected override void ConfigureRelationships(EntityTypeBuilder<Person> builder)
+    {
+        builder.HasMany(p => p.Workspaces)
+            .WithMany(w => w.Members)
+            .UsingEntity("WorkspaceMembers");
+
+        builder.HasMany(p => p.Teams)
+            .WithMany(t => t.Members)
+            .UsingEntity("TeamMembers");
     }
 }

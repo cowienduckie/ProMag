@@ -5,7 +5,7 @@ namespace PersonalData.Domain;
 
 public class Person : AuditableEntity
 {
-    public Guid ActorId { get; set; } // ActorId is ref ID such as UserId, ContactId. Normally, PersonId and ActorId are same.
+    public Guid ActorId { get; set; }
     public string FirstName { get; set; } = default!;
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = default!;
@@ -26,4 +26,7 @@ public class Person : AuditableEntity
     public string? CountryLocale { get; set; }
     public string? Language { get; set; }
     public string? Timezone { get; set; }
+
+    public ICollection<Team> Teams { get; set; } = default!;
+    public ICollection<Workspace> Workspaces { get; set; } = default!;
 }
