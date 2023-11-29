@@ -538,15 +538,16 @@ public class AccountController : Controller
     {
         var appOptions = _configuration.GetOptions<AppOptions>("App");
 
-        await _bus.Send<SaveActivityLog>(new
-        {
-            IpAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
-            Service = appOptions.Name,
-            Action = action,
-            Duration = duration,
-            Parameters = JsonConvert.SerializeObject(parameter),
-            Username = username
-        });
+        await _bus.Send(new SaveActivityLog
+        (
+            Guid.NewGuid(),
+            _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? string.Empty,
+            appOptions.Name,
+            action,
+            duration,
+            JsonConvert.SerializeObject(parameter),
+            username
+        ));
     }
 
     #endregion
