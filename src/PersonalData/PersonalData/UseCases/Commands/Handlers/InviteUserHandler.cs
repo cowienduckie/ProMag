@@ -1,10 +1,10 @@
+using Configuration.MassTransit.IntegrationEvents.Email;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PersonalData.Common;
 using PersonalData.Common.Converters;
 using PersonalData.Data;
-using PersonalData.IntegrationEvents;
 using PersonalData.UseCases.Responses;
 using Promag.Protobuf.Identity.V1;
 using Shared.CorrelationId;
@@ -38,7 +38,7 @@ public class InviteUserHandler : IRequestHandler<InviteUserCommand, InviteUserRe
     {
         _logger.LogInformation("{Handler} - Start", nameof(InviteUserHandler));
 
-        var isEmailTaken = _context.People.Any(p => string.Equals(p.Email, request.Email, StringComparison.CurrentCultureIgnoreCase));
+        var isEmailTaken = _context.People.Any(p => p.Email.ToLower() == request.Email.ToLower());
 
         if (isEmailTaken)
         {
@@ -84,14 +84,14 @@ public class InviteUserHandler : IRequestHandler<InviteUserCommand, InviteUserRe
 
         _logger.LogInformation("{Handler} - Publish event by Email from Communication service", nameof(InviteUserHandler));
 
-        await _bus.Send<ISendActiveAccountEmail>(new
-        {
-            CorrelationId = _correlationContext.CorrelationContext?.CorrelationId,
-            ReceiverEmail = person.Email,
-            UserName = createLoginAccountResult.UserName,
-            FullName = $"{person.FirstName} {person.LastName}",
-            ActivateUrl = createLoginAccountResult.ActivateUrl
-        }, cancellationToken);
+        await _bus.Send(new SendActiveAccountEmail
+        (
+            _correlationContext.CorrelationContext?.CorrelationId ?? Guid.Empty,
+            person.Email,
+            $"{person.FirstName} {person.LastName}",
+            createLoginAccountResult.UserName,
+            createLoginAccountResult.ActivateUrl
+        ), cancellationToken);
 
         _logger.LogInformation("{Handler} - Finish", nameof(InviteUserHandler));
 

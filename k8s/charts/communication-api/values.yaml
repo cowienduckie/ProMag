@@ -92,4 +92,4 @@ env:
     - name: MessageBus__RabbitMQ__password
       key: RabbitMQ.Password
     - name: MailKit__Password
-      value: MailKit.Password
+      key: MailKit.Password

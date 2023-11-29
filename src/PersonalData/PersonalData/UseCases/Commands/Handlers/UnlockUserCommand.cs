@@ -1,12 +1,12 @@
+using Configuration.MassTransit.IntegrationEvents.Email;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersonalData.Common;
-using PersonalData.Common.Enums;
 using PersonalData.Data;
-using PersonalData.IntegrationEvents;
 using Promag.Protobuf.Identity.V1;
+using Shared.Common.Enums;
 using Shared.CorrelationId;
 
 namespace PersonalData.UseCases.Commands.Handlers;
@@ -68,14 +68,16 @@ public class UnlockUserHandler : IRequestHandler<UnlockUserCommand, bool>
 
         _logger.LogInformation("{Handler} - Send Email request to Community service", nameof(UnlockUserHandler));
 
-        await _bus.Send<IAccountUnlockedEmail>(new
-        {
-            _correlationContextAccessor.CorrelationContext?.CorrelationId,
-            ReceiverEmail = person.Email,
+        var personFullName = $"{person.FirstName} {person.LastName}";
+
+        await _bus.Send(new SendAccountUnlockedEmail
+        (
+            _correlationContextAccessor.CorrelationContext?.CorrelationId ?? Guid.Empty,
+            person.Email,
+            personFullName,
             result.UserName,
-            result.ResetPasswordUrl,
-            FullName = $"{person.FirstName} {person.LastName}"
-        }, cancellationToken);
+            result.ResetPasswordUrl
+        ), cancellationToken);
 
         _logger.LogInformation("{Handler} - Finish", nameof(UnlockUserHandler));
 

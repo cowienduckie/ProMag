@@ -2,9 +2,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersonalData.Common;
-using PersonalData.Common.Enums;
 using PersonalData.Data;
 using Promag.Protobuf.Identity.V1;
+using Shared.Common.Enums;
 
 namespace PersonalData.UseCases.Commands.Handlers;
 

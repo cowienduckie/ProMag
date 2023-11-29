@@ -1,36 +1,37 @@
 using Communication.Common.Constants;
 using Communication.EmailTemplates;
+using Configuration.MassTransit.IntegrationEvents.Email;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Shared.Email;
 
 namespace Communication.IntegrationEvents.Consumers;
 
-public class ResetPasswordEmailConsumer : IConsumer<IResetPasswordEmail>
+public class SendResetPasswordEmailConsumer : IConsumer<SendResetPasswordEmail>
 {
     private readonly IEmailClient _emailClient;
     private readonly IHandlebarsRender _handlebarsRender;
-    private readonly ILogger<ResetPasswordEmailConsumer> _logger;
+    private readonly ILogger<SendResetPasswordEmailConsumer> _logger;
 
-    public ResetPasswordEmailConsumer(
+    public SendResetPasswordEmailConsumer(
         IEmailClient emailClient,
         IHandlebarsRender handlebarsRender,
-        ILogger<ResetPasswordEmailConsumer> logger)
+        ILogger<SendResetPasswordEmailConsumer> logger)
     {
         _emailClient = emailClient;
         _handlebarsRender = handlebarsRender;
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<IResetPasswordEmail> context)
+    public async Task Consume(ConsumeContext<SendResetPasswordEmail> context)
     {
-        _logger.LogInformation("{ConsumerName} - Start", nameof(ResetPasswordEmailConsumer));
+        _logger.LogInformation("{ConsumerName} - Start", nameof(SendResetPasswordEmailConsumer));
 
         var bodyEmail = await _handlebarsRender.RenderAsync(EmailTemplate.ResetPassword, context.Message);
 
         if (bodyEmail is null)
         {
-            _logger.LogError("{ConsumerName} - Rendered email body is NULL", nameof(ResetPasswordEmailConsumer));
+            _logger.LogError("{ConsumerName} - Rendered email body is NULL", nameof(SendResetPasswordEmailConsumer));
 
             return;
         }
@@ -43,6 +44,6 @@ public class ResetPasswordEmailConsumer : IConsumer<IResetPasswordEmail>
             .Body(bodyEmail, true)
             .SendAsync();
 
-        _logger.LogInformation("{ConsumerName} - Finish", nameof(ResetPasswordEmailConsumer));
+        _logger.LogInformation("{ConsumerName} - Finish", nameof(SendResetPasswordEmailConsumer));
     }
 }

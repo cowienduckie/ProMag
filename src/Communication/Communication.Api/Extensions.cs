@@ -177,9 +177,9 @@ public static class Extensions
         {
             cfg.ReceiveEndpoint(QueueName.Communication, x =>
             {
-                x.Consumer<AccountUnlockedEmailConsumer>(ctx);
-                x.Consumer<ActivationEmailConsumer>(ctx);
-                x.Consumer<ResetPasswordEmailConsumer>(ctx);
+                x.Consumer<SendAccountUnlockedEmailConsumer>(ctx);
+                x.Consumer<SendActiveAccountEmailConsumer>(ctx);
+                x.Consumer<SendResetPasswordEmailConsumer>(ctx);
             });
 
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();

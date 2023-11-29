@@ -1,6 +1,7 @@
 using PersonalData.Common.Enums;
 using PersonalData.Domain;
 using PersonalData.UseCases.Commands;
+using Shared.Common.Enums;
 
 namespace PersonalData.Common.Converters;
 

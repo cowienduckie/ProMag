@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonalData.Common.Enums;
 using PersonalData.Domain;
+using Shared.Common.Enums;
 
 namespace PersonalData.Data.Configurations;
 

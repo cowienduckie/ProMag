@@ -25,14 +25,3 @@ enum Gender {
   male = 0;
   female = 1;
 }
-
-enum UserStatus {
-  active = 0;
-  inactive = 1;
-  lock = 2;
-}
-
-enum UserType {
-  user = 0;
-  contact = 1;
-}

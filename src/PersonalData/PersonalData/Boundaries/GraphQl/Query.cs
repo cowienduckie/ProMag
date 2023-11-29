@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using PersonalData.Boundaries.GraphQl.Dtos;
 using PersonalData.Boundaries.GraphQl.Filters;
 using PersonalData.Boundaries.GraphQl.ObjectTypes;
+using PersonalData.Common.Enums;
 using PersonalData.Services;
 using PersonalData.UseCases.Queries;
 using Promag.Protobuf.Commons.V1;
@@ -19,7 +20,6 @@ using Promag.Protobuf.Identity.V1;
 using Shared;
 using Shared.Caching;
 using Shared.CustomTypes;
-using UserType = PersonalData.Common.Enums.UserType;
 
 namespace PersonalData.Boundaries.GraphQl;
 

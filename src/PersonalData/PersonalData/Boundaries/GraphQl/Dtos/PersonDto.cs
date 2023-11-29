@@ -1,4 +1,4 @@
-using PersonalData.Common.Enums;
+using Shared.Common.Enums;
 
 namespace PersonalData.Boundaries.GraphQl.Dtos;
 

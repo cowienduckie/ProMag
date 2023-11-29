@@ -103,7 +103,7 @@ public class CreateLogInUserHandler : IRequestHandler<CreateLogInUserRequest, Cr
             };
         }
 
-        var activateUrl = _linkGenerator.GetPathByPage(
+        var activateUrl = _linkGenerator.GetPathByAction(
             _accessor.HttpContext,
             "ConfirmEmail",
             "Account",
