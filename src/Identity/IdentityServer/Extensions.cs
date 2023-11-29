@@ -1,11 +1,13 @@
 using Configuration.MassTransit;
+using Configuration.MassTransit.IntegrationEvents.Account;
+using Configuration.MassTransit.IntegrationEvents.Email;
+using Configuration.MassTransit.IntegrationEvents.Logging;
 using Configuration.Metrics;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
 using HealthChecks.UI.Client;
 using IdentityServer.Boundaries.Grpc;
 using IdentityServer.Data;
-using IdentityServer.IntegrationEvents;
 using IdentityServer.Models.DbModel;
 using MassTransit;
 using MediatR;
@@ -234,9 +236,9 @@ internal static class Extensions
 
         void ConfigureEndpoint(IBusFactoryConfigurator cfg)
         {
-            EndpointConvention.Map<ISendResetPasswordEmail>(new Uri($"queue:{QueueName.Communication}"));
-            EndpointConvention.Map<IAccountStatusChanged>(new Uri($"queue:{QueueName.PersonalData}"));
-            EndpointConvention.Map<ISaveActivityLog>(new Uri($"queue:{QueueName.MasterData}"));
+            EndpointConvention.Map<SendResetPasswordEmail>(new Uri($"queue:{QueueName.Communication}"));
+            EndpointConvention.Map<AccountStatusChanged>(new Uri($"queue:{QueueName.PersonalData}"));
+            EndpointConvention.Map<SaveActivityLog>(new Uri($"queue:{QueueName.MasterData}"));
 
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();
 

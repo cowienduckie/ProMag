@@ -1,5 +1,6 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MasterData.UseCases.Commands;
 using MasterData.UseCases.Queries;
 using MediatR;
 using Promag.Protobuf.Commons.V1;
@@ -23,6 +24,6 @@ public class MasterDataService : MasterDataApi.MasterDataApiBase
 
     public override async Task<CreateActivityLogResponse> CreateActivityLog(CreateActivityLogRequest request, ServerCallContext context)
     {
-        return await _mediator.Send(request);
+        return await _mediator.Send(new CreateActivityLogCommand(request));
     }
 }

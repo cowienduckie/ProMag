@@ -1,4 +1,5 @@
 using PersonalData.Common.Enums;
+using Shared.Common.Enums;
 using Shared.Domain;
 
 namespace PersonalData.Domain;

@@ -1,4 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using Configuration.MassTransit.IntegrationEvents.Account;
+using Configuration.MassTransit.IntegrationEvents.Email;
+using Configuration.MassTransit.IntegrationEvents.Logging;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
@@ -8,7 +11,6 @@ using Duende.IdentityServer.Stores;
 using IdentityModel;
 using IdentityServer.Common.Attributes;
 using IdentityServer.Common.Extensions;
-using IdentityServer.IntegrationEvents;
 using IdentityServer.Models.Account;
 using IdentityServer.Models.DbModel;
 using IdentityServer.Options;
@@ -18,8 +20,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Promag.Protobuf.Commons.V1;
 using Shared;
+using Shared.Common.Enums;
 using Shared.CustomTypes;
 
 namespace IdentityServer.Boundaries.Controllers.Account;
@@ -167,11 +169,11 @@ public class AccountController : Controller
                 ModelState.AddModelError(string.Empty, AccountOptions.LockedOutErrorMessage);
                 var user = await _userManager.FindByNameAsync(model.Username);
 
-                await _bus.Send<IAccountStatusChanged>(new
-                {
-                    UserId = user!.Id,
-                    UserStatus = UserStatus.Lock
-                });
+                await _bus.Send(new AccountStatusChanged(
+                    Guid.NewGuid(),
+                    user!.Id,
+                    UserStatus.Lock
+                ));
             }
             else
             {
@@ -280,12 +282,13 @@ public class AccountController : Controller
             userId = user.Id, token = tokenGenerated
         }, Request.Scheme);
 
-        await _bus.Send<ISendResetPasswordEmail>(new
-        {
-            ResetPasswordLink = resetLink,
-            ReceiverEmail = user.Email,
-            user.UserName
-        });
+        await _bus.Send(new SendResetPasswordEmail
+        (
+            Guid.NewGuid(),
+            resetLink ?? string.Empty,
+            user.Email ?? string.Empty,
+            user.UserName ?? string.Empty
+        ));
 
         return View("EmailSent");
     }
@@ -379,11 +382,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        await _bus.Send<IAccountStatusChanged>(new
-        {
-            UserId = user.Id,
-            UserStatus = UserStatus.Active
-        });
+        await _bus.Send(new AccountStatusChanged(Guid.NewGuid(), user.Id, UserStatus.Active));
 
         return View(nameof(AlertPasswordUpdated));
     }
@@ -539,7 +538,7 @@ public class AccountController : Controller
     {
         var appOptions = _configuration.GetOptions<AppOptions>("App");
 
-        await _bus.Send<ISaveActivityLog>(new
+        await _bus.Send<SaveActivityLog>(new
         {
             IpAddress = _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
             Service = appOptions.Name,

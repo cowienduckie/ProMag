@@ -21,7 +21,8 @@ public static class Extensions
         configurator.ConfigureSend(x => x.ConnectSendPipeSpecificationObserver(new OpenTelemetrySendPipeSpecificationObserver()));
     }
 
-    public static OpenTelemetryConsumeConfigurationObserver UseOpenTelemetryOnConsume(this IConsumePipeConfigurator configurator,
+    public static OpenTelemetryConsumeConfigurationObserver UseOpenTelemetryOnConsume(
+        this IConsumePipeConfigurator configurator,
         TracerProvider tracerFactory)
     {
         if (configurator == null)

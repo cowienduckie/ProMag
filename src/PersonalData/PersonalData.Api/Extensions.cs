@@ -1,4 +1,5 @@
 using Configuration.MassTransit;
+using Configuration.MassTransit.IntegrationEvents.Email;
 using Configuration.OpenTelemetry;
 using Configuration.OpenTelemetry.Behaviors;
 using EfCore;
@@ -23,7 +24,6 @@ using PersonalData.Boundaries.Grpc;
 using PersonalData.Data;
 using PersonalData.Data.Audit;
 using PersonalData.Data.Filters;
-using PersonalData.IntegrationEvents;
 using PersonalData.IntegrationEvents.Consumers;
 using PersonalData.Services;
 using PersonalData.Services.Implementations;
@@ -253,8 +253,8 @@ public static class Extensions
         {
             cfg.ReceiveEndpoint(QueueName.PersonalData, x => { x.Consumer<AccountStatusChangedConsumer>(ctx); });
 
-            EndpointConvention.Map<ISendActiveAccountEmail>(new Uri($"queue:{QueueName.Communication}"));
-            EndpointConvention.Map<IAccountUnlockedEmail>(new Uri($"queue:{QueueName.Communication}"));
+            EndpointConvention.Map<SendActiveAccountEmail>(new Uri($"queue:{QueueName.Communication}"));
+            EndpointConvention.Map<SendAccountUnlockedEmail>(new Uri($"queue:{QueueName.Communication}"));
 
             var correlationContextAccessor = services.BuildServiceProvider().GetRequiredService<ICorrelationContextAccessor>();
 

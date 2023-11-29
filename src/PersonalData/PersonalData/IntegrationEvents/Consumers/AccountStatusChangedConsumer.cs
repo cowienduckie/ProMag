@@ -1,10 +1,11 @@
+using Configuration.MassTransit.IntegrationEvents.Account;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PersonalData.Data;
 
 namespace PersonalData.IntegrationEvents.Consumers;
 
-public class AccountStatusChangedConsumer : IConsumer<IAccountStatusChanged>
+public class AccountStatusChangedConsumer : IConsumer<AccountStatusChanged>
 {
     private readonly PersonalContext _personalContext;
 
@@ -13,7 +14,7 @@ public class AccountStatusChangedConsumer : IConsumer<IAccountStatusChanged>
         _personalContext = personalContext;
     }
 
-    public async Task Consume(ConsumeContext<IAccountStatusChanged> context)
+    public async Task Consume(ConsumeContext<AccountStatusChanged> context)
     {
         var person = await _personalContext.People.FirstOrDefaultAsync(p => p.Id == Guid.Parse(context.Message.UserId));
 

@@ -1,36 +1,37 @@
 using Communication.Common.Constants;
 using Communication.EmailTemplates;
+using Configuration.MassTransit.IntegrationEvents.Email;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Shared.Email;
 
 namespace Communication.IntegrationEvents.Consumers;
 
-public class ActivationEmailConsumer : IConsumer<IActivationEmail>
+public class SendActiveAccountEmailConsumer : IConsumer<SendActiveAccountEmail>
 {
     private readonly IEmailClient _emailClient;
     private readonly IHandlebarsRender _handlebarsRender;
-    private readonly ILogger<ActivationEmailConsumer> _logger;
+    private readonly ILogger<SendActiveAccountEmailConsumer> _logger;
 
-    public ActivationEmailConsumer(
+    public SendActiveAccountEmailConsumer(
         IEmailClient emailClient,
         IHandlebarsRender handlebarsRender,
-        ILogger<ActivationEmailConsumer> logger)
+        ILogger<SendActiveAccountEmailConsumer> logger)
     {
         _emailClient = emailClient;
         _handlebarsRender = handlebarsRender;
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<IActivationEmail> context)
+    public async Task Consume(ConsumeContext<SendActiveAccountEmail> context)
     {
-        _logger.LogInformation("{ConsumerName} - Start", nameof(ActivationEmailConsumer));
+        _logger.LogInformation("{ConsumerName} - Start", nameof(SendActiveAccountEmailConsumer));
 
         var bodyEmail = await _handlebarsRender.RenderAsync(EmailTemplate.Activation, context.Message);
 
         if (bodyEmail is null)
         {
-            _logger.LogError("{ConsumerName} - Rendered email body is NULL", nameof(ActivationEmailConsumer));
+            _logger.LogError("{ConsumerName} - Rendered email body is NULL", nameof(SendActiveAccountEmailConsumer));
 
             return;
         }
@@ -43,6 +44,6 @@ public class ActivationEmailConsumer : IConsumer<IActivationEmail>
             .Body(bodyEmail, true)
             .SendAsync();
 
-        _logger.LogInformation("{ConsumerName} - Finish", nameof(ActivationEmailConsumer));
+        _logger.LogInformation("{ConsumerName} - Finish", nameof(SendActiveAccountEmailConsumer));
     }
 }

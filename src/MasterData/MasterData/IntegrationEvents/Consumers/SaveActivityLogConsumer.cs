@@ -1,10 +1,11 @@
+using Configuration.MassTransit.IntegrationEvents.Logging;
 using MassTransit;
 using MediatR;
 using Promag.Protobuf.MasterData.V1;
 
 namespace MasterData.IntegrationEvents.Consumers;
 
-public class SaveActivityLogConsumer : IConsumer<ISaveActivityLog>
+public class SaveActivityLogConsumer : IConsumer<SaveActivityLog>
 {
     private readonly IMediator _mediator;
 
@@ -13,7 +14,7 @@ public class SaveActivityLogConsumer : IConsumer<ISaveActivityLog>
         _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<ISaveActivityLog> context)
+    public async Task Consume(ConsumeContext<SaveActivityLog> context)
     {
         var createActivityLogInput = new CreateActivityLogRequest
         {

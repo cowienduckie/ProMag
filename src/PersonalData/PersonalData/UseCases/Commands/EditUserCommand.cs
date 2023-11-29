@@ -1,7 +1,7 @@
 using MediatR;
 using PersonalData.Boundaries.GraphQl.Dtos;
-using PersonalData.Common.Enums;
 using PersonalData.Data.Audit;
+using Shared.Common.Enums;
 
 namespace PersonalData.UseCases.Commands;
 

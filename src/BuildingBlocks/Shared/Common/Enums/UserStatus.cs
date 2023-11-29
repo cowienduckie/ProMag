@@ -1,4 +1,4 @@
-namespace PersonalData.Common.Enums;
+namespace Shared.Common.Enums;
 
 public enum UserStatus
 {
