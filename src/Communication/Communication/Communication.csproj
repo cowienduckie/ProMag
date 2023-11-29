@@ -28,17 +28,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="EmailTemplates\Handlebars\**">
+        <Content Include="EmailTemplates\Handlebars\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="EmailTemplates\Handlebars\Layouts\Basic.html.hbs"/>
-        <_ContentIncludedByDefault Remove="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs"/>
-        <_ContentIncludedByDefault Remove="EmailTemplates\Handlebars\ActivationEmail.html.hbs"/>
-        <_ContentIncludedByDefault Remove="EmailTemplates\Handlebars\ResetPasswordEmail.html.hbs"/>
+        <None Remove="EmailTemplates\Handlebars\Layouts\Basic.html.hbs"/>
+        <None Remove="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs"/>
+        <None Remove="EmailTemplates\Handlebars\ActivationEmail.html.hbs"/>
+        <None Remove="EmailTemplates\Handlebars\ResetPasswordEmail.html.hbs"/>
     </ItemGroup>
 
     <ItemGroup>

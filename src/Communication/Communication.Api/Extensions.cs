@@ -50,6 +50,7 @@ public static class Extensions
     {
         app.UseCorrelationId()
             .UseAppMetrics()
+            .UseStaticFiles(new StaticFileOptions())
             .UseRouting()
             .UseEndpoints(endpoints =>
             {
