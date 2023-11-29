@@ -37,14 +37,6 @@ COPY ["src/Communication/Communication.Api/.", "src/Communication/Communication.
 COPY ["src/Communication/Communication/.", "src/Communication/Communication/"]
 COPY ["src/Communication/Communication.FunctionalTests/.", "src/Communication/Communication.FunctionalTests/"]
 
-## Build API
-# WORKDIR "/src/src/Communication/Communication.Api"
-# RUN dotnet build "Communication.Api.csproj" -c Release -o /app/build --no-restore
-
-# ## Build Functional Tests
-# WORKDIR "/src/src/Communication/Communication.FunctionalTests"
-# RUN dotnet build "Communication.FunctionalTests.csproj" -c Release -o /app/build --no-restore
-
 # Step 2: Publish
 FROM build AS publish
 WORKDIR "/src/src/Communication/Communication.Api"

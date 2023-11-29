@@ -30,6 +30,7 @@
     <ItemGroup>
         <Content Include="EmailTemplates\Handlebars\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
 
