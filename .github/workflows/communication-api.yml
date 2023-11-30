@@ -13,6 +13,22 @@ on:
       - .github/workflows/communication-api.yml
 
 jobs:
+  build:
+    name: Build & Test .NET projects
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_PATH: src/Communication/Communication.Api/Communication.Api.csproj
+    steps:
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build .NET project with dependencies
+        run: |-
+          dotnet restore $PROJECT_PATH
+          dotnet build $PROJECT_PATH --no-restore
+      
   deploy:
     name: Deploy Communication API
     runs-on: ubuntu-latest
@@ -23,9 +39,6 @@ jobs:
       PROJECT_NAME: promag
       REGION: us-central1
       LOCATION: us-central1-a
-
-      # .NET projects variables
-      PROJECT_PATH: src/Communication/Communication.Api/Communication.Api.csproj
 
       # Docker variables
       IMAGE: communication-api
@@ -49,16 +62,6 @@ jobs:
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           install_components: "gke-gcloud-auth-plugin"
           export_default_credentials: true
-
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v3.2.0
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Build .NET project with dependencies
-        run: |-
-          dotnet restore $PROJECT_PATH
-          dotnet build $PROJECT_PATH --no-restore
 
       - name: Configure Docker for authentication
         run: |-
