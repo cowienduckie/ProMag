@@ -15,7 +15,7 @@ on:
 jobs:
   build:
     name: Build & Test .NET projects
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       PROJECT_PATH: src/Communication/Communication.Api/Communication.Api.csproj
     steps:
