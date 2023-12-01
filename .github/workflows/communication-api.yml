@@ -77,8 +77,8 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          docker buildx build \
-            -t "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
+          docker build \
+            --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
             -f $DOCKERFILE_PATH \
             .
 
