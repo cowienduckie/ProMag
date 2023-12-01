@@ -58,6 +58,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Docker
+        run: |
+          brew update
+          brew install --cask docker
+
       - name: Install the GCloud CLI
         uses: google-github-actions/setup-gcloud@v0
         with:
