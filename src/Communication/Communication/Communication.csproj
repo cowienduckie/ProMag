@@ -28,9 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="EmailTemplates\Handlebars\**">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <Content Include="EmailTemplates\Handlebars\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Always"/>
     </ItemGroup>
 
     <ItemGroup>
