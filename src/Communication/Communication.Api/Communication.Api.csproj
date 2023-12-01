@@ -12,13 +12,21 @@
         <Content Include="..\..\..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
-        <Content Include="..\Communication\EmailTemplates\Handlebars\*" Link="EmailTemplates\Handlebars\*">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <Content Include="EmailTemplates\Handlebars\Layouts\Basic.html.hbs">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>
-        <Content Include="..\Communication\EmailTemplates\Handlebars\Layouts\*" Link="EmailTemplates\Handlebars\Layouts\*">
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <Content Include="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="EmailTemplates\Handlebars\ActivationEmail.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="EmailTemplates\Handlebars\ResetPasswordEmail.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
 

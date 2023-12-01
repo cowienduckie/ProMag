@@ -1,6 +1,6 @@
 using Communication.Boundaries.Grpc;
-using Communication.EmailTemplates;
-using Communication.EmailTemplates.Implementations;
+using Communication.EmailRender;
+using Communication.EmailRender.Implementations;
 using Communication.IntegrationEvents.Consumers;
 using Configuration.MassTransit;
 using Configuration.Metrics;
@@ -50,12 +50,6 @@ public static class Extensions
     {
         app.UseCorrelationId()
             .UseAppMetrics()
-            // .UseStaticFiles(new StaticFileOptions
-            // {
-            //     FileProvider = new PhysicalFileProvider(
-            //         Path.Combine(app.Environment.ContentRootPath, "EmailTemplates")),
-            //     RequestPath = "/EmailTemplates"
-            // })
             .UseRouting()
             .UseEndpoints(endpoints =>
             {

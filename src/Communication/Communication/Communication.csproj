@@ -26,11 +26,7 @@
         <ProjectReference Include="..\..\BuildingBlocks\Email.MailKit\Email.MailKit.csproj"/>
         <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="EmailTemplates\Handlebars\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Always"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <Protobuf Include="..\..\_schema\proto\promag\common\v1\common.proto" Link="protobuf\common.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
         <Protobuf Include="..\..\_schema\proto\promag\communication\v1\communication_api.proto" Link="protobuf\communication_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>

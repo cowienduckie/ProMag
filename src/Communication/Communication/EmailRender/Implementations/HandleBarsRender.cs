@@ -1,7 +1,7 @@
 using HandlebarsDotNet;
 using LazyCache;
 
-namespace Communication.EmailTemplates.Implementations;
+namespace Communication.EmailRender.Implementations;
 
 public class HandlebarsRender : IHandlebarsRender
 {
