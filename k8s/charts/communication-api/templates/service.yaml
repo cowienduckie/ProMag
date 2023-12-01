@@ -18,13 +18,3 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "communication-api.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-
-{{- if .Values.externalEmailSender.enabled -}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: external-email-sender
-spec:
-  type: ExternalName
-  externalName: {{ .Values.externalEmailSender.host }}
-{{- end }}
