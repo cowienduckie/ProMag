@@ -72,7 +72,7 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          docker build \
+          docker buildx build \
             --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
             --no-cache \
             -f $DOCKERFILE_PATH \
