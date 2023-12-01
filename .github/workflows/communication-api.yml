@@ -13,28 +13,28 @@ on:
       - .github/workflows/communication-api.yml
 
 jobs:
-  build:
-    name: Build & Test .NET projects
-    runs-on: macos-latest
-    env:
-      PROJECT_PATH: src/Communication/Communication.Api/Communication.Api.csproj
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v3.2.0
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Build .NET project with dependencies
-        run: |-
-          dotnet restore $PROJECT_PATH
-          dotnet build $PROJECT_PATH --no-restore
+#  build:
+#    name: Build & Test .NET projects
+#    runs-on: macos-latest
+#    env:
+#      PROJECT_PATH: src/Communication/Communication.Api/Communication.Api.csproj
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Install .NET SDK
+#        uses: actions/setup-dotnet@v3.2.0
+#        with:
+#          dotnet-version: 8.0.x
+#
+#      - name: Build .NET project with dependencies
+#        run: |-
+#          dotnet restore $PROJECT_PATH
+#          dotnet build $PROJECT_PATH --no-restore
 
   deploy:
     name: Deploy Communication API
     runs-on: macos-latest
-    needs: [ build ]
+#    needs: [ build ]
     env:
       # Google Cloud variables
       GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
@@ -78,8 +78,7 @@ jobs:
       - name: Build Docker image
         run: |-
           docker buildx build \
-            --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
-            --no-cache \
+            -t "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
             -f $DOCKERFILE_PATH \
             .
 
