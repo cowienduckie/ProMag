@@ -26,12 +26,10 @@
 
     <ItemGroup>
         <Content Include="..\Communication\EmailTemplates\Handlebars\*" Link="EmailTemplates\Handlebars\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>
         <Content Include="..\Communication\EmailTemplates\Handlebars\Layouts\*" Link="EmailTemplates\Handlebars\Layout\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
 </Project>
