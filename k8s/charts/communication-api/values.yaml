@@ -21,6 +21,11 @@ service:
 ingress:
   enabled: false
 
+externalEmailSender:
+  enabled: false
+  host: smtp.mailgun.org
+
+
 resources:
   limits:
     cpu: 100m
