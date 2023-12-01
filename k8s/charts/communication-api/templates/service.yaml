@@ -27,4 +27,4 @@ metadata:
 spec:
   type: ExternalName
   externalName: {{ .Values.externalEmailSender.host }}
-{{-end}}
+{{- end }}
