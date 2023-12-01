@@ -60,8 +60,8 @@ jobs:
 
       - name: Install Docker
         run: |-
-          brew install --cask docker
-          open /Applications/Docker.app
+          brew install docker
+          colima start
 
       - name: Install the GCloud CLI
         uses: google-github-actions/setup-gcloud@v0
@@ -77,7 +77,6 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          open /Applications/Docker.app
           docker build \
             --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
             -f $DOCKERFILE_PATH \
