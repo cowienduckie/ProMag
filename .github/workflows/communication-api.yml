@@ -61,7 +61,7 @@ jobs:
       - name: Install Docker
         run: |
           brew install --cask docker
-          open -a Docker
+          open /Applications/Docker.app
 
       - name: Install the GCloud CLI
         uses: google-github-actions/setup-gcloud@v0
