@@ -28,10 +28,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="EmailTemplates\Handlebars\Layouts\Basic.html.hbs"/>
-        <None Remove="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs"/>
-        <None Remove="EmailTemplates\Handlebars\ActivationEmail.html.hbs"/>
-        <None Remove="EmailTemplates\Handlebars\ResetPasswordEmail.html.hbs"/>
+        <Content Include="EmailTemplates\Handlebars\**">
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

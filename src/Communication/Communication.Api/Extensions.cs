@@ -12,7 +12,6 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.FileProviders;
 using OpenTelemetry;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -51,12 +50,12 @@ public static class Extensions
     {
         app.UseCorrelationId()
             .UseAppMetrics()
-            .UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(app.Environment.ContentRootPath, "EmailTemplates")),
-                RequestPath = "/EmailTemplates"
-            })
+            // .UseStaticFiles(new StaticFileOptions
+            // {
+            //     FileProvider = new PhysicalFileProvider(
+            //         Path.Combine(app.Environment.ContentRootPath, "EmailTemplates")),
+            //     RequestPath = "/EmailTemplates"
+            // })
             .UseRouting()
             .UseEndpoints(endpoints =>
             {

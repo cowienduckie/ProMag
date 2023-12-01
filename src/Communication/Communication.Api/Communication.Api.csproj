@@ -23,13 +23,5 @@
     <ItemGroup>
         <ProjectReference Include="..\Communication\Communication.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\Communication\EmailTemplates\Handlebars\*" Link="EmailTemplates\Handlebars\*">
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
-        <Content Include="..\Communication\EmailTemplates\Handlebars\Layouts\*" Link="EmailTemplates\Handlebars\Layout\*">
-            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
-        </Content>
-    </ItemGroup>
+    
 </Project>
