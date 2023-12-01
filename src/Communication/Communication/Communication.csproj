@@ -28,13 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="EmailTemplates\Handlebars\**\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
         <None Remove="EmailTemplates\Handlebars\Layouts\Basic.html.hbs"/>
         <None Remove="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs"/>
         <None Remove="EmailTemplates\Handlebars\ActivationEmail.html.hbs"/>
