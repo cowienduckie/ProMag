@@ -22,9 +22,8 @@ ingress:
   enabled: false
 
 externalEmailSender:
-  enabled: false
+  enabled: true
   host: smtp.mailgun.org
-
 
 resources:
   limits:
