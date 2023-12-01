@@ -33,7 +33,7 @@ jobs:
 
   deploy:
     name: Deploy Communication API
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: [ build ]
     env:
       # Google Cloud variables
