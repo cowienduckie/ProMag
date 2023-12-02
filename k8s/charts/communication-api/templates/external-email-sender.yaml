@@ -1,0 +1,9 @@
+{{- if .Values.externalEmailSender.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-email-sender
+spec:
+  type: ExternalName
+  externalName: {{ .Values.externalEmailSender.host }}
+{{- end }}

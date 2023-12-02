@@ -1,5 +1,5 @@
 using Communication.Common.Constants;
-using Communication.EmailTemplates;
+using Communication.EmailRender;
 using Configuration.MassTransit.IntegrationEvents.Email;
 using MassTransit;
 using Microsoft.Extensions.Logging;

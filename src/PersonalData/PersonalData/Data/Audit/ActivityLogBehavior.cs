@@ -62,7 +62,7 @@ public class ActivityLogBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 
         if (createLogResponse.Succeeded)
         {
-            _logger.LogError("ActivityLogBehavior - RequestType={Request} - ResponseType={Response} - Succeeded",
+            _logger.LogInformation("ActivityLogBehavior - RequestType={Request} - ResponseType={Response} - Succeeded",
                 typeof(TRequest), typeof(TResponse));
 
             return response;

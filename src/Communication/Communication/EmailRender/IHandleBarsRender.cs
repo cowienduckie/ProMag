@@ -1,4 +1,4 @@
-namespace Communication.EmailTemplates;
+namespace Communication.EmailRender;
 
 public interface IHandlebarsRender
 {

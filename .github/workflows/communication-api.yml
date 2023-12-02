@@ -26,7 +26,7 @@ jobs:
 
       # Docker variables
       IMAGE: communication-api
-      DOCKERFILE_PATH: ./src/Communication/Communication.Api/Dockerfile
+      DOCKERFILE_PATH: src/Communication/Communication.Api/Dockerfile
 
       # Kubernetes variables
       CLUSTER_NAME: sit-cluster
@@ -53,7 +53,7 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          docker build \
+          docker buildx build \
             --tag "$REGION-docker.pkg.dev/$GOOGLE_PROJECT/$PROJECT_NAME/$IMAGE:latest" \
             -f $DOCKERFILE_PATH \
             .

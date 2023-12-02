@@ -1,6 +1,6 @@
 using Communication.Boundaries.Grpc;
-using Communication.EmailTemplates;
-using Communication.EmailTemplates.Implementations;
+using Communication.EmailRender;
+using Communication.EmailRender.Implementations;
 using Communication.IntegrationEvents.Consumers;
 using Configuration.MassTransit;
 using Configuration.Metrics;

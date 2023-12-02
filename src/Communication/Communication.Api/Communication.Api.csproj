@@ -12,6 +12,22 @@
         <Content Include="..\..\..\.dockerignore">
             <Link>.dockerignore</Link>
         </Content>
+        <Content Include="EmailTemplates\Handlebars\Layouts\Basic.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="EmailTemplates\Handlebars\AccountUnlockedEmail.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="EmailTemplates\Handlebars\ActivationEmail.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
+        <Content Include="EmailTemplates\Handlebars\ResetPasswordEmail.html.hbs">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -23,5 +39,4 @@
     <ItemGroup>
         <ProjectReference Include="..\Communication\Communication.csproj"/>
     </ItemGroup>
-
 </Project>

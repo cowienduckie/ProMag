@@ -21,6 +21,10 @@ service:
 ingress:
   enabled: false
 
+externalEmailSender:
+  enabled: true
+  host: smtp.mailgun.org
+
 resources:
   limits:
     cpu: 100m
@@ -69,7 +73,7 @@ env:
       value: http://identity-api:15101
 
     - name: MailKit__SmtpHost
-      value: smtp.mailgun.org
+      value: external-email-sender
     - name: MailKit__SmtpPort
       value: '587'
     - name: MailKit__Username
