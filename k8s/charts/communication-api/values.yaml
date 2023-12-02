@@ -23,7 +23,7 @@ ingress:
 
 externalEmailSender:
   enabled: true
-  host: smtp.mailgun.org
+  host: mail.privateemail.com
 
 resources:
   limits:
@@ -77,7 +77,7 @@ env:
     - name: MailKit__SmtpPort
       value: '587'
     - name: MailKit__Username
-      value: 'postmaster@mg.minhtrandev.com'
+      value: 'promag@minhtrandev.com'
     - name: MailKit__MailBoxAddress
       value: 'promag@minhtrandev.com'
     - name: MailKit__MailBoxName
