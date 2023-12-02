@@ -9,7 +9,7 @@ image:
   tag: local
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: "communication-api"
 
@@ -21,6 +21,9 @@ service:
 ingress:
   enabled: false
 
+externalEmailSender:
+  enabled: false
+
 resources:
   limits:
     cpu: 100m
@@ -29,13 +32,13 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-probes: []
+probes: [ ]
 
 env:
   normal:
