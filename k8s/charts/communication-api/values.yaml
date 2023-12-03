@@ -23,7 +23,7 @@ ingress:
 
 externalEmailSender:
   enabled: true
-  host: 'mail.privateemail.com'
+  host: mail.privateemail.com
 
 resources:
   limits:
@@ -73,7 +73,7 @@ env:
       value: http://identity-api:15101
 
     - name: MailKit__SmtpHost
-      value: external-email-sender
+      value: mail.privateemail.com
     - name: MailKit__SmtpPort
       value: '587'
     - name: MailKit__Username
