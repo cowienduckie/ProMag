@@ -44,6 +44,15 @@ public class Mutation
         return await mediator.Send(inviteUserInput);
     }
 
+    [GraphQLType(typeof(RegisterUserResponseType))]
+    [AllowAnonymous]
+    public async Task<RegisterUserResponse> RegisterUser(
+        [GraphQLType(typeof(RegisterUserInputType))] RegisterUserCommand registerUserInput,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(registerUserInput);
+    }
+
     [Authorize(AuthorizationPolicy.ADMIN_ACCESS)]
     public async Task<bool> UnlockUser(
         [GraphQLType(typeof(UnlockUserInputType))] UnlockUserCommand unlockUserInput,

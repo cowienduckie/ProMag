@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Portal.Data;
 using Portal.UseCases.Responses;
@@ -32,15 +33,43 @@ public class CreateTaskHandler : IRequestHandler<CreateTaskCommand, CreateTaskRe
         {
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
+            var project = await _portalContext.Projects
+                .Include(p => p.Sections.Where(s => s.Id == Guid.Parse(request.SectionId)))
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(request.ProjectId), cancellationToken);
+
+            if (project is null)
+            {
+                _logger.LogError("{Handler} - ProjectId={ProjectId} not found", nameof(CreateTaskHandler), request.ProjectId);
+
+                return new CreateTaskResponse
+                {
+                    StatusCode = ResponseStatuses.BadRequest.GetCode(),
+                    ErrorCode = Errors.COM_001.GetCode(),
+                    ErrorMessage = Errors.COM_001.GetMessages("ProjectId")
+                };
+            }
+
+            if (project.Sections.Count == 0)
+            {
+                _logger.LogError("{Handler} - SectionId={SectionId} not found", nameof(CreateTaskHandler), request.SectionId);
+
+                return new CreateTaskResponse
+                {
+                    StatusCode = ResponseStatuses.BadRequest.GetCode(),
+                    ErrorCode = Errors.COM_001.GetCode(),
+                    ErrorMessage = Errors.COM_001.GetMessages("SectionId")
+                };
+            }
+
             var newTask = new Task
             {
                 Name = request.Name,
                 Notes = request.Notes,
                 StartOn = request.StartOn,
                 DueOn = request.DueOn,
-                WorkspaceId = Guid.Empty,
-                SectionId = Guid.Parse(request.SectionId),
-                ProjectId = Guid.Parse(request.ProjectId)
+                WorkspaceId = project.WorkspaceId,
+                Section = project.Sections.Single(),
+                Project = project
             };
 
             await _portalContext.Tasks.AddAsync(newTask, cancellationToken);

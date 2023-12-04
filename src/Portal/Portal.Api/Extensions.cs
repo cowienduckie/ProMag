@@ -22,7 +22,10 @@ using Portal.Api.Options;
 using Portal.Boundaries.Grpc;
 using Portal.Data;
 using Portal.Data.Audit;
+using Portal.Services;
+using Portal.Services.Implementations;
 using Promag.Protobuf.MasterData.V1;
+using Promag.Protobuf.PersonalData.V1;
 using RabbitMQ.Client;
 using Shared;
 using Shared.Common.Constants;
@@ -62,6 +65,8 @@ public static class Extensions
             .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))
             .AsImplementedInterfaces()
             .WithTransientLifetime());
+
+        builder.Services.AddTransient<IAccessPermissionService, AccessPermissionService>();
 
         return builder.Build();
     }
@@ -178,6 +183,10 @@ public static class Extensions
 
         services
             .AddGrpcClient<MasterDataApi.MasterDataApiClient>(o => { o.Address = new Uri(serviceOptions.MasterDataService.GrpcUrl); })
+            .AddInterceptor<ClientLoggerInterceptor>();
+
+        services
+            .AddGrpcClient<PersonalApi.PersonalApiClient>(o => { o.Address = new Uri(serviceOptions.PersonalDataService.GrpcUrl); })
             .AddInterceptor<ClientLoggerInterceptor>();
 
         return services;

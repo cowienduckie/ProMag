@@ -81,6 +81,8 @@ env:
       value: http://identity-api:15101
     - name: Services__MasterDataService__GrpcUrl
       value: http://master-data-api:15004
+    - name: Services__PersonalDataService__GrpcUrl
+      value: http://personal-data-api:15003
 
   secret:
     - name: Logging__Seq__ApiKey

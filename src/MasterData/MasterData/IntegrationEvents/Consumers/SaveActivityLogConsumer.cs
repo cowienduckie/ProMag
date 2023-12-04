@@ -1,5 +1,6 @@
 using Configuration.MassTransit.IntegrationEvents.Logging;
 using MassTransit;
+using MasterData.UseCases.Commands;
 using MediatR;
 using Promag.Protobuf.MasterData.V1;
 
@@ -16,7 +17,7 @@ public class SaveActivityLogConsumer : IConsumer<SaveActivityLog>
 
     public async Task Consume(ConsumeContext<SaveActivityLog> context)
     {
-        var createActivityLogInput = new CreateActivityLogRequest
+        var request = new CreateActivityLogRequest
         {
             IpAddress = context.Message.IpAddress,
             Service = context.Message.Service,
@@ -26,6 +27,6 @@ public class SaveActivityLogConsumer : IConsumer<SaveActivityLog>
             Username = context.Message.Username
         };
 
-        await _mediator.Send(createActivityLogInput);
+        await _mediator.Send(new CreateActivityLogCommand(request));
     }
 }

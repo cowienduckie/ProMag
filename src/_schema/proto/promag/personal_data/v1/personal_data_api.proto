@@ -10,6 +10,7 @@ import "google/protobuf/wrappers.proto";
 
 service PersonalApi {
   rpc Ping (google.protobuf.Empty) returns (promag.common.v1.PongReply);
+  rpc GetUserCollaboration(promag.personaldata.v1.GetUserCollaborationRequest) returns (promag.personaldata.v1.GetUserCollaborationResponse);
 }
 
 message CreateLogInUserRequest {
@@ -18,4 +19,13 @@ message CreateLogInUserRequest {
   string userName = 3;
   google.protobuf.StringValue email = 4;
   repeated string roleIds = 5;
+}
+
+message GetUserCollaborationRequest {
+  string userId = 1;
+}
+
+message GetUserCollaborationResponse {
+  repeated string workspaces = 1;
+  repeated string teams = 2;
 }

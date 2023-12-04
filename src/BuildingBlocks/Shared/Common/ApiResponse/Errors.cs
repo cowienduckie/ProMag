@@ -17,7 +17,10 @@ public enum Errors
     VAL_000,
 
     [Description("Validation failed. Detail messages: \n{0}")]
-    VAL_001
+    VAL_001,
+
+    [Description("Access denied. Detail messages: \n{0}")]
+    VAL_002
 }
 
 public static class ErrorExtensions
