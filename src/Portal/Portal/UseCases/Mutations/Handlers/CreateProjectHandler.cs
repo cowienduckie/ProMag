@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Portal.Common.Constants;
 using Portal.Data;
 using Portal.Domain;
+using Portal.Services;
 using Portal.UseCases.Responses;
 using Shared.Common.ApiResponse;
 using Shared.SecurityContext;
@@ -12,6 +13,7 @@ namespace Portal.UseCases.Mutations.Handlers;
 
 public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, CreateProjectResponse>
 {
+    private readonly IAccessPermissionService _accessPermissionService;
     private readonly ILogger<CreateProjectHandler> _logger;
     private readonly PortalContext _portalContext;
     private readonly ISecurityContextAccessor _securityContext;
@@ -21,12 +23,14 @@ public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, Create
         ILogger<CreateProjectHandler> logger,
         PortalContext portalContext,
         ISecurityContextAccessor securityContext,
-        IValidator<CreateProjectCommand> validator)
+        IValidator<CreateProjectCommand> validator,
+        IAccessPermissionService accessPermissionService)
     {
         _logger = logger;
         _portalContext = portalContext;
         _securityContext = securityContext;
         _validator = validator;
+        _accessPermissionService = accessPermissionService;
     }
 
     public async Task<CreateProjectResponse> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
@@ -49,21 +53,37 @@ public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, Create
         {
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
+            var (workspaces, teams) = await _accessPermissionService.GetUserCollaboration(userId);
+
+            if (request.WorkspaceId is null ||
+                !Guid.TryParse(request.WorkspaceId, out var workspaceId) ||
+                !workspaces.Contains(workspaceId))
+            {
+                workspaceId = workspaces.FirstOrDefault(); // TODO: Find default workspace
+            }
+
+            if (request.TeamId is null ||
+                !Guid.TryParse(request.TeamId, out var teamId) ||
+                !teams.Contains(teamId))
+            {
+                teamId = teams.FirstOrDefault(); // TODO: Find default team
+            }
+
             var newProject = new Project
             {
                 Name = request.Name,
                 Notes = request.Notes,
                 Color = request.Color ?? ColorHexCode.Default,
-                DueDate = request.DueDate, // TODO: Convert to UTC time
+                DueDate = request.DueDate?.ToUniversalTime(),
                 Archived = false,
                 OwnerId = userId,
-                TeamId = Guid.Empty, // TODO: Implement Team feature
-                WorkspaceId = Guid.Empty, // TODO: Implement Workspace feature
+                TeamId = workspaceId,
+                WorkspaceId = teamId,
                 Sections = new List<Section>
                 {
-                    new("To Do", 1),
-                    new("In Progress", 2),
-                    new("Done", 3)
+                    new(DefaultName.ToDoColumn, 1),
+                    new(DefaultName.InProgressColumn, 2),
+                    new(DefaultName.DoneColumn, 3)
                 }
             };
 

@@ -110,13 +110,13 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Register
 
         await _context.Workspaces.AddAsync(new Workspace
         {
-            Name = DefaultNameConstants.Workspace,
+            Name = DefaultName.Workspace,
             Members = new List<Person> { person },
             Teams = new List<Team>
             {
                 new()
                 {
-                    Name = DefaultNameConstants.Team,
+                    Name = DefaultName.Team,
                     Members = new List<Person> { person }
                 }
             }

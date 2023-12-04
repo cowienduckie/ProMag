@@ -9,4 +9,6 @@ public class CreateProjectCommand : IRequest<CreateProjectResponse>
     public string? Notes { get; set; }
     public string? Color { get; set; }
     public DateTime? DueDate { get; set; }
+    public string? WorkspaceId { get; set; }
+    public string? TeamId { get; set; }
 }
