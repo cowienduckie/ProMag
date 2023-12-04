@@ -7,6 +7,8 @@ spec:
   ports:
     - port: 587
       targetPort: 587
+      protocol: TCP
+      name: smtp
 ---
 kind: Endpoints
 apiVersion: v1
