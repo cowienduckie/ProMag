@@ -10,5 +10,5 @@ public class CreateActivityLogCommand : IRequest<CreateActivityLogResponse>
         Payload = request;
     }
 
-    public CreateActivityLogRequest Payload { get; private set; }
+    public CreateActivityLogRequest Payload { get; }
 }
