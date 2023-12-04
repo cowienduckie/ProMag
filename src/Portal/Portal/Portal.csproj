@@ -22,6 +22,7 @@
         <Protobuf Include="..\..\_schema\proto\promag\pagination\v1\pagination.proto" Link="protobuf\pagination.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
         <Protobuf Include="..\..\_schema\proto\promag\portal\v1\portal_api.proto" Link="protobuf\portal_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
         <Protobuf Include="..\..\_schema\proto\promag\master_data\v1\master_data_api.proto" Link="protobuf\master_data_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
+        <Protobuf Include="..\..\_schema\proto\promag\personal_data\v1\personal_data_api.proto" Link="protobuf\personal_data_api.proto" AdditionalImportDirs="..\..\_schema\proto\"/>
     </ItemGroup>
 
     <ItemGroup>

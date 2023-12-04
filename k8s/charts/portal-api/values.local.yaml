@@ -9,7 +9,7 @@ image:
   tag: local
   pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ""
 fullnameOverride: "portal-api"
 
@@ -29,13 +29,13 @@ resources:
     cpu: 200m
     memory: 256Mi
 
-nodeSelector: {}
+nodeSelector: { }
 
-tolerations: []
+tolerations: [ ]
 
-affinity: {}
+affinity: { }
 
-probes: []
+probes: [ ]
 
 env:
   normal:
@@ -43,7 +43,7 @@ env:
       value: Development
 
     - name: App__HealthCheckEnabled
-      value: true
+      value: 'true'
 
     - name: MessageBus__TransportType
       value: RabbitMQ
@@ -53,12 +53,12 @@ env:
       value: amqp://rabbitmq
 
     - name: OpenTelemetry__Enabled
-      value: false
+      value: 'false'
     - name: OpenTelemetry__zipkinEndpoint
       value: http://zipkin:9411/api/v2/spans
 
     - name: Logging__Seq__Enabled
-      value: false
+      value: 'false'
     - name: Logging__Seq__Url
       value: http://seq:5341/
     - name: Logging__MinimumLevel__Default
@@ -72,6 +72,8 @@ env:
       value: http://identity-api:15101
     - name: Services__MasterDataService__GrpcUrl
       value: http://master-data-api:15004
+    - name: Services__PersonalDataService__GrpcUrl
+      value: http://personal-data-api:15003
 
   secret:
     - name: Logging__Seq__ApiKey

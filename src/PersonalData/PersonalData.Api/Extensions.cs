@@ -288,7 +288,11 @@ public static class Extensions
 
         services.AddDbContext<PersonalContext>(options =>
         {
-            options.UseNpgsql(connString, opt => { opt.EnableRetryOnFailure(3); });
+            options.UseNpgsql(connString, opt =>
+            {
+                opt.EnableRetryOnFailure(3);
+                opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            });
 
             options.EnableDetailedErrors();
 
