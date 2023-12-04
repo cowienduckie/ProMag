@@ -21,9 +21,6 @@ service:
 ingress:
   enabled: false
 
-externalEmailSender:
-  enabled: false
-
 resources:
   limits:
     cpu: 100m
