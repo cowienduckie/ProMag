@@ -20,6 +20,19 @@ public static class ConvertToDomain
         };
     }
 
+    public static Person ToPerson(this RegisterUserCommand registerUserCommand)
+    {
+        return new Person
+        {
+            FirstName = registerUserCommand.FirstName,
+            LastName = registerUserCommand.LastName,
+            Email = registerUserCommand.Email,
+
+            UserStatus = UserStatus.Inactive,
+            UserType = UserType.User
+        };
+    }
+
     public static Person ToPerson(this EditUserCommand editUser, Person originPerson)
     {
         originPerson.FirstName = editUser.FirstName;
