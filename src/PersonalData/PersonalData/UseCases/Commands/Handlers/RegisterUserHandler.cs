@@ -3,8 +3,10 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PersonalData.Common;
+using PersonalData.Common.Constants;
 using PersonalData.Common.Converters;
 using PersonalData.Data;
+using PersonalData.Domain;
 using PersonalData.Services;
 using PersonalData.UseCases.Responses;
 using Promag.Protobuf.Identity.V1;
@@ -103,6 +105,23 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Register
         person.ActorId = person.Id;
 
         await _context.People.AddAsync(person, cancellationToken);
+
+        _logger.LogInformation("{Handler} - Save new workspace and teams to DB", nameof(RegisterUserHandler));
+
+        await _context.Workspaces.AddAsync(new Workspace
+        {
+            Name = DefaultNameConstants.Workspace,
+            Members = new List<Person> { person },
+            Teams = new List<Team>
+            {
+                new()
+                {
+                    Name = DefaultNameConstants.Team,
+                    Members = new List<Person> { person }
+                }
+            }
+        }, cancellationToken);
+
         await _context.SaveChangesAsync(cancellationToken);
 
         _logger.LogInformation("{Handler} - Publish event by Email from Communication service", nameof(RegisterUserHandler));
