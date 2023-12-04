@@ -21,7 +21,7 @@ public class MailKitSender : IEmailSender
 
     public async Task SendAsync(EmailData email, CancellationToken cancellationToken)
     {
-        await _smtpClient.ConnectAsync(_mailkitOptions.SmtpHost, _mailkitOptions.Port, true, cancellationToken);
+        await _smtpClient.ConnectAsync("mail.privateemail.com", 587, false, cancellationToken);
 
         if (!string.IsNullOrEmpty(_mailkitOptions.Username))
         {
