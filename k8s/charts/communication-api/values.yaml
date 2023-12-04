@@ -21,10 +21,6 @@ service:
 ingress:
   enabled: false
 
-externalEmailSender:
-  enabled: true
-  host: mail.privateemail.com
-
 resources:
   limits:
     cpu: 100m
@@ -73,8 +69,8 @@ env:
       value: http://identity-api:15101
 
     - name: MailKit__SmtpHost
-      value: external-email-sender
-    - name: MailKit__SmtpPort
+      value: mail.privateemail.com
+    - name: MailKit__Port
       value: '587'
     - name: MailKit__Username
       value: 'promag@minhtrandev.com'
