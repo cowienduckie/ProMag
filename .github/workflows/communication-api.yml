@@ -10,6 +10,7 @@ on:
       - src/Communication/**/*
       - k8s/charts/communication-api/**/*
       - src/BuildingBlocks/Shared/**/*
+      - src/BuildingBlocks/Email.MailKit/**/*
       - .github/workflows/communication-api.yml
 
 jobs:
