@@ -77,8 +77,8 @@ public class CreateProjectHandler : IRequestHandler<CreateProjectCommand, Create
                 DueDate = request.DueDate?.ToUniversalTime(),
                 Archived = false,
                 OwnerId = userId,
-                TeamId = workspaceId,
-                WorkspaceId = teamId,
+                TeamId = teamId,
+                WorkspaceId = workspaceId,
                 Sections = new List<Section>
                 {
                     new(DefaultName.ToDoColumn, 1),
