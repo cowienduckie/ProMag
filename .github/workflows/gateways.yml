@@ -1,4 +1,4 @@
-name: Graph Gateway Pipeline
+name: Gateways Pipeline
 
 on:
   workflow_dispatch:
@@ -7,14 +7,14 @@ on:
     branches:
       - main
     paths:
-      - src/Gateways/GraphQl.Gateway/**/*
-      - k8s/charts/graph-gateway/**/*
+      - src/Gateways/Gateways/**/*
+      - k8s/charts/gateways/**/*
       - src/BuildingBlocks/Shared/**/*
-      - .github/workflows/graph-gateway.yml
+      - .github/workflows/gateways.yml
 
 jobs:
   deploy:
-    name: Deploy Graph Gateway
+    name: Deploy Gateways
     runs-on: ubuntu-latest
     env:
       # Google Cloud variables
@@ -25,14 +25,14 @@ jobs:
       LOCATION: us-central1-a
 
       # Docker variables
-      IMAGE: graph-gateway
-      DOCKERFILE_PATH: ./src/Gateways/GraphQl.Gateway/Dockerfile
+      IMAGE: gateways
+      DOCKERFILE_PATH: ./src/Gateways/Gateways/Dockerfile
 
       # Kubernetes variables
       CLUSTER_NAME: sit-cluster
       NAMESPACE: prod
-      CHART: graph-gateway
-      DEPLOYMENT: graph-gateway
+      CHART: gateways
+      DEPLOYMENT: gateways
       VALUES_FILE: values.yaml
 
     steps:

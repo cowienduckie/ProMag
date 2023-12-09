@@ -1,6 +1,6 @@
 using Shared.CustomTypes;
 
-namespace GraphQl.Gateway.Options;
+namespace Gateways.Options;
 
 public class ServiceOptions
 {

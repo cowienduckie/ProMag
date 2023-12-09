@@ -11,9 +11,9 @@ COPY ["src/BuildingBlocks/Configuration.Vault/*.csproj", "src/BuildingBlocks/Con
 COPY ["src/BuildingBlocks/Configuration.Metrics/*.csproj", "src/BuildingBlocks/Configuration.Metrics/"]
 COPY ["src/BuildingBlocks/GraphQl/*.csproj", "src/BuildingBlocks/GraphQl/"]
 
-COPY ["src/Gateways/GraphQl.Gateway/*.csproj", "src/Gateways/GraphQl.Gateway/"]
+COPY ["src/Gateways/Gateways/*.csproj", "src/Gateways/Gateways/"]
 
-RUN dotnet restore src/Gateways/GraphQl.Gateway/ /property:Configuration=Release
+RUN dotnet restore src/Gateways/Gateways/ /property:Configuration=Release
 
 COPY ["src/_schema/proto/promag/.", "src/_schema/proto/promag/"]
 COPY ["src/BuildingBlocks/Shared/.", "src/BuildingBlocks/Shared/"]
@@ -22,9 +22,9 @@ COPY ["src/BuildingBlocks/Configuration.Vault/.", "src/BuildingBlocks/Configurat
 COPY ["src/BuildingBlocks/Configuration.Metrics/.", "src/BuildingBlocks/Configuration.Metrics/"]
 COPY ["src/BuildingBlocks/GraphQl/.", "src/BuildingBlocks/GraphQl/"]
 
-COPY ["src/Gateways/GraphQl.Gateway/.", "src/Gateways/GraphQl.Gateway/"]
+COPY ["src/Gateways/Gateways/.", "src/Gateways/Gateways/"]
 
-RUN dotnet publish src/Gateways/GraphQl.Gateway/ -c Release -o /app --no-restore
+RUN dotnet publish src/Gateways/Gateways/ -c Release -o /app --no-restore
 
 FROM ${RUNTIME_IMAGE}
 WORKDIR /app
@@ -33,5 +33,5 @@ ENV ASPNETCORE_ENVIRONMENT Development
 
 COPY --from=builder /app .
 
-ENTRYPOINT [ "dotnet",  "GraphQl.Gateway.dll"]
+ENTRYPOINT [ "dotnet",  "Gateways.dll"]
 
