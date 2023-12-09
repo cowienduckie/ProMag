@@ -62,7 +62,7 @@ env:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
     - name: PathBase
-      value: /
+      value: /gateway
 
     - name: Logging__Seq__Enabled
       value: 'true'
