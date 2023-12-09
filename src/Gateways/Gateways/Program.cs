@@ -1,5 +1,5 @@
 using System.Net;
-using GraphQl.Gateway;
+using Gateways;
 using Microsoft.IdentityModel.Logging;
 using Shared.Logging;
 

@@ -1,6 +1,6 @@
 using Humanizer;
 
-namespace GraphQl.Gateway.Schemas;
+namespace Gateways.Schemas;
 
 public static class WellKnownSchemaNames
 {

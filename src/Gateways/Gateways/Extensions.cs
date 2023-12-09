@@ -1,8 +1,8 @@
 using Configuration.Metrics;
 using Configuration.OpenTelemetry;
+using Gateways.Options;
+using Gateways.Schemas;
 using GraphQl.Errors;
-using GraphQl.Gateway.Options;
-using GraphQl.Gateway.Schemas;
 using HealthChecks.UI.Client;
 using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -11,7 +11,7 @@ using Shared;
 using Shared.CorrelationId;
 using Shared.CustomTypes;
 
-namespace GraphQl.Gateway;
+namespace Gateways;
 
 public static class Extensions
 {
@@ -26,7 +26,8 @@ public static class Extensions
             .AddHeaderPropagation()
             .AddAppMetrics()
             .AddHealthChecks(builder.Configuration)
-            .AddGraphQl(builder.Configuration);
+            .AddGraphQl(builder.Configuration)
+            .AddYarpReverseProxy(builder.Configuration);
 
         return builder.Build();
     }
@@ -50,6 +51,8 @@ public static class Extensions
                         {
                             ServeMode = GraphQLToolServeMode.Embedded
                         });
+
+                    endpoints.MapReverseProxy();
 
                     endpoints.MapGet(pathBase, context =>
                     {
@@ -162,6 +165,15 @@ public static class Extensions
                         .SetIsOriginAllowed(_ => true);
                 });
         });
+
+        return services;
+    }
+
+    private static IServiceCollection AddYarpReverseProxy(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddReverseProxy()
+            .LoadFromConfig(configuration.GetSection("ReverseProxy"));
 
         return services;
     }

@@ -6,3 +6,4 @@ spec:
   domains:
     - id.promag.minhtrandev.com
     - graph.promag.minhtrandev.com
+    - gw.promag.minhtrandev.com

@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace IdentityServer.Common.Attributes;
 
+[SuppressMessage("Usage", "ASP0019:Suggest using IHeaderDictionary.Append or the indexer")]
 public class SecurityHeadersAttribute : ActionFilterAttribute
 {
     public override void OnResultExecuting(ResultExecutingContext context)
