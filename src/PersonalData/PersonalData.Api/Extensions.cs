@@ -23,6 +23,7 @@ using PersonalData.Api.Options;
 using PersonalData.Boundaries.Grpc;
 using PersonalData.Data;
 using PersonalData.Data.Audit;
+using PersonalData.Data.Filters;
 using PersonalData.IntegrationEvents.Consumers;
 using PersonalData.Services;
 using PersonalData.Services.Implementations;
@@ -65,7 +66,7 @@ public static class Extensions
             .AddCustomSerializer<NewtonSoftService>();
 
         builder.Services
-            .AddControllers()
+            .AddControllers(opt => { opt.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
             .AddApplicationPart(typeof(Anchor).Assembly);
 
         builder.Services.Scan(scan => scan
