@@ -1,3 +1,4 @@
+@using IdentityServer.Common
 @model IdentityServer.Models.Account.LoginViewModel
 <div class="default-theme">
     <div class="page-wrapper">
@@ -8,7 +9,9 @@
                 </div>
                 <div class="col-6 entry-page-content">
                     <div class="entry-page-title-hint">You are signing in to</div>
-                    <div class="entry-page-title">ProMag</div>
+                    <div class="entry-page-title">
+                        <a href="@Constants.PRODUCTION_URL" style="text-decoration: none;">ProMag</a>
+                    </div>
                     <div class="entry-page-form">
                         <div class="form-title">Sign In</div>
                         <form asp-action="Login">
