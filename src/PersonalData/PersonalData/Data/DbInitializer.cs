@@ -13,5 +13,21 @@ public static class DbInitializer
         var dbContext = scope.ServiceProvider.GetService<PersonalContext>();
 
         dbContext?.Database.Migrate();
+
+        if (dbContext != null)
+        {
+            var users = dbContext.People.Include(p => p.Workspaces).ToList();
+
+            foreach (var user in users)
+            {
+                foreach (var workspace in user.Workspaces)
+                {
+                    workspace.CreatedBy = user.Id;
+                }
+            }
+
+            dbContext.People.UpdateRange(users);
+            dbContext.SaveChanges();
+        }
     }
 }
