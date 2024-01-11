@@ -37,7 +37,7 @@ public class GetWorkspacesHandler : IRequestHandler<GetWorkspacesQuery, GetWorks
             .Include(w => w.Invitations)
             .ThenInclude(w => w.InvitedPerson)
             .Where(w => w.DeletedOn == null
-                        && (w.CreatedBy == userId || w.Members.Any(m => m.Id == userId) || w.Invitations.Any(i => i.Id == userId))
+                        && (w.CreatedBy == userId || w.Members.Any(m => m.Id == userId) || w.Invitations.Any(i => i.InvitedPersonId == userId))
             )
             .OrderBy(w => w.Name)
             .Select(w => w.ToWorkspaceDto())
