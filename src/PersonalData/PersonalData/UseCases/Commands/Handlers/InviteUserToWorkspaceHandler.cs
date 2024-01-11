@@ -53,7 +53,7 @@ public class InviteUserToWorkspaceHandler : IRequestHandler<InviteUserToWorkspac
             return false;
         }
 
-        if (workspace.Invitations.Any(i => i.Id == invitedUser.Id))
+        if (workspace.Invitations.Any(i => i.InvitedPersonId == invitedUser.Id))
         {
             _logger.LogInformation("{HandlerName} - User is already invited to the workspace", nameof(InviteUserToWorkspaceHandler));
 

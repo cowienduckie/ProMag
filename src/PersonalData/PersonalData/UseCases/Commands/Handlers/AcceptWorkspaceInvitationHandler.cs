@@ -28,7 +28,7 @@ public class AcceptWorkspaceInvitationHandler : IRequestHandler<AcceptWorkspaceI
             .Include(i => i.Workspace)
             .ThenInclude(w => w.Members)
             .Include(i => i.InvitedPerson)
-            .FirstOrDefaultAsync(i => i.Id == Guid.Parse(request.InvitationId) && i.InvitedPersonId == Guid.Parse(_securityContext.UserId!),
+            .FirstOrDefaultAsync(i => i.WorkspaceId == Guid.Parse(request.WorkspaceId) && i.InvitedPersonId == Guid.Parse(_securityContext.UserId!),
                 cancellationToken);
 
         if (invitation == null)
