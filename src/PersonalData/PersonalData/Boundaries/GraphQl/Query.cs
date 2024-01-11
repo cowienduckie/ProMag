@@ -15,6 +15,7 @@ using PersonalData.Boundaries.GraphQl.ObjectTypes;
 using PersonalData.Common.Enums;
 using PersonalData.Services;
 using PersonalData.UseCases.Queries;
+using PersonalData.UseCases.Responses;
 using Promag.Protobuf.Commons.V1;
 using Promag.Protobuf.Identity.V1;
 using Shared;
@@ -148,5 +149,14 @@ public class Query
         var permissions = await mediator.Send(new GetRolePermissionsQuery(roleId));
 
         return permissions.ToList();
+    }
+
+    [GraphQLName("Workspaces")]
+    [GraphQLType(typeof(GetWorkspacesResponseType))]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<GetWorkspacesResponse> GetWorkspaces(
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(new GetWorkspacesQuery());
     }
 }

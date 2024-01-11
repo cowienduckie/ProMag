@@ -30,4 +30,5 @@ public class Person : AuditableEntity
 
     public ICollection<Team> Teams { get; set; } = default!;
     public ICollection<Workspace> Workspaces { get; set; } = default!;
+    public ICollection<WorkspaceInvitation> Invitations { get; set; } = default!;
 }

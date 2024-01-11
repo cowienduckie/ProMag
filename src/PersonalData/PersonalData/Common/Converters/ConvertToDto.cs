@@ -5,6 +5,21 @@ namespace PersonalData.Common.Converters;
 
 public static class ConvertToDto
 {
+    public static WorkspaceDto ToWorkspaceDto(this Workspace workspace)
+    {
+        var members = workspace.Members.Select(m => m.ToPersonDto()).ToList();
+        var invitations = workspace.Invitations.Where(i => !i.Accepted).Select(i => i.InvitedPerson.ToPersonDto()).ToList();
+
+        return new WorkspaceDto
+        {
+            Id = workspace.Id.ToString(),
+            Name = workspace.Name,
+            OwnerId = workspace.CreatedBy.ToString(),
+            Members = members,
+            Invitations = invitations
+        };
+    }
+
     public static PersonDto ToPersonDto(this Person person)
     {
         return new PersonDto

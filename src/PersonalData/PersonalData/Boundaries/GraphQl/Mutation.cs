@@ -94,4 +94,37 @@ public class Mutation
     {
         return await mediator.Send(updatePermissionsInput);
     }
+
+    [GraphQLType(typeof(CreateWorkspaceResponseType))]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<CreateWorkspaceResponse> CreateWorkspace(
+        [GraphQLType(typeof(CreateWorkspaceInputType))] CreateWorkspaceCommand createWorkspaceInput,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(createWorkspaceInput);
+    }
+
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<bool> DeleteWorkspace(
+        [GraphQLType(typeof(DeleteWorkspaceInputType))] DeleteWorkspaceCommand deleteWorkspaceInput,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(deleteWorkspaceInput);
+    }
+
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<bool> InviteUserToWorkspace(
+        [GraphQLType(typeof(InviteUserToWorkspaceInputType))] InviteUserToWorkspaceCommand input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
+    }
+
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<bool> AcceptWorkspaceInvitation(
+        [GraphQLType(typeof(AcceptWorkspaceInvitationInputType))] AcceptWorkspaceInvitationCommand input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
+    }
 }
