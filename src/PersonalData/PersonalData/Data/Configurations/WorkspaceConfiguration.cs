@@ -18,6 +18,10 @@ public class WorkspaceConfiguration : BaseEntityConfiguration<Workspace>
         builder
             .Property(x => x.OrganizationId)
             .IsRequired(false);
+
+        builder
+            .Property(x => x.OwnerId)
+            .IsRequired();
     }
 
     protected override void ConfigureRelationships(EntityTypeBuilder<Workspace> builder)
