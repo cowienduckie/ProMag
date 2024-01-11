@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PersonalData.Boundaries.GraphQl.Dtos;
 using PersonalData.Boundaries.GraphQl.Filters;
+using PersonalData.Boundaries.GraphQl.InputObjectTypes;
 using PersonalData.Boundaries.GraphQl.ObjectTypes;
 using PersonalData.Common.Enums;
 using PersonalData.Services;
@@ -158,5 +159,14 @@ public class Query
         [Service] ISender mediator)
     {
         return await mediator.Send(new GetWorkspacesQuery());
+    }
+
+    [GraphQLName("GetWorkspaceById")]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<WorkspaceDto?> GetWorkspaceById(
+        [GraphQLType(typeof(GetWorkspaceByIdInputType))] GetWorkspaceByIdQuery query,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(query);
     }
 }
