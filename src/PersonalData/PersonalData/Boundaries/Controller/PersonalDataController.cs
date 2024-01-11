@@ -93,6 +93,33 @@ public class PersonalDataController : ControllerBase
         }
     }
 
+    [HttpGet("avatar/{userId}")]
+    public async Task<FileContentResult> GetAvatar(string userId)
+    {
+        var person = await _mediator.Send(new GetPersonByIdQuery(Guid.Parse(userId)));
+
+        Guard.NotNull(person);
+
+        try
+        {
+            if (person?.PhotoPath is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var path = Path.Combine(AvatarFolder, person.PhotoPath);
+            var fileContents = await _fileStore.ReadAllBytesAsync(path);
+
+            return File(fileContents, MimeMapping.GetMimeMapping(person.PhotoPath));
+        }
+        catch
+        {
+            var buffer = await System.IO.File.ReadAllBytesAsync(Path.Combine(_env.WebRootPath, "images/user.png"));
+
+            return File(buffer, "image/png");
+        }
+    }
+
     private async Task UploadPicture(IFormFile picture, string fileName)
     {
         const int fileLength = 1024 * 1024 * 5; // 5MB

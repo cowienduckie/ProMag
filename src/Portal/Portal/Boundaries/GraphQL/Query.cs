@@ -6,6 +6,7 @@ using HotChocolate.Types;
 using MediatR;
 using Portal.Boundaries.GraphQL.Dtos.Projects;
 using Portal.Boundaries.GraphQL.Filters;
+using Portal.Boundaries.GraphQL.InputTypes;
 using Portal.Boundaries.GraphQL.ObjectTypes;
 using Portal.UseCases.Queries;
 using Promag.Protobuf.Commons.V1;
@@ -29,6 +30,15 @@ public class Query
     public async Task<IQueryable<SimplifiedProjectDto>> GetProjects([Service] ISender mediator)
     {
         return await mediator.Send(new GetProjectsQuery());
+    }
+
+    [GraphQLName("GetProjectsByWorkspace")]
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<IEnumerable<SimplifiedProjectDto>> GetProjectsByWorkspace(
+        [GraphQLType(typeof(GetProjectsByWorkspaceInputType))] GetProjectsByWorkspaceQuery query,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(query);
     }
 
     [GraphQLName("KanbanProject")]

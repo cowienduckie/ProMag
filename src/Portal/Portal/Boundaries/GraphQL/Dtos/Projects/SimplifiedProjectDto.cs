@@ -9,6 +9,7 @@ public class SimplifiedProjectDto
     public string? Notes { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime? LastModifiedOn { get; set; }
+    public string WorkspaceId { get; set; } = default!;
 }
 
 public static partial class DtoConverter
@@ -21,7 +22,8 @@ public static partial class DtoConverter
             Name = project.Name,
             Notes = project.Notes,
             CreatedOn = project.CreatedOn,
-            LastModifiedOn = project.LastModifiedOn
+            LastModifiedOn = project.LastModifiedOn,
+            WorkspaceId = project.WorkspaceId.ToString()
         };
     }
 }
