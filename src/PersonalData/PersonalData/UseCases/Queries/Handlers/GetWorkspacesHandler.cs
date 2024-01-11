@@ -44,7 +44,7 @@ public class GetWorkspacesHandler : IRequestHandler<GetWorkspacesQuery, GetWorks
             .ToListAsync(cancellationToken);
 
         var ownedWorkspaces = workspaceDtos.Where(w => w.OwnerId == userId.ToString()).ToList();
-        var memberWorkspaces = workspaceDtos.Where(w => w.Members.Any(m => m.Id == userId.ToString())).ToList();
+        var memberWorkspaces = workspaceDtos.Where(w => w.OwnerId != userId.ToString() && w.Members.Any(m => m.Id == userId.ToString())).ToList();
         var pendingWorkspaces = workspaceDtos.Where(w => w.Invitations.Any(i => i.Id == userId.ToString())).ToList();
 
         _logger.LogInformation("{HandlerName} - Finish", nameof(GetWorkspacesHandler));
