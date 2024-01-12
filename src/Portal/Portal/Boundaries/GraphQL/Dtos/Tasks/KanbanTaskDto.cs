@@ -23,7 +23,7 @@ public class KanbanTaskDto
     public string Column { get; set; } = default!;
 }
 
-public static class DtoConverter
+public static partial class DtoConverter
 {
     public static KanbanTaskDto ToKanbanTaskDto(this Task task)
     {
