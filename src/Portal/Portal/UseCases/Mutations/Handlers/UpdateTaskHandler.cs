@@ -21,7 +21,7 @@ public class UpdateTaskHandler : IRequestHandler<UpdateTaskCommand, bool>
     {
         _logger.LogInformation("{HandlerName} - Start", nameof(UpdateTaskHandler));
 
-        var task = await _portalContext.Tasks.FirstOrDefaultAsync(t => t.Id == Guid.Parse(request.TaskId), cancellationToken);
+        var task = await _portalContext.Tasks.FirstOrDefaultAsync(t => t.Id == Guid.Parse(request.Id), cancellationToken);
 
         if (task == null)
         {

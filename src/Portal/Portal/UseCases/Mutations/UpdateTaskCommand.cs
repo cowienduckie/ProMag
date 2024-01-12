@@ -4,7 +4,7 @@ namespace Portal.UseCases.Mutations;
 
 public class UpdateTaskCommand : IRequest<bool>
 {
-    public string TaskId { get; set; } = default!;
+    public string Id { get; set; } = default!;
 
     public string Name { get; set; } = default!;
     public string? Notes { get; set; }
