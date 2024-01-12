@@ -96,7 +96,7 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
             {
                 if (!taskDict.ContainsKey(task.Id))
                 {
-                    task.DeletedOn = DateTime.UtcNow;
+                    _portalContext.Tasks.Remove(task);
                 }
             }
 
