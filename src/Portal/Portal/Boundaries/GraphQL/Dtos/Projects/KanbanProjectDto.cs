@@ -13,6 +13,7 @@ public class KanbanProjectDto
     public DateTime? DueDate { get; set; }
     public DateTime CreatedOn { get; set; }
     public DateTime? LastModifiedOn { get; set; }
+    public string WorkspaceId { get; set; } = default!;
 
     public IReadOnlyDictionary<string, object> Tasks { get; set; } = default!;
     public IReadOnlyDictionary<string, object> Columns { get; set; } = default!;
@@ -46,6 +47,7 @@ public static partial class DtoConverter
             DueDate = project.DueDate,
             CreatedOn = project.CreatedOn,
             LastModifiedOn = project.LastModifiedOn,
+            WorkspaceId = project.WorkspaceId.ToString(),
 
             Tasks = tasks,
             Columns = columns,

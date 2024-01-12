@@ -42,7 +42,8 @@ public class GetProjectsHandler : IRequestHandler<GetProjectsQuery, IQueryable<S
         var projectDtos = _portalContext.Projects
             .Where(p => p.DeletedOn == null
                         && workspaces.Contains(p.WorkspaceId))
-            .OrderBy(p => p.LastModifiedOn)
+            .OrderByDescending(p => p.LastModifiedOn)
+            .ThenByDescending(p => p.CreatedOn)
             .Select(p => p.ToSimplifiedProjectDto())
             .AsQueryable();
 

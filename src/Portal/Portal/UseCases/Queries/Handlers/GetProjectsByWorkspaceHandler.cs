@@ -44,6 +44,7 @@ public class GetProjectsByWorkspaceHandler : IRequestHandler<GetProjectsByWorksp
                         && workspaces.Contains(p.WorkspaceId)
                         && p.WorkspaceId == Guid.Parse(request.WorkspaceId))
             .OrderByDescending(p => p.LastModifiedOn)
+            .ThenByDescending(p => p.CreatedOn)
             .Select(p => p.ToSimplifiedProjectDto())
             .ToList();
 
