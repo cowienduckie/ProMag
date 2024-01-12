@@ -37,13 +37,12 @@ public class GetProjectsHandler : IRequestHandler<GetProjectsQuery, IQueryable<S
             return Enumerable.Empty<SimplifiedProjectDto>().AsQueryable();
         }
 
-        var (workspaces, teams) = await _accessPermissionService.GetUserCollaboration(userId);
+        var (workspaces, _) = await _accessPermissionService.GetUserCollaboration(userId);
 
         var projectDtos = _portalContext.Projects
             .Where(p => p.DeletedOn == null
-                        && teams.Contains(p.TeamId)
                         && workspaces.Contains(p.WorkspaceId))
-            .OrderBy(p => p.Name)
+            .OrderBy(p => p.LastModifiedOn)
             .Select(p => p.ToSimplifiedProjectDto())
             .AsQueryable();
 
