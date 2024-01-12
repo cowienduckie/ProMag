@@ -31,6 +31,8 @@ public static partial class DtoConverter
             .ToList();
 
         var tasks = project.Tasks
+            .OrderByDescending(t => t.DueOn)
+            .ThenByDescending(t => t.LastModifiedOn)
             .Select(t => t.ToKanbanTaskDto())
             .ToDictionary(t => t.Id, t => t as object);
 

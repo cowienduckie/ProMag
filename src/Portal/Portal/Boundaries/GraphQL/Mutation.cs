@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using HotChocolate;
 using HotChocolate.Authorization;
 using MediatR;
+using Portal.Boundaries.GraphQL.InputTypes;
 using Portal.Boundaries.GraphQL.ResponseTypes;
 using Portal.UseCases.Mutations;
 using Portal.UseCases.Responses;
@@ -43,6 +44,14 @@ public class Mutation
     [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
     public async Task<AssignTaskResponse> AssignTask(
         AssignTaskCommand input,
+        [Service] ISender mediator)
+    {
+        return await mediator.Send(input);
+    }
+
+    [Authorize(AuthorizationPolicy.ADMIN_MEMBER_ACCESS)]
+    public async Task<bool> UpdateTask(
+        [GraphQLType(typeof(UpdateTaskInputType))] UpdateTaskCommand input,
         [Service] ISender mediator)
     {
         return await mediator.Send(input);
