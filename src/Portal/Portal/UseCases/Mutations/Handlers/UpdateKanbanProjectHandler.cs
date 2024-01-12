@@ -55,11 +55,11 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
             }
 
             // Update column of tasks
-            var sectionDict = request.Tasks
+            var taskDict = request.Tasks
                 .Select(t => t.Value
                     .AsDictionary<string, object?>()
                     .GetObject<KanbanTaskDto>())
-                .ToFrozenDictionary(t => Guid.Parse(t.Id), t => Guid.Parse(t.Column));
+                .ToFrozenDictionary(t => Guid.Parse(t.Id), t => t);
 
             var tasks = await _portalContext.Tasks
                 .Where(t => t.ProjectId.ToString() == request.ProjectId && t.DeletedOn == null)
@@ -67,8 +67,8 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
 
             foreach (var task in tasks)
             {
-                task.SectionId = sectionDict[task.Id];
-                task.Completed = task.Completed;
+                task.SectionId = Guid.Parse(taskDict[task.Id].Column);
+                task.Completed = taskDict[task.Id].IsCompleted;
                 task.CompletedOn = DateTime.UtcNow;
             }
 
@@ -94,7 +94,7 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
 
             foreach (var task in project!.Tasks)
             {
-                if (tasks.All(t => t.Id != task.Id))
+                if (!taskDict.ContainsKey(task.Id))
                 {
                     task.DeletedOn = DateTime.UtcNow;
                 }
