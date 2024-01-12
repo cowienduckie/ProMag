@@ -35,8 +35,7 @@ public class UpdateTaskHandler : IRequestHandler<UpdateTaskCommand, bool>
         task.Completed = request.Completed;
         task.StartOn = request.StartOn;
         task.DueOn = request.DueOn;
-        task.AssigneeId = request.AssigneeId is null ? null : Guid.Parse(request.AssigneeId);
-        task.SectionId = Guid.Parse(request.SectionId);
+        task.AssigneeId = string.IsNullOrEmpty(request.AssigneeId) ? null : Guid.Parse(request.AssigneeId);
 
         _portalContext.Tasks.Update(task);
         await _portalContext.SaveChangesAsync(cancellationToken);
