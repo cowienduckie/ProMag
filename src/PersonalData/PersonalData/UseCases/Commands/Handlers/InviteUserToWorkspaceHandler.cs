@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersonalData.Data;
 using PersonalData.Domain;
-using Shared.SecurityContext;
 
 namespace PersonalData.UseCases.Commands.Handlers;
 
@@ -11,14 +10,11 @@ public class InviteUserToWorkspaceHandler : IRequestHandler<InviteUserToWorkspac
 {
     private readonly ILogger<InviteUserToWorkspaceHandler> _logger;
     private readonly PersonalContext _personalContext;
-    private readonly ISecurityContextAccessor _securityContext;
 
-    public InviteUserToWorkspaceHandler(ILogger<InviteUserToWorkspaceHandler> logger, PersonalContext personalContext,
-        ISecurityContextAccessor securityContext)
+    public InviteUserToWorkspaceHandler(ILogger<InviteUserToWorkspaceHandler> logger, PersonalContext personalContext)
     {
         _logger = logger;
         _personalContext = personalContext;
-        _securityContext = securityContext;
     }
 
     public async Task<bool> Handle(InviteUserToWorkspaceCommand request, CancellationToken cancellationToken)

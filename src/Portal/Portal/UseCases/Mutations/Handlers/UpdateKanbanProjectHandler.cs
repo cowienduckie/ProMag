@@ -8,7 +8,6 @@ using Portal.Data;
 using Portal.UseCases.Responses;
 using Shared.Common.ApiResponse;
 using Shared.Common.Helpers;
-using Shared.SecurityContext;
 
 namespace Portal.UseCases.Mutations.Handlers;
 
@@ -16,19 +15,16 @@ public class UpdateKanbanProjectHandler : IRequestHandler<UpdateKanbanProjectCom
 {
     private readonly ILogger<UpdateKanbanProjectHandler> _logger;
     private readonly PortalContext _portalContext;
-    private readonly ISecurityContextAccessor _securityContext;
     private readonly IValidator<UpdateKanbanProjectCommand> _validator;
 
     public UpdateKanbanProjectHandler(
         ILogger<UpdateKanbanProjectHandler> logger,
         PortalContext portalContext,
-        IValidator<UpdateKanbanProjectCommand> validator,
-        ISecurityContextAccessor securityContext)
+        IValidator<UpdateKanbanProjectCommand> validator)
     {
         _logger = logger;
         _portalContext = portalContext;
         _validator = validator;
-        _securityContext = securityContext;
     }
 
     public async Task<UpdateKanbanProjectResponse> Handle(UpdateKanbanProjectCommand request, CancellationToken cancellationToken)

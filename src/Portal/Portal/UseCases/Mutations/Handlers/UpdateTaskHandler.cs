@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Portal.Data;
-using Shared.SecurityContext;
 
 namespace Portal.UseCases.Mutations.Handlers;
 
@@ -11,7 +10,7 @@ public class UpdateTaskHandler : IRequestHandler<UpdateTaskCommand, bool>
     private readonly ILogger<UpdateTaskHandler> _logger;
     private readonly PortalContext _portalContext;
 
-    public UpdateTaskHandler(ILogger<UpdateTaskHandler> logger, PortalContext portalContext, ISecurityContextAccessor securityContextAccessor)
+    public UpdateTaskHandler(ILogger<UpdateTaskHandler> logger, PortalContext portalContext)
     {
         _logger = logger;
         _portalContext = portalContext;

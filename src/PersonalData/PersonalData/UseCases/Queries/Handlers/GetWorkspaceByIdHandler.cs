@@ -36,7 +36,7 @@ public class GetWorkspaceByIdHandler : IRequestHandler<GetWorkspaceByIdQuery, Wo
             .Include(w => w.Members)
             .Include(w => w.Invitations)
             .ThenInclude(w => w.InvitedPerson)
-            .SingleOrDefaultAsync(w => w.Id == Guid.Parse(request.WorkspaceId!) && w.DeletedOn == null, cancellationToken);
+            .SingleOrDefaultAsync(w => w.Id == Guid.Parse(request.WorkspaceId) && w.DeletedOn == null, cancellationToken);
 
         if (workspace == null)
         {

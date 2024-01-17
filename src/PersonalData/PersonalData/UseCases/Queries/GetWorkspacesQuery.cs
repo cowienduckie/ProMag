@@ -3,6 +3,4 @@ using PersonalData.UseCases.Responses;
 
 namespace PersonalData.UseCases.Queries;
 
-public class GetWorkspacesQuery : IRequest<GetWorkspacesResponse>
-{
-}
+public class GetWorkspacesQuery : IRequest<GetWorkspacesResponse>;
