@@ -21,39 +21,40 @@
 
                 <input type="hidden" asp-for="ReturnUrl" name="ReturnUrl"/>
                 <input type="hidden" asp-for="ScopesConsented" name="ScopesConsented"/>
+                <div class="flex flex-column">
+                    @if (Model.IdentityScopes.Any())
+                    {
+                        <div class="panel panel-default consent-buttons">
+                            <div class="panel-heading distance-ul">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span class="size-text">Personal Information</span>
+                            </div>
+                            <ul class="list-group">
+                                @foreach (var scope in Model.IdentityScopes)
+                                {
+                                    <partial name="_ScopeListItem" model="@scope"/>
+                                }
+                            </ul>
 
-                @if (Model.IdentityScopes.Any())
-                {
-                    <div class="panel panel-default consent-buttons">
-                        <div class="panel-heading distance-ul">
-                            <span class="glyphicon glyphicon-user"></span>
-                            <span class="size-text">Personal Information</span>
                         </div>
-                        <ul class="list-group">
-                            @foreach (var scope in Model.IdentityScopes)
-                            {
-                                <partial name="_ScopeListItem" model="@scope"/>
-                            }
-                        </ul>
+                    }
+                    @if (Model.ResourceScopes.Any())
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading distance-ul">
+                                <span class="glyphicon glyphicon-tasks"></span>
+                                Application Access
+                            </div>
+                            <ul class="list-group">
+                                @foreach (var scope in Model.ResourceScopes)
+                                {
+                                    <partial name="_ScopeListItem" model="scope"/>
+                                }
 
-                    </div>
-                }
-                @if (Model.ResourceScopes.Any())
-                {
-                    <div class="panel panel-default">
-                        <div class="panel-heading distance-ul">
-                            <span class="glyphicon glyphicon-tasks"></span>
-                            Application Access
+                            </ul>
                         </div>
-                        <ul class="list-group">
-                            @foreach (var scope in Model.ResourceScopes)
-                            {
-                                <partial name="_ScopeListItem" model="scope"/>
-                            }
-
-                        </ul>
-                    </div>
-                }
+                    }
+                </div>
 
                 @if (Model.AllowRememberConsent)
                 {
