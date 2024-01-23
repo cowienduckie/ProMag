@@ -62,6 +62,8 @@ public class CreateLogInUserHandler : IRequestHandler<CreateLogInUserRequest, Cr
                     Code = error.Code,
                     Description = error.Description
                 });
+
+                _logger.LogError("{HandlerName} - {ErrorCode} - {ErrorMsg}", nameof(CreateLogInUserHandler), error.Code, error.Description);
             }
 
             return errorResult;
