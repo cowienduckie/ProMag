@@ -119,7 +119,9 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Register
                     Name = DefaultName.Team,
                     Members = new List<Person> { person }
                 }
-            }
+            },
+            CreatedBy = person.Id,
+            CreatedOn = DateTime.UtcNow
         }, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
