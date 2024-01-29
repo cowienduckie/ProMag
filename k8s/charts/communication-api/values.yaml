@@ -69,13 +69,13 @@ env:
       value: http://identity-api:15101
 
     - name: MailKit__SmtpHost
-      value: mail.privateemail.com
+      value: smtp.gmail.com
     - name: MailKit__Port
       value: '587'
     - name: MailKit__Username
-      value: 'promag@minhtrandev.com'
+      value: 'promag.minhtrandev@gmail.com'
     - name: MailKit__MailBoxAddress
-      value: 'promag@minhtrandev.com'
+      value: 'promag.minhtrandev@gmail.com'
     - name: MailKit__MailBoxName
       value: 'Promag'
 
