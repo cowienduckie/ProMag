@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -10,28 +11,40 @@ namespace Email.MailKit;
 
 public class MailKitSender : IEmailSender
 {
+    private readonly ILogger<MailKitSender> _logger;
     private readonly MailKitOptions _mailkitOptions;
     private readonly SmtpClient _smtpClient;
 
-    public MailKitSender(SmtpClient smtpClient, IOptionsMonitor<MailKitOptions> mailkitOptions)
+    public MailKitSender(SmtpClient smtpClient, IOptionsMonitor<MailKitOptions> mailkitOptions, ILogger<MailKitSender> logger)
     {
         _mailkitOptions = mailkitOptions.CurrentValue;
         _smtpClient = smtpClient;
+        _logger = logger;
     }
 
     public async Task SendAsync(EmailData email, CancellationToken cancellationToken)
     {
-        await _smtpClient.ConnectAsync(_mailkitOptions.SmtpHost, 587, false, cancellationToken);
-
-        if (!string.IsNullOrEmpty(_mailkitOptions.Username))
+        try
         {
-            var credential = new NetworkCredential(_mailkitOptions.Username, _mailkitOptions.Password);
+            _logger.LogInformation("MailKitSender - Connecting to Server={Host}:{Port}", _mailkitOptions.SmtpHost, _mailkitOptions.Port);
 
-            await _smtpClient.AuthenticateAsync(new SaslMechanismPlain(credential), cancellationToken);
+            await _smtpClient.ConnectAsync(_mailkitOptions.SmtpHost, _mailkitOptions.Port, false, cancellationToken);
+
+            if (!string.IsNullOrEmpty(_mailkitOptions.Username))
+            {
+                var credential = new NetworkCredential(_mailkitOptions.Username, _mailkitOptions.Password);
+
+                await _smtpClient.AuthenticateAsync(new SaslMechanismPlain(credential), cancellationToken);
+            }
+
+            await _smtpClient.SendAsync(CreateMailMessage(email), cancellationToken);
         }
+        finally
+        {
+            _logger.LogInformation("MailKitSender - Disconnect to Server={Host}:{Port}", _mailkitOptions.SmtpHost, _mailkitOptions.Port);
 
-        await _smtpClient.SendAsync(CreateMailMessage(email), cancellationToken);
-        await _smtpClient.DisconnectAsync(true, cancellationToken);
+            await _smtpClient.DisconnectAsync(true, cancellationToken);
+        }
     }
 
     private MimeMessage CreateMailMessage(EmailData email)
