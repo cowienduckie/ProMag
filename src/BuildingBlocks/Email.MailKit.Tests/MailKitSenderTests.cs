@@ -1,5 +1,6 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Moq;
@@ -74,8 +75,9 @@ public class MailKitSenderTests
     {
         var mailKitOptions = Mock.Of<IOptionsMonitor<MailKitOptions>>(f => f.CurrentValue == _mailkitOptions);
         var mailKitClient = Mock.Of<SmtpClient>();
+        var logger = Mock.Of<ILogger<MailKitSender>>();
 
-        var emailClient = new EmailClient(new MailKitSender(mailKitClient, mailKitOptions))
+        var emailClient = new EmailClient(new MailKitSender(mailKitClient, mailKitOptions, logger))
             .To("user1@nomail.com")
             .Subject("Test email !!!")
             .Body("Test send email");
@@ -95,11 +97,12 @@ public class MailKitSenderTests
     {
         var mailKitOptions = Mock.Of<IOptionsMonitor<MailKitOptions>>(f => f.CurrentValue == _mailkitOptions);
         var mailKitClient = Mock.Of<SmtpClient>();
+        var logger = Mock.Of<ILogger<MailKitSender>>();
 
         Mock.Get(mailKitClient).Setup(f => f.AuthenticateAsync(It.IsAny<SaslMechanismPlain>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new AuthenticationException());
 
-        var emailClient = new EmailClient(new MailKitSender(mailKitClient, mailKitOptions))
+        var emailClient = new EmailClient(new MailKitSender(mailKitClient, mailKitOptions, logger))
             .To("user1@nomail.com")
             .Body("Test send email");
 
